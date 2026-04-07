@@ -70,6 +70,7 @@ namespace voe{
         Willow,
         Youngforestspirit,
         Yukionna,
-        Yukionnaexalted
+        Yukionnaexalted,
+        NUMBER_OF_CARDS
     }
 }
