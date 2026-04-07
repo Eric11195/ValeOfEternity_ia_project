@@ -1,10 +1,12 @@
 using UnityEngine;
 
+using voe;
+
 public class CardComponent : MonoBehaviour
 {
     [SerializeField]
-    int card_id;
-    void set_card(int card_id)
+    CardNameId card_id;
+    void set_card(CardNameId card_id)
     {
         //Set card image
     }
