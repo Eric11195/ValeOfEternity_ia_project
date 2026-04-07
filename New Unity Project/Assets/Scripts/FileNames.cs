@@ -1,5 +1,5 @@
 namespace voe{
-    public static class AssetDatabase{
+    public static class AssetDataBase{
         static string[] assetFiles = new string[]
         {
             "Aeris.png",
@@ -74,7 +74,7 @@ namespace voe{
             "Yukionnaexalted.png"
         };
 
-        static string get_card_file_name(CardNameId card_id)
+        public static string get_card_file_name(CardNameId card_id)
         {
             return assetFiles[(int)card_id];
         }
