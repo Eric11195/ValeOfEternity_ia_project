@@ -62,7 +62,6 @@ namespace voe{
         Tidal,
         Triton,
         Troll,
-        UI_look_up,
         Undine,
         Undinequeen,
         Valkyrie,

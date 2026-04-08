@@ -78,4 +78,13 @@ public class CardAreaManager : MonoBehaviour
         card_list.Remove(go);
         Destroy(go);
     }
+
+    public void empty()
+    {
+        foreach(GameObject go in card_list)
+        {
+            Destroy(go);
+        }
+        card_list.Clear();
+    }
 }

@@ -6,6 +6,7 @@ using voe;
 using System.Collections.Generic;
 using System;
 using System.Collections;
+
 namespace voe{
     public class GameManager : MonoBehaviour
     {
@@ -18,9 +19,11 @@ namespace voe{
         public List<Player> players;
 
         [SerializeField]
-        GameObject hand_area;
+        CardAreaManager hand_area;
         [SerializeField]
-        GameObject market_area;
+        CardAreaManager market_area;
+        [SerializeField]
+        CardAreaManager highlight_card_area;
 
         public void Init()
         {
@@ -38,6 +41,12 @@ namespace voe{
         {
             Init();
             StartCoroutine(market_round());
+        }
+
+        public void Update()
+        {
+            //Debug.Log("update");
+            highlight_card();
         }
 
         IEnumerator market_round()
@@ -91,7 +100,26 @@ namespace voe{
             CardNameId card_id = deck.draw();
 
             market.add(card_id);
-            market_area.GetComponent<CardAreaManager>().add(card_id);
+            market_area.add(card_id);
+        }
+
+        private void highlight_card()
+        {
+            Vector3 mouse_world_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hit = Physics2D.OverlapPoint(mouse_world_pos);
+            Debug.Log(hit);
+            highlight_card_area.empty();
+            if (hit != null)
+            {
+                GameObject item = hit.gameObject;
+                Debug.Log(item);
+                CardComponent cc = item.GetComponent<CardComponent>();
+                if(!cc)return;
+
+                CardNameId cni = cc.get_card_id();
+                Debug.Log(cni);
+                highlight_card_area.add(cni);
+            }
         }
     }
 }
