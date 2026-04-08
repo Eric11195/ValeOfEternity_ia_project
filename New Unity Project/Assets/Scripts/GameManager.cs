@@ -9,6 +9,8 @@ using System.Collections;
 namespace voe{
     public class GameManager : MonoBehaviour
     {
+        public int initial_number_of_players = 1;
+
         public Deck deck;
 
         public CardList market;
@@ -22,7 +24,9 @@ namespace voe{
             deck = new Deck();
             market = new CardList();
             players = new List<Player>();
-            players.Add(new Player());
+            for(int i = 0; i < initial_number_of_players; ++i){
+                players.Add(new Player());
+            }
         }
 
         public void Start()
