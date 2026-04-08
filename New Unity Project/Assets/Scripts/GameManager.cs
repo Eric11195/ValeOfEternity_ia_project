@@ -52,15 +52,16 @@ namespace voe{
         IEnumerator market_round()
         {
             Debug.Log("Market: CALL STARTED");
+            List<GameObject> physical_card_list = new List<GameObject>(0);
             foreach(Player p in players)
             {
-                add_card_to_market();
-                add_card_to_market();
+                physical_card_list.Add(add_card_to_market());
+                physical_card_list.Add(add_card_to_market());
             }
             CardList temporal_market = market.clone();
             for(int i = 0; i < players.Count; ++i)
             {
-                Debug.Log("Market: Choose card started");
+                // Debug.Log("Market: Choose card started");
                 Player p = players[i];
                 p.current_card_pool_option = temporal_market;
 
@@ -70,13 +71,16 @@ namespace voe{
                 
                 yield return cni;
 
-                temporal_market.extract(cni);
+                int index = temporal_market.extract(cni);
+                physical_card_list[index].GetComponent<CardComponent>().set_property(i);
+                physical_card_list.RemoveAt(index);
+
                 p.add_chosen_at_market(cni);
-                Debug.Log("Market: Choose card End");
+                // Debug.Log("Market: Choose card End");
             }
             for(int i = players.Count-1; i >= 0; --i)
             {
-                Debug.Log("Market: Choose card started");
+                //Debug.Log("Market: Choose card started");
                 Player p = players[i];
                 p.current_card_pool_option = temporal_market;
 
@@ -86,21 +90,24 @@ namespace voe{
                 
                 yield return cni;
 
-                temporal_market.extract(cni);
+                int index = temporal_market.extract(cni);
+                physical_card_list[index].GetComponent<CardComponent>().set_property(i);
+                physical_card_list.RemoveAt(index);
+
                 p.add_chosen_at_market(cni);
-                Debug.Log("Market: Choose card End");
+                //Debug.Log("Market: Choose card End");
             }
-            Debug.Log("Market: CALL ENDED");
+            //Debug.Log("Market: CALL ENDED");
         }
 
-        private void add_card_to_market()
+        private GameObject add_card_to_market()
         {
             Assert.IsTrue(deck.size() > 0);
 
             CardNameId card_id = deck.draw();
 
             market.add(card_id);
-            market_area.add(card_id);
+            return market_area.add(card_id);
         }
 
         private void highlight_card()

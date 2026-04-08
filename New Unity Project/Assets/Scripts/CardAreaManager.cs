@@ -71,10 +71,11 @@ public class CardAreaManager : MonoBehaviour
         }
     }
 
-    public void add(CardNameId cni){
+    public GameObject add(CardNameId cni){
         GameObject go = Instantiate(card_prefab, this.transform);
         go.GetComponent<CardComponent>().set_card(cni);
         card_list.Add(go);
+        return go;
     }
 
     public void remove(GameObject go)

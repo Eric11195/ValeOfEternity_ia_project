@@ -28,9 +28,11 @@ namespace voe{
         {
             card_list.RemoveAt(idx);
         }
-        public void extract(CardNameId id)
+        public int extract(CardNameId id)
         {
-            card_list.Remove(id);
+            int index = card_list.FindIndex(id => id.Equals(id) );
+            card_list.RemoveAt(index);
+            return index;
         }
         public CardNameId get(int idx)
         {
