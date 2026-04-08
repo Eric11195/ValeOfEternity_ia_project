@@ -17,6 +17,11 @@ namespace voe{
 
         public List<Player> players;
 
+        [SerializeField]
+        GameObject hand_area;
+        [SerializeField]
+        GameObject market_area;
+
         public void Init()
         {
             Debug.Log("Init Called");
@@ -83,7 +88,10 @@ namespace voe{
         {
             Assert.IsTrue(deck.size() > 0);
 
-            market.add(deck.draw());
+            CardNameId card_id = deck.draw();
+
+            market.add(card_id);
+            market_area.GetComponent<CardAreaManager>().add(card_id);
         }
     }
 }

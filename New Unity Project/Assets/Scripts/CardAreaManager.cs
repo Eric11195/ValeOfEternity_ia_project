@@ -1,17 +1,25 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 using System.Collections.Generic;
+
+using voe;
+using System.Runtime.Versioning;
 
 public class CardAreaManager : MonoBehaviour
 {
     [SerializeField]
+    protected GameObject card_prefab;
+
+
+    [SerializeField]
     protected Transform upper_left;
     [SerializeField]
     protected Transform down_right;
+    static protected Vector2 card_size = new Vector2(1.8f,2.5f);
     [SerializeField]
-    protected Vector2 card_size;
-
     protected int rows = 1;
+    [SerializeField]
     protected int cols = 100;
 
     private List<GameObject> card_list;
@@ -23,6 +31,9 @@ public class CardAreaManager : MonoBehaviour
 
     void Start()
     {
+        card_prefab = Resources.Load("Prefabs/Card") as GameObject;
+        Assert.IsTrue(card_prefab);
+
         float half_cx = card_size.x/2;
         float half_cy = card_size.y/2;
 
@@ -31,6 +42,8 @@ public class CardAreaManager : MonoBehaviour
 
         min_left = down_right.position.x + half_cx;
         min_down = down_right.position.y + half_cy;
+
+        card_list = new List<GameObject>(0);
     }
 
     // Update is called once per frame
@@ -38,14 +51,31 @@ public class CardAreaManager : MonoBehaviour
     {
         for(int i = 0; i < card_list.Count; ++i)
         {
-            float x_percentage = (i%cols)/(float)card_list.Count;
+                      
+            int x_index = i%cols;
+            int y_index = i/cols;
+
+            float x_percentage = x_index/(float)(cols-1);
             float x_pos = Mathf.Lerp(min_left, max_left, x_percentage);
 
-            float y_percentage = (i&rows)/(float)card_list.Count;
+            float y_percentage = y_index/(float)(rows-1);
             float y_pos = Mathf.Lerp(min_down, max_up, y_percentage);
 
             GameObject obj = card_list[i];
             obj.transform.position = new Vector3(x_pos, y_pos, 0);
         }
+    }
+
+    public void add(CardNameId cni){
+        GameObject go = Instantiate(card_prefab, this.transform);
+        go.GetComponent<CardComponent>().set_card(cni);
+        card_list.Add(go);
+    }
+
+    public void remove(GameObject go)
+    {
+        //CardNameId cni = go.GetComponent<CardComponent>().get_card_id();
+        card_list.Remove(go);
+        Destroy(go);
     }
 }
