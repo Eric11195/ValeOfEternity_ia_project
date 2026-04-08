@@ -12,6 +12,7 @@ namespace voe{
         CardList hand;
         CardList table;
         CardList chosen_at_market;
+        StoneManager stone_manager;
 
         //This stores the card which it can currently select from
         public CardList current_card_pool_option;
@@ -28,6 +29,28 @@ namespace voe{
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
             yield return current_card_pool_option.get(0);
+        }
+
+        public bool can_pay(int cost){
+            return cost <= stone_manager.get_total_value();
+        }
+
+        public IEnumerator pay_cost(int cost){
+            Assert.IsTrue(can_pay(cost));
+
+            stone_cuant sc = new stone_cuant(0,0,0);
+            int substracted_cost = cost;
+            while(cost > 0){
+                stone_type st = stone_manager.extract_highest_cost_stone();
+                stone_manager.sa.s[(int)st] += 1;
+                substracted_cost -= stone_manager.get_value(st);
+            }
+
+            Assert.IsTrue(
+                stone_manager.check_valid_payment(sc, cost)
+            );
+
+            yield return null;
         }
 
         public void add_chosen_at_market(CardNameId cni)

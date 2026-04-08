@@ -107,7 +107,7 @@ namespace voe{
         {
             Vector3 mouse_world_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D hit = Physics2D.OverlapPoint(mouse_world_pos);
-            Debug.Log(hit);
+            //Debug.Log(hit);
             highlight_card_area.empty();
             if (hit != null)
             {

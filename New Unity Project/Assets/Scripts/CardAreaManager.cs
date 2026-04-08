@@ -29,11 +29,15 @@ public class CardAreaManager : MonoBehaviour
     private float max_up;
     private float min_down;
 
-    void Start()
-    {
+    void Awake(){
         card_prefab = Resources.Load("Prefabs/Card") as GameObject;
         Assert.IsTrue(card_prefab);
+    
+        card_list = new List<GameObject>(0);
+    }
 
+    void Start()
+    {
         float half_cx = card_size.x/2;
         float half_cy = card_size.y/2;
 
@@ -42,8 +46,6 @@ public class CardAreaManager : MonoBehaviour
 
         min_left = down_right.position.x + half_cx;
         min_down = down_right.position.y + half_cy;
-
-        card_list = new List<GameObject>(0);
     }
 
     // Update is called once per frame
@@ -63,7 +65,9 @@ public class CardAreaManager : MonoBehaviour
 
             GameObject obj = card_list[i];
             if(!obj) continue;
-            obj.transform.position = new Vector3(x_pos, y_pos, 0);
+            if(x_pos==x_pos && y_pos==y_pos)
+                obj.transform.position = 
+                    new Vector3(x_pos, y_pos, 0);
         }
     }
 
