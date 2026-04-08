@@ -62,6 +62,7 @@ public class CardAreaManager : MonoBehaviour
             float y_pos = Mathf.Lerp(min_down, max_up, y_percentage);
 
             GameObject obj = card_list[i];
+            if(!obj) continue;
             obj.transform.position = new Vector3(x_pos, y_pos, 0);
         }
     }
