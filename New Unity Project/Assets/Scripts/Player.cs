@@ -37,6 +37,11 @@ namespace voe{
             yield return null;
             throw new UnityException("Unimplemented");
         }
+        public IEnumerator activate_clocks()
+        {
+            yield return null;
+            throw new UnityException("Unimplemented");
+        }
 
         public bool can_pay(int cost){
             return cost <= stone_manager.get_total_value();
