@@ -65,7 +65,7 @@ public class CardAreaManager : MonoBehaviour
 
             GameObject obj = card_list[i];
             if(!obj) continue;
-            if(x_pos==x_pos && y_pos==y_pos)
+            //if(x_pos==x_pos && y_pos==y_pos)
                 obj.transform.position = 
                     new Vector3(x_pos, y_pos, 0);
         }

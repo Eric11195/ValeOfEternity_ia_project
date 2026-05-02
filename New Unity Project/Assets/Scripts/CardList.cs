@@ -8,7 +8,7 @@ using voe;
 namespace voe{
     public class CardList
     {
-        List<CardNameId> card_list;
+        public List<CardNameId> card_list;
 
         public CardList()
         {
@@ -27,6 +27,16 @@ namespace voe{
         public void extract(int idx)
         {
             card_list.RemoveAt(idx);
+        }
+        public CardNameId pop()
+        {
+            var card = card_list[0];
+            card_list.RemoveAt(0);
+            return card;
+        }
+        public bool empty()
+        {
+            return card_list.Count == 0;
         }
         public int extract(CardNameId id)
         {

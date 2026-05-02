@@ -8,6 +8,7 @@ namespace voe{
     public class Deck
     {
         Stack<CardNameId> draw_pile;
+        CardList discard_pile;
 
         public Deck()
         {
@@ -19,6 +20,7 @@ namespace voe{
             }
             Shuffle(aux);
             draw_pile = new Stack<CardNameId>(aux);
+            discard_pile = new CardList();
         }
 
         public void put_card_on_top(CardNameId card_id)
@@ -27,6 +29,7 @@ namespace voe{
         }
         public CardNameId draw()
         {
+            if (draw_pile.Count == 0) Reshuffle();
             return draw_pile.Pop();
         }
 
@@ -42,11 +45,26 @@ namespace voe{
 
             // Start from the end and swap elements with a random one
             for (int i = n - 1; i > 0; i--) {
-            int j = random.Next(0, i + 1);
-            T temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
+                int j = random.Next(0, i + 1);
+                T temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
+        }
+        public void Reshuffle()
+        {
+            List<CardNameId> aux = new List<CardNameId>(0);
+            while (!discard_pile.empty())
+            {
+                aux.Add(discard_pile.pop());
+            }
+            Shuffle(aux);
+            draw_pile = new Stack<CardNameId>(aux);
+            discard_pile = new CardList();
+        }
+        public void discard(CardNameId id)
+        {
+            discard_pile.add(id);
         }
         
     }

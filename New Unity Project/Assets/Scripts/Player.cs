@@ -8,7 +8,9 @@ using System.Collections;
 namespace voe{
     public class Player
     {
+        static int threshold = 60;
 
+        int points = 0;
         CardList hand;
         CardList table;
         CardList chosen_at_market;
@@ -29,6 +31,11 @@ namespace voe{
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
             yield return current_card_pool_option.get(0);
+        }
+        public IEnumerator play_turn()
+        {
+            yield return null;
+            throw new UnityException("Unimplemented");
         }
 
         public bool can_pay(int cost){
@@ -56,6 +63,11 @@ namespace voe{
         public void add_chosen_at_market(CardNameId cni)
         {
             chosen_at_market.add(cni);
+        }
+
+        public bool points_past_threshold()
+        {
+            return this.points >= threshold;
         }
     }
 }

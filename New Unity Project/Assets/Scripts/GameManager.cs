@@ -10,6 +10,8 @@ using System.Collections;
 namespace voe{
     public class GameManager : MonoBehaviour
     {
+        static GameManager _instance = null;
+
         public int initial_number_of_players = 1;
 
         public Deck deck;
@@ -19,15 +21,22 @@ namespace voe{
         public List<Player> players;
 
         [SerializeField]
-        CardAreaManager hand_area;
+        public CardAreaManager hand_area;
         [SerializeField]
-        CardAreaManager market_area;
+        public CardAreaManager market_area;
         [SerializeField]
-        CardAreaManager highlight_card_area;
+        public CardAreaManager highlight_card_area;
+
+        public static GameManager get_instance()
+        {
+            Assert.IsTrue(_instance != null, "You are calling this function before Init was called");
+            return _instance;
+        }
 
         public void Init()
         {
-            Debug.Log("Init Called");
+            Assert.IsTrue(_instance==null, "There was already a GameManager instance");
+            _instance = this;
 
             deck = new Deck();
             market = new CardList();
@@ -40,74 +49,27 @@ namespace voe{
         public void Start()
         {
             Init();
-            StartCoroutine(market_round());
+            StartCoroutine(game_loop());
+            //StartCoroutine(market_round());
+        }
+
+        IEnumerator game_loop()
+        {
+            int round = 0;
+            while (round <= 10 && !any_player_past_threshold())
+            {
+                ++round;
+                Debug.Log("Round "+round+'\n');
+                yield return StartCoroutine(MarketRound.market_round());
+                yield return StartCoroutine(PlayCardsRound.play_cards_round());
+                yield return StartCoroutine(ClockRound.clock_round());
+            }
+            yield return null;
         }
 
         public void Update()
         {
-            //Debug.Log("update");
             highlight_card();
-        }
-
-        IEnumerator market_round()
-        {
-            Debug.Log("Market: CALL STARTED");
-            List<GameObject> physical_card_list = new List<GameObject>(0);
-            foreach(Player p in players)
-            {
-                physical_card_list.Add(add_card_to_market());
-                physical_card_list.Add(add_card_to_market());
-            }
-            CardList temporal_market = market.clone();
-            for(int i = 0; i < players.Count; ++i)
-            {
-                // Debug.Log("Market: Choose card started");
-                Player p = players[i];
-                p.current_card_pool_option = temporal_market;
-
-                CoroutineWithData<CardNameId> cd = new CoroutineWithData<CardNameId>(this, p.choose_card_on_market() );
-                yield return cd.coroutine;
-                CardNameId cni = cd.result;
-                
-                yield return cni;
-
-                int index = temporal_market.extract(cni);
-                physical_card_list[index].GetComponent<CardComponent>().set_property(i);
-                physical_card_list.RemoveAt(index);
-
-                p.add_chosen_at_market(cni);
-                // Debug.Log("Market: Choose card End");
-            }
-            for(int i = players.Count-1; i >= 0; --i)
-            {
-                //Debug.Log("Market: Choose card started");
-                Player p = players[i];
-                p.current_card_pool_option = temporal_market;
-
-                CoroutineWithData<CardNameId> cd = new CoroutineWithData<CardNameId>(this, p.choose_card_on_market() );
-                yield return cd.coroutine;
-                CardNameId cni = cd.result;
-                
-                yield return cni;
-
-                int index = temporal_market.extract(cni);
-                physical_card_list[index].GetComponent<CardComponent>().set_property(i);
-                physical_card_list.RemoveAt(index);
-
-                p.add_chosen_at_market(cni);
-                //Debug.Log("Market: Choose card End");
-            }
-            //Debug.Log("Market: CALL ENDED");
-        }
-
-        private GameObject add_card_to_market()
-        {
-            Assert.IsTrue(deck.size() > 0);
-
-            CardNameId card_id = deck.draw();
-
-            market.add(card_id);
-            return market_area.add(card_id);
         }
 
         private void highlight_card()
@@ -127,6 +89,13 @@ namespace voe{
                 Debug.Log(cni);
                 highlight_card_area.add(cni);
             }
+        }
+
+        private bool any_player_past_threshold()
+        {
+            int i = 0;
+            while (i < players.Count && !players[i].points_past_threshold()) ++i;
+            return i < players.Count;
         }
     }
 }
