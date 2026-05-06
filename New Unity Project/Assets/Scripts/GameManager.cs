@@ -27,6 +27,8 @@ namespace voe{
         [SerializeField]
         public CardAreaManager highlight_card_area;
 
+        public GameObject stone_markers_parent;
+
         public static GameManager get_instance()
         {
             Assert.IsTrue(_instance != null, "You are calling this function before Init was called");
@@ -96,6 +98,22 @@ namespace voe{
             int i = 0;
             while (i < players.Count && !players[i].points_past_threshold()) ++i;
             return i < players.Count;
+        }
+
+        public void update_all_stones_representation(){
+            int i = 0;
+            Debug.Log("Update stone representation");
+            foreach (Transform child in stone_markers_parent.transform)
+            {
+                update_stone_representation_from_player(players[i], child.gameObject);
+                ++i;
+                if(i >= initial_number_of_players) break;
+                //child is your child transform
+            }
+        }
+        private void update_stone_representation_from_player(Player p, GameObject parent){
+            Debug.Log("Updating stone representation");
+            parent.GetComponent<StoneRepresentator>().set_stones(p.stone_manager.sa);
         }
     }
 }

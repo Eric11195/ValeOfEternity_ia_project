@@ -4,6 +4,10 @@ using System.Collections;
 namespace voe{
     public static class CardFuncs
     {
+        public static IEnumerator unimplemented_func(Player p)
+        {
+            throw new UnityException("Unimplemented");
+        }
         public static IEnumerator void_func(Player p){
             return null;
         }

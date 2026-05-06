@@ -16,7 +16,7 @@ namespace voe{
         CardList hand;
         CardList table;
         CardList chosen_at_market;
-        StoneManager stone_manager;
+        public StoneManager stone_manager;
 
         //This stores the card which it can currently select from
         public CardList current_card_pool_option;
@@ -26,6 +26,7 @@ namespace voe{
             hand = new CardList();
             table = new CardList();
             chosen_at_market = new CardList();
+            stone_manager = new StoneManager();
         }
 
         public IEnumerator choose_card_on_market()
@@ -38,11 +39,11 @@ namespace voe{
         {
             //FOR the moment this will sell one card and play the other one, regardless of if it can be played
             CardNameId to_sell = chosen_at_market.peek();
-            sell_card(to_sell);
+            yield return GameManager._instance.StartCoroutine(sell_card(to_sell));
             
             CardNameId to_play = chosen_at_market.peek();
             add_to_hand(to_play);
-            play_card(to_play);
+            yield return GameManager._instance.StartCoroutine(play_card(to_play));
 
             yield return null;
         }
@@ -70,7 +71,7 @@ namespace voe{
             Assert.IsTrue(
                 stone_manager.check_valid_payment(sc, cost)
             );
-
+            GameManager._instance.update_all_stones_representation();
             yield return null;
         }
 
@@ -84,6 +85,8 @@ namespace voe{
             }else{
                 choose_stones_to_add(sq);
             }
+            Debug.Log("gain_stones right before updating stone representation");
+            GameManager._instance.update_all_stones_representation();
             yield return null;
         }
 
@@ -140,7 +143,7 @@ namespace voe{
             points = Mathf.Max(points, 1);
         }
 
-        public void play_card(CardNameId card_name_id){
+        public IEnumerator play_card(CardNameId card_name_id){
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
             if(can_pay(card.price)){
@@ -150,6 +153,7 @@ namespace voe{
             }else{
                 throw new UnityException("Tried playing card whose cost could no be payed");
             }
+            yield return null;
         }
         public void add_to_hand(CardNameId cni){
             Assert.IsTrue(chosen_at_market.contains(cni));

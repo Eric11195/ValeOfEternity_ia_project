@@ -81,7 +81,7 @@ namespace voe{
 
             //Checks
             int stone_number = get_number_of_stones();
-            Assert.IsTrue(stone_number <= max_stones && stone_number > 0);
+            Assert.IsTrue(stone_number <= max_stones && stone_number >= 0);
         }
 
         public stone_type get_stone_from_value(int value){
