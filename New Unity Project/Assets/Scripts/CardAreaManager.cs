@@ -84,6 +84,12 @@ public class CardAreaManager : MonoBehaviour
         card_list.Remove(go);
         Destroy(go);
     }
+    public void remove(CardNameId cni){
+        GameObject card_representation = card_list.Find(x => cni==x.GetComponent<CardComponent>().get_card_id());
+        Assert.IsTrue(card_representation != null);
+        card_list.Remove(card_representation);
+        Destroy(card_representation);
+    }
 
     public void empty()
     {

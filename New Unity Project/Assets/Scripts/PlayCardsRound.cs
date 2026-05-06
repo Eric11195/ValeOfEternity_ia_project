@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Assertions;
 
 namespace voe
 {
@@ -18,6 +19,10 @@ namespace voe
         public static IEnumerator sell_card(Player p, CardNameId card){
             p.sell_card(card);
             yield return null;
+        }
+        public static void remove_card_from_market(CardNameId card){
+            GameManager gm = GameManager.get_instance();
+            gm.market_area.remove(card);
         }
     }
 }

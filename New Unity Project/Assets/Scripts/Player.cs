@@ -155,12 +155,14 @@ namespace voe{
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             hand.add(cni);
+            PlayCardsRound.remove_card_from_market(cni);
         }
 
         public IEnumerator sell_card(CardNameId cni){
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             GameManager._instance.deck.discard(cni);
+            PlayCardsRound.remove_card_from_market(cni);
             yield return GameManager._instance.StartCoroutine(gain_stones(stone_value.get_value_per_family(CardData.get_card(cni).family)));
         }
     }
