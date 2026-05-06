@@ -10,7 +10,7 @@ using System.Collections;
 namespace voe{
     public class GameManager : MonoBehaviour
     {
-        static GameManager _instance = null;
+        public static GameManager _instance = null;
 
         public int initial_number_of_players = 1;
 

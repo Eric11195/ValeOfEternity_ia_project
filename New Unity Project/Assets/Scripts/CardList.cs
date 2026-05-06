@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 using System.Collections.Generic;
 using System;
@@ -19,6 +20,9 @@ namespace voe{
             card_list = new List<CardNameId>(list);
         }
 
+        public bool contains(CardNameId id){
+            return card_list.Contains(id);
+        }
         public void add(CardNameId id)
         {
             card_list.Add(id);
@@ -33,6 +37,10 @@ namespace voe{
             var card = card_list[0];
             card_list.RemoveAt(0);
             return card;
+        }
+        public CardNameId peek(){
+            Assert.IsTrue(card_list.Count > 0);
+            return card_list[0];
         }
         public bool empty()
         {

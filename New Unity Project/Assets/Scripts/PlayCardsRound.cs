@@ -15,8 +15,9 @@ namespace voe
             yield return null;
         }
     
-        public static void sell_card(Player p, CardNameId card){
-            p.gain_stones(stone_value.get_value_per_family(CardData.get_card(card).family));
+        public static IEnumerator sell_card(Player p, CardNameId card){
+            p.sell_card(card);
+            yield return null;
         }
     }
 }

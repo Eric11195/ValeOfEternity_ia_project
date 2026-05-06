@@ -3,6 +3,8 @@ using UnityEngine;
 using voe;
 
 using UnityEngine.Assertions;
+using System.Collections.Generic;
+using System;
 using System.Collections;
 
 namespace voe{
@@ -34,8 +36,15 @@ namespace voe{
         }
         public IEnumerator play_turn()
         {
+            //FOR the moment this will sell one card and play the other one, regardless of if it can be played
+            CardNameId to_sell = chosen_at_market.peek();
+            sell_card(to_sell);
+            
+            CardNameId to_play = chosen_at_market.peek();
+            add_to_hand(to_play);
+            play_card(to_play);
+
             yield return null;
-            throw new UnityException("Unimplemented");
         }
         public IEnumerator activate_clocks()
         {
@@ -129,6 +138,30 @@ namespace voe{
             Assert.IsTrue(points <= 0);
             points -= points;
             points = Mathf.Max(points, 1);
+        }
+
+        public void play_card(CardNameId card_name_id){
+            Assert.IsTrue(hand.contains(card_name_id));
+            CardData card = CardData.get_card(card_name_id);
+            if(can_pay(card.price)){
+                hand.extract(card_name_id);
+                table.add(card_name_id);
+                card.enterEffect(this);
+            }else{
+                throw new UnityException("Tried playing card whose cost could no be payed");
+            }
+        }
+        public void add_to_hand(CardNameId cni){
+            Assert.IsTrue(chosen_at_market.contains(cni));
+            chosen_at_market.extract(cni);
+            hand.add(cni);
+        }
+
+        public IEnumerator sell_card(CardNameId cni){
+            Assert.IsTrue(chosen_at_market.contains(cni));
+            chosen_at_market.extract(cni);
+            GameManager._instance.deck.discard(cni);
+            yield return GameManager._instance.StartCoroutine(gain_stones(stone_value.get_value_per_family(CardData.get_card(cni).family)));
         }
     }
 }
