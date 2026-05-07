@@ -57,10 +57,14 @@ public class CardAreaManager : MonoBehaviour
             int x_index = i%cols;
             int y_index = i/cols;
 
-            float x_percentage = x_index/(float)(cols-1);
+            float x_percentage = 0.5f;
+            if(cols>1)
+                x_percentage = x_index/(float)(cols-1);
             float x_pos = Mathf.Lerp(min_left, max_left, x_percentage);
 
-            float y_percentage = y_index/(float)(rows-1);
+            float y_percentage = 0.5f;
+            if(rows>1)
+                y_percentage = y_index/(float)(rows-1);
             float y_pos = Mathf.Lerp(min_down, max_up, y_percentage);
 
             GameObject obj = card_list[i];

@@ -10,6 +10,7 @@ using System.Collections;
 namespace voe{
     public class GameManager : MonoBehaviour
     {
+        private bool just_changed_player = true;
         public static GameManager _instance = null;
 
         public int initial_number_of_players = 1;
@@ -28,6 +29,7 @@ namespace voe{
         public CardAreaManager highlight_card_area;
 
         public GameObject stone_markers_parent;
+        private int watching_player_idx = 0;
 
         public static GameManager get_instance()
         {
@@ -72,6 +74,7 @@ namespace voe{
         public void Update()
         {
             highlight_card();
+            paint_player_hand(watching_player_idx);
         }
 
         private void highlight_card()
@@ -114,6 +117,37 @@ namespace voe{
         private void update_stone_representation_from_player(Player p, GameObject parent){
             Debug.Log("Updating stone representation");
             parent.GetComponent<StoneRepresentator>().set_stones(p.stone_manager.sa);
+        }
+        private void paint_player_hand(Player p)
+        {
+            if (p.hand_representation_needs_update || just_changed_player)
+            {
+                hand_area.empty();
+                foreach (CardNameId cni in p.hand.card_list)
+                {
+                    hand_area.add(cni);
+                }
+
+                p.hand_representation_needs_update = false;
+                just_changed_player = false;
+            }
+        }
+        private void paint_player_hand(int player_idx)
+        {
+            Assert.IsTrue(player_idx >= 0 && player_idx < players.Count);
+            paint_player_hand(players[player_idx]);
+        }
+        private void watch_next_player()
+        {
+            watching_player_idx += 1;
+            watching_player_idx %= players.Count;
+            just_changed_player = true;
+        }
+        private void watch_player_i(int player_idx)
+        {
+            Assert.IsTrue(player_idx >= 0 && player_idx < players.Count);
+            watching_player_idx = player_idx;
+            just_changed_player = true;
         }
     }
 }

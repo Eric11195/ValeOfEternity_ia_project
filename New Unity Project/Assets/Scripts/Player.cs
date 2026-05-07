@@ -13,6 +13,7 @@ namespace voe{
         static int threshold = 60;
 
         int points = 0;
+        public bool hand_representation_needs_update = true;
         public CardList hand;
         public CardList table;
         public CardList chosen_at_market;
@@ -131,6 +132,7 @@ namespace voe{
         public void bounce_card(CardNameId card_name_id){
             table.extract(card_name_id);
             hand.add(card_name_id);
+            hand_representation_needs_update = true;
         }
 
         public void gain_points(int points){
@@ -153,6 +155,7 @@ namespace voe{
             }else{
                 throw new UnityException("Tried playing card whose cost could no be payed");
             }
+            hand_representation_needs_update= true;
             yield return null;
         }
         public void add_to_hand(CardNameId cni){
@@ -160,6 +163,7 @@ namespace voe{
             chosen_at_market.extract(cni);
             hand.add(cni);
             PlayCardsRound.remove_card_from_market(cni);
+            hand_representation_needs_update = true;
         }
 
         public IEnumerator sell_card(CardNameId cni){
@@ -194,10 +198,12 @@ namespace voe{
         public void draw()
         {
             hand.add(GameManager._instance.deck.draw());
+            hand_representation_needs_update = true;
         }
         public IEnumerator discard_card()
         {
             throw new UnityException("Unimplemented");
+            hand_representation_needs_update = true;
         }
     }
 }
