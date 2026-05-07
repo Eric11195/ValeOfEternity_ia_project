@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 namespace voe{
     public class GameManager : MonoBehaviour
@@ -30,6 +31,8 @@ namespace voe{
         public CardAreaManager highlight_card_area;
         [SerializeField]
         List<GameObject> player_eyes;
+        [SerializeField]
+        List<TextMeshProUGUI> player_points;
 
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
@@ -52,6 +55,12 @@ namespace voe{
                 players.Add(new Player());
             }
             watch_player_i(0);
+
+            player_points = new List<TextMeshProUGUI>();
+            foreach(Transform tr in GameObject.Find("PlayerPoints").transform)
+            {
+                player_points.Add(tr.GetComponent<TextMeshProUGUI>());
+            }
         }
 
         public void Start()
@@ -78,6 +87,7 @@ namespace voe{
         public void Update()
         {
             highlight_card();
+            update_player_points_representation();
             paint_player_hand(watching_player_idx);
         }
 
@@ -163,6 +173,14 @@ namespace voe{
                     spr = Resources.Load<Sprite>("Marker_Eye");
                 else spr = Resources.Load<Sprite>("Marker_"+(i+1));
                 player_eyes[i].GetComponentInChildren<Image>().sprite = spr;
+            }
+        }
+        private void update_player_points_representation()
+        {
+            for(int i = 0; i < players.Count; ++i)
+            {
+                Assert.IsTrue(player_points[i] != null);
+                player_points[i].text = players[i].points.ToString();
             }
         }
     }

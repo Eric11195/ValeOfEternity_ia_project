@@ -12,7 +12,7 @@ namespace voe{
     {
         static int threshold = 60;
 
-        int points = 0;
+        public int points = 0;
         public bool hand_representation_needs_update = true;
         public CardList hand;
         public CardList table;
