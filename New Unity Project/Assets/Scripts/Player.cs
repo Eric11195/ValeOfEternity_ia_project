@@ -169,5 +169,14 @@ namespace voe{
             PlayCardsRound.remove_card_from_market(cni);
             yield return GameManager._instance.StartCoroutine(gain_stones(stone_value.get_value_per_family(CardData.get_card(cni).family)));
         }
+
+        public int count_families()
+        {
+            return table.count_families();
+        }
+        public int count_cards_in_family(CardFamily cf)
+        {
+            return table.count_card_of_family(cf);
+        }
     }
 }

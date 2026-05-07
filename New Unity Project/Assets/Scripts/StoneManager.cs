@@ -43,6 +43,11 @@ namespace voe{
             return max_stones - get_number_of_stones();
         }
 
+        public void add_stone_value(stone_type st, int to_add)
+        {
+            sv.s[(int)st] += to_add;
+        }
+
         public int get_value(stone_quant q){
             return sv.s[(int)stone_type.ST_one]*q.s[(int)stone_type.ST_one] + 
                 sv.s[(int)stone_type.ST_three]*q.s[(int)stone_type.ST_three] + 

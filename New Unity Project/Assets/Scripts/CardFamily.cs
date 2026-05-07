@@ -3,11 +3,12 @@ using UnityEngine;
 namespace voe{
     public enum CardFamily
     {
-        R,
-        G,
-        B,
-        P,
-        D
+        None = 0,
+        R=1<<0,
+        G=1<<1,
+        B=1<<2,
+        P=1<<3,
+        D=1<<4
     }
 
     public static class stone_value{

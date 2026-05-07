@@ -25,17 +25,17 @@ namespace voe{
         }
 
         private static CardData[] cd = {
-            // 0 Aeris,
+            //X 0 Aeris,
             new CardData(9, CardFamily.D, 
                 CardFuncs.aerie_enter_func, 
                 CardFuncs.void_func, 
                 CardFuncs.void_func
             ),
-            // 1 Agni,
+            //X 1 Agni,
             new CardData(4,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.agni_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.agni_exit_func
             ),
             // 2 Asmodeus,
             new CardData(4,CardFamily.R,
@@ -55,17 +55,17 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 5Behemoth,
+            //X 5 Behemoth,
             new CardData(9,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.behemoth_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 6 Boreas,
+            //X 6 Boreas,
             new CardData(4,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.boreas_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 7 Boulder,
             new CardData(8,CardFamily.D,

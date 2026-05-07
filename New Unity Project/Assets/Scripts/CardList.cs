@@ -1,10 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-
-using System.Collections.Generic;
-using System;
-
 using voe;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace voe{
     public class CardList
@@ -65,6 +64,32 @@ namespace voe{
         public CardList clone()
         {
             return new CardList(ref card_list);
+        }
+        public int count_families()
+        {
+            int families = 0;
+            var flags = CardFamily.None;
+            foreach(var cni in card_list){
+                var card = CardData.get_card(cni);
+                if ((card.family & flags) == 0){
+                    flags |= card.family;
+                    ++families;
+                }
+            }
+            return families;
+        }
+        public int count_card_of_family(CardFamily fam)
+        {
+            int cards = 0;
+            foreach (var cni in card_list)
+            {
+                var card = CardData.get_card(cni);
+                if ((card.family & fam) != 0)
+                {
+                    ++cards;
+                }
+            }
+            return cards;
         }
     }
 }
