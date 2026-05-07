@@ -6,6 +6,7 @@ using voe;
 using System.Collections.Generic;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace voe{
     public class GameManager : MonoBehaviour
@@ -27,6 +28,8 @@ namespace voe{
         public CardAreaManager market_area;
         [SerializeField]
         public CardAreaManager highlight_card_area;
+        [SerializeField]
+        List<GameObject> player_eyes;
 
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
@@ -48,6 +51,7 @@ namespace voe{
             for(int i = 0; i < initial_number_of_players; ++i){
                 players.Add(new Player());
             }
+            watch_player_i(0);
         }
 
         public void Start()
@@ -137,17 +141,29 @@ namespace voe{
             Assert.IsTrue(player_idx >= 0 && player_idx < players.Count);
             paint_player_hand(players[player_idx]);
         }
-        private void watch_next_player()
+        public void watch_next_player()
         {
             watching_player_idx += 1;
             watching_player_idx %= players.Count;
-            just_changed_player = true;
+            watch_player_i(watching_player_idx);
         }
-        private void watch_player_i(int player_idx)
+        public void watch_player_i(int player_idx)
         {
             Assert.IsTrue(player_idx >= 0 && player_idx < players.Count);
             watching_player_idx = player_idx;
             just_changed_player = true;
+            set_markers_of_viewing(watching_player_idx);
+        }
+        private void set_markers_of_viewing(int player_idx)
+        {
+            for(int i = 0; i < player_eyes.Count; ++i)
+            {
+                Sprite spr;
+                if(player_idx == i) 
+                    spr = Resources.Load<Sprite>("Marker_Eye");
+                else spr = Resources.Load<Sprite>("Marker_"+(i+1));
+                player_eyes[i].GetComponentInChildren<Image>().sprite = spr;
+            }
         }
     }
 }
