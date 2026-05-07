@@ -13,9 +13,9 @@ namespace voe{
         static int threshold = 60;
 
         int points = 0;
-        CardList hand;
-        CardList table;
-        CardList chosen_at_market;
+        public CardList hand;
+        public CardList table;
+        public CardList chosen_at_market;
         public StoneManager stone_manager;
 
         //This stores the card which it can currently select from
@@ -177,6 +177,27 @@ namespace voe{
         public int count_cards_in_family(CardFamily cf)
         {
             return table.count_card_of_family(cf);
+        }
+        public int count_cards_in_hand()
+        {
+            return hand.size();
+        }
+        public int count_cards_in_table()
+        {
+            return table.size();
+        }
+        public int count_cards_with_clocks()
+        {
+            return table.count_cards_with_clocks();
+        }
+
+        public void draw()
+        {
+            hand.add(GameManager._instance.deck.draw());
+        }
+        public IEnumerator discard_card()
+        {
+            throw new UnityException("Unimplemented");
         }
     }
 }

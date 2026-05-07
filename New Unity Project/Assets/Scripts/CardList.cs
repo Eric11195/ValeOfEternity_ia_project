@@ -91,5 +91,18 @@ namespace voe{
             }
             return cards;
         }
+        public int count_cards_with_clocks()
+        {
+            int cards = 0;
+            foreach (var cni in card_list)
+            {
+                var card = CardData.get_card(cni);
+                if (card.clockEffect != CardFuncs.void_func)
+                {
+                    ++cards;
+                }
+            }
+            return cards;
+        }
     }
 }

@@ -91,11 +91,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 11 Dandelionspirit,
+            //X 11 Dandelionspirit,
             new CardData(3,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.dandelion_enter_func,
+                CardFuncs.dandelion_clock_func,
+                CardFuncs.void_func
             ),
             // 12 Dragonegg,
             new CardData(3,CardFamily.D,
@@ -109,17 +109,17 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 14 Eternity,
+            //X 14 Eternity,
             new CardData(12,CardFamily.D,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.eternity_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 15 Firefox,
+            //X 15 Firefox,
             new CardData(1,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.firefox_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 16 Forestspirit,
             new CardData(2,CardFamily.G,
@@ -127,11 +127,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 17 Freyja,
+            //X 17 Freyja,
             new CardData(7,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.freyja_clock_func,
+                CardFuncs.void_func
             ),
             // 18 Gargoyle,
             new CardData(2,CardFamily.G,
@@ -139,11 +139,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 19 Genie,
+            //X 19 Genie,
             new CardData(4,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.genie_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 20 Genieexalted,
             new CardData(5,CardFamily.P,
@@ -151,11 +151,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 21 Gi_rin,
+            //X 21 Gi_rin,
             new CardData(10,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.girin_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 22 Goblin,
             new CardData(1,CardFamily.G,
@@ -169,11 +169,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 24 Griffon,
+            //X 24 Griffon,
             new CardData(7,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.griffon_clock_func,
+                CardFuncs.void_func
             ),
             // 25 Gust,
             new CardData(8,CardFamily.D,
@@ -181,29 +181,29 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 26 Hae_tae,
+            //X 26 Hae_tae,
             new CardData(3,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.haetae_enter_n_exit_func,
+                CardFuncs.void_func,
+                CardFuncs.haetae_enter_n_exit_func
             ),
-            // 27 Harpy,
+            //X 27 Harpy,
             new CardData(3,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.harpy_clock_func,
+                CardFuncs.void_func
             ),
-            // 28 Hestia,
+            //X 28 Hestia,
             new CardData(0,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.hestia_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.hestia_exit_func
             ),
-            // 29 Hornedsalamander,
+            //X 29 Hornedsalamander,
             new CardData(2,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.horned_salamander_clock_func,
+                CardFuncs.void_func
             ),
             // 30 Hydra,
             new CardData(4,CardFamily.B,
@@ -211,23 +211,23 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 31 Ifrit,
+            //X 31 Ifrit,
             new CardData(2,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.ifrit_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 32 Imp,
+            //X 32 Imp,
             new CardData(0,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.imp_enter_func,
+                CardFuncs.imp_clock_func,
+                CardFuncs.void_func
             ),
-            // 33 Incubus,
+            //X 33 Incubus,
             new CardData(2,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.incubus_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 34 Kappa,
             new CardData(1,CardFamily.B,
@@ -235,11 +235,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 35 Lavagiant,
+            //X 35 Lavagiant,
             new CardData(3,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.lava_giant_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 36 Leviathan,
             new CardData(4,CardFamily.B,
@@ -253,11 +253,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 38 Medusa,
+            //X 38 Medusa,
             new CardData(4,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.medusa_clock_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 39 Mimic,
             new CardData(6,CardFamily.G,
@@ -265,23 +265,23 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 40 Mudslime,
+            //X 40 Mudslime,
             new CardData(6,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.mud_slime_enter_func,
+                CardFuncs.mud_slime_clock_func,
+                CardFuncs.void_func
             ),
-            // 41 Nessie,
+            //X 41 Nessie,
             new CardData(2,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.nessie_clock_func,
+                CardFuncs.void_func
             ),
-            // 42 Odin,
+            //X 42 Odin,
             new CardData(6,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.odin_clock_func,
+                CardFuncs.void_func
             ),
             // 43 Pegasus,
             new CardData(3,CardFamily.P,
@@ -295,35 +295,35 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 45 Poseidon,
+            //X 45 Poseidon,
             new CardData(7,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.poseidon_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 46 Rockgolem,
+            //X 46 Rockgolem,
             new CardData(6,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.rock_golem_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 47 Rudra,
+            //X 47 Rudra,
             new CardData(8,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.rudra_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 48 Salamander,
+            //X 48 Salamander,
             new CardData(1,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.salamander_clock_func,
+                CardFuncs.void_func
             ),
-            // 49 Sandgiant,
+            //X 49 Sandgiant,
             new CardData(10,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.sand_giant_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 50 Scorch,
             new CardData(9,CardFamily.D,
