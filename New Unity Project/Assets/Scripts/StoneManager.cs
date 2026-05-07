@@ -109,5 +109,9 @@ namespace voe{
             add_stones(stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
             add_stones(stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
         }
+        public void clear_stones()
+        {
+            sa = new stone_quant(0,0,0);
+        }
     }
 }

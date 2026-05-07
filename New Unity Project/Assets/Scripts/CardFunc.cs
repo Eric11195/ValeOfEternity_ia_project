@@ -277,5 +277,120 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Sea Spirit
+        public static IEnumerator sea_spirit_clock_func(Player p)
+        {
+            p.gain_points(p.stone_manager.sa.s[(int)stone_type.ST_three]);
+            yield return null;
+        }
+        #endregion
+        #region Succubus
+        public static bool check_succubus(Player p)
+        {
+            long count = 0;
+            foreach (var c in p.table.card_list)
+            {
+                int price = CardData.get_card(c).price;
+                price -= 1;
+                count |= (1L << price);
+            }
+            //15 L is 1111 in binary, so this checks if there are cards of price 1,2,3 and 4 in the tableau
+            return ((count&15L)==15L);
+        }
+        public static IEnumerator succubus_enter_effect(Player p)
+        {
+            if(check_succubus(p))
+            {
+                p.gain_points(10);
+            }
+            yield return null;
+        }
+        #endregion
+        #region Surtr
+        public static IEnumerator srtr_enter_effect(Player p)
+        {
+            p.gain_points(2 * p.count_families());
+            yield return null;
+        }
+        #endregion
+        #region Tengu
+        public static IEnumerator tengu_enter_effect(Player p)
+        {
+            p.gain_points(6);
+            Assert.IsTrue(p.table.contains(CardNameId.Tengu));
+            p.table.extract(CardNameId.Tengu);
+            GameManager._instance.deck.put_card_on_top(CardNameId.Tengu);
+            yield return null;
+        }
+        #endregion
+        #region Tidal
+        public static IEnumerator tidal_enter_effect(Player p)
+        {
+            p.gain_points(5 * p.count_cards_in_family(CardFamily.D));
+            yield return null;
+        }
+        #endregion
+        #region Troll
+        public static IEnumerator troll_clock_effect(Player p)
+        {
+            if(p.stone_manager.sa.s[(int)stone_type.ST_six] > 0)
+            {
+                p.gain_points(3);
+            }
+            yield return null;
+        }
+        #endregion
+        #region Undine
+        public static IEnumerator undine_enter_effect(Player p)
+        {
+            p.gain_stones(new stone_quant(0, 1, 0));
+            yield return null;
+        }
+        public static IEnumerator undine_clock_effect(Player p)
+        {
+            p.bounce_card(CardNameId.Undine);
+            yield return null;
+        }
+        #endregion
+        #region Undine Queen
+        public static IEnumerator undine_queen_clock_effect(Player p)
+        {
+            p.gain_stones(new stone_quant(0, 1, 0));
+            yield return null;
+        }
+        #endregion
+        #region Valkyrie
+        public static IEnumerator valkyrie_clock_effect(Player p)
+        {
+            p.gain_points(p.count_families());
+            yield return null;
+        }
+        #endregion
+        #region Willow
+        public static IEnumerator willow_enter_effect(Player p)
+        {
+            p.gain_stones(new stone_quant(1, 1, 1));
+            p.gain_points(3);
+            yield return null;
+        }
+        #endregion
+        #region Yuki Onna
+        public static IEnumerator yuki_onna_enter_effect(Player p)
+        {
+            p.gain_points(p.stone_manager.get_total_value());
+            p.stone_manager.clear_stones();
+            yield return null;
+        }
+        #endregion
+        #region Yuki Onna Exalted
+        public static IEnumerator yuki_onna_exalted_effect(Player p)
+        {
+            p.gain_points(
+                p.stone_manager.sa.s[(int)stone_type.ST_three] * 
+                p.stone_manager.sv.s[(int)stone_type.ST_three]
+            );
+            yield return null;
+        }
+        #endregion
     }
 }

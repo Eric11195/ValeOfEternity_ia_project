@@ -331,11 +331,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 51 Seaspirit,
+            //X 51 Seaspirit,
             new CardData(1,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.sea_spirit_clock_func,
+                CardFuncs.void_func
             ),
             // 52 Snailmaiden,
             new CardData(3,CardFamily.B,
@@ -349,17 +349,17 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 54 Succubus,
+            //X 54 Succubus,
             new CardData(0,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.succubus_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 55 Surtr,
+            //X 55 Surtr,
             new CardData(4,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.srtr_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 56 Sylph,
             new CardData(4,CardFamily.P,
@@ -367,17 +367,17 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 57 Tengu,
+            //X 57 Tengu,
             new CardData(3,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.tengu_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 58 Tidal,
+            //X 58 Tidal,
             new CardData(5,CardFamily.D,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.tidal_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 59 Triton,
             new CardData(4,CardFamily.B,
@@ -385,29 +385,29 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 60 Troll,
+            //X 60 Troll,
             new CardData(3,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.troll_clock_effect,
+                CardFuncs.void_func
             ),
-            // 61 Undine,
+            //X 61 Undine,
             new CardData(1,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.undine_enter_effect,
+                CardFuncs.undine_clock_effect,
+                CardFuncs.void_func
             ),
-            // 62 Undinequeen,
+            //X 62 Undinequeen,
             new CardData(3,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.undine_queen_clock_effect,
+                CardFuncs.void_func
             ),
-            // 63 Valkyrie,
+            //X 63 Valkyrie,
             new CardData(5,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.valkyrie_clock_effect,
+                CardFuncs.void_func
             ),
             // 64 Watergiant,
             new CardData(4,CardFamily.B,
@@ -415,11 +415,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 65 Willow,
+            //X 65 Willow,
             new CardData(10,CardFamily.D,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.willow_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
             // 66 Youngforestspirit,
             new CardData(0,CardFamily.G,
@@ -427,17 +427,17 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 67 Yukionna,
+            //X 67 Yukionna,
             new CardData(0,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.yuki_onna_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
-            // 68 Yukionnaexalted
+            //X 68 Yukionnaexalted
             new CardData(3,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.yuki_onna_exalted_effect,
+                CardFuncs.void_func,
+                CardFuncs.void_func
             ),
         };
     }
