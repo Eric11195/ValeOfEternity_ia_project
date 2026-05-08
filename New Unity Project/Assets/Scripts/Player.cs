@@ -104,31 +104,22 @@ namespace voe{
         }
 
         //Order is priority
-        public CardNameId choose_card_in_tableau(DecisionParameters.scale scale, params DecisionParameters.prms[] my_params){
-            int[] ponderated_value = new int[table.size()];
-            for(int i=0; i < table.size(); ++i){
-                ponderated_value[i]=0;
+        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, params DecisionParameters.prms[] my_params){
+            var card_chosen = DecisionParameters.choose_best_card(this, table, requisite, scale, my_params);
+            if ((CardData.get_card(card_chosen).family & requisite) != 0 || requisite == CardFamily.None)
+            {
+                return card_chosen;
             }
-            int param_using = 0;
-            foreach(DecisionParameters.prms prm in my_params){
-                var values_for_this_params = DecisionParameters.doFunc(prm, table);
-                for(int i = 0; i < table.size(); ++i){
-                    ponderated_value[i] += 
-                        DecisionParameters.get_scale_value_min_to_max(scale, param_using)* 
-                        values_for_this_params[i];
-                }
-                ++param_using;
+            return CardNameId.NONE;
+        }
+        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, params DecisionParameters.prms[] my_params)
+        {
+            var card_chosen = DecisionParameters.choose_worst_card(this, table, requisite, scale, my_params);
+            if ((CardData.get_card(card_chosen).family & requisite) != 0 || requisite == CardFamily.None)
+            {
+                return card_chosen;
             }
-
-            int best_value=-1,best_index=-1;
-            for(int i = 0; i < table.size(); ++i){
-                if(ponderated_value[i] > best_value){
-                    best_index = i;
-                    best_value = ponderated_value[i];
-                }
-            }
-            Assert.IsTrue(best_index > -1 && best_index < table.size(), "Chosen card outside valid range");
-            return table.get(best_index);
+            return CardNameId.NONE;
         }
 
         public void bounce_card(CardNameId card_name_id){
@@ -208,6 +199,11 @@ namespace voe{
         {
             throw new UnityException("Unimplemented");
             hand_representation_needs_update = true;
+        }
+        public IEnumerator discard_card_from_table()
+        {
+            throw new UnityException("Unimplemented");
+            table_need_update = true;
         }
     }
 }

@@ -14,8 +14,9 @@ namespace voe{
         }
         public static IEnumerator aerie_enter_func(Player p){
             var card_chosen = 
-                p.choose_card_in_tableau(
+                p.choose_best_card_in_tableau(
                     DecisionParameters.scale.fibonacci,
+                    CardFamily.None,
                     DecisionParameters.prms.good_bounce_target,
                     DecisionParameters.prms.greater_cost,
                     DecisionParameters.prms.playable

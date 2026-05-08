@@ -12,12 +12,12 @@ namespace voe{
             family_sinergy
         };
         //Return points for each card in the same order as given
-        public delegate int[] param_chosing_function(CardList cl);
+        public delegate int param_chosing_function(Player p, CardNameId cl);
         //Functions in same order as params
         public static param_chosing_function[] chosers = {
         };
-        public static int[] doFunc(prms prm, CardList cl){
-            return chosers[(int)prm](cl);
+        public static int doFunc(prms prm, Player p, CardNameId cl){
+            return chosers[(int)prm](p, cl);
         }
 
         public enum scale{
@@ -78,6 +78,48 @@ namespace voe{
             }
             Assert.IsTrue(best_idx != -1);
             return best_idx;
+        }
+
+        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        {
+            var opponents_points = choose_card(p, cl, cf, scale, my_params);
+            int idx = choose_best(opponents_points);
+            return cl.get(idx);
+        }
+        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        {
+            var opponents_points = choose_card(p, cl, cf, scale, my_params);
+            int idx = choose_best(opponents_points);
+            return cl.get(idx);
+        }
+
+        public static int[] choose_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        {
+            int[] card_points = new int[cl.size()];
+            int idx = 0;
+            foreach (CardNameId cni in cl.card_list)
+            {
+                if((CardData.get_card(cni).family & cf) != 0 || cf == CardFamily.None)
+                    card_points[idx++] = ponderate_card(p, cni, scale, my_params);
+                else
+                    card_points[idx++] = int.MinValue;
+            }
+            return card_points;
+        }
+        public static int ponderate_card(Player p, CardNameId cni, DecisionParameters.scale scale, params prms[] my_params)
+        {
+            int result = 0;
+
+            int param_using = 0;
+            foreach (DecisionParameters.prms prm in my_params)
+            {
+                var values_for_this_params = DecisionParameters.doFunc(prm, p, cni);
+                result +=
+                    DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
+                    values_for_this_params;
+                ++param_using;
+            }
+            return result;
         }
     }
 }
