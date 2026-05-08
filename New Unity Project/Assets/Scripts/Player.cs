@@ -14,6 +14,7 @@ namespace voe{
 
         public int points = 0;
         public bool hand_representation_needs_update = true;
+        public bool table_need_update = false;
         public CardList hand;
         public CardList table;
         public CardList chosen_at_market;
@@ -133,6 +134,7 @@ namespace voe{
             table.extract(card_name_id);
             hand.add(card_name_id);
             hand_representation_needs_update = true;
+            table_need_update = true;
         }
 
         public void gain_points(int points){
@@ -153,9 +155,10 @@ namespace voe{
                 table.add(card_name_id);
                 card.enterEffect(this);
             }else{
-                throw new UnityException("Tried playing card whose cost could no be payed");
+                throw new UnityException("Tried playing card whose cost could not be paid");
             }
             hand_representation_needs_update= true;
+            table_need_update = true;
             yield return null;
         }
         public void add_to_hand(CardNameId cni){

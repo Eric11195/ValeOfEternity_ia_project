@@ -33,6 +33,8 @@ namespace voe{
         List<GameObject> player_eyes;
         [SerializeField]
         List<TextMeshProUGUI> player_points;
+        [SerializeField]
+        List<CardAreaManager> player_boards;
 
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
@@ -60,6 +62,12 @@ namespace voe{
             foreach(Transform tr in GameObject.Find("PlayerPoints").transform)
             {
                 player_points.Add(tr.GetComponent<TextMeshProUGUI>());
+            }
+
+            player_boards = new List<CardAreaManager>();
+            foreach(Transform tr in GameObject.Find("PlayerBoardArea").transform)
+            {
+                player_boards.Add(tr.GetComponent<CardAreaManager>());
             }
         }
 
@@ -89,6 +97,7 @@ namespace voe{
             highlight_card();
             update_player_points_representation();
             paint_player_hand(watching_player_idx);
+            update_all_players_table_representation();
         }
 
         private void highlight_card()
@@ -182,6 +191,28 @@ namespace voe{
                 Assert.IsTrue(player_points[i] != null);
                 player_points[i].text = players[i].points.ToString();
             }
+        }
+        private void update_all_players_table_representation()
+        {
+            for(int i = 0; i < players.Count; ++i)
+            {
+                update_table_representation(i);
+            }
+        }
+        private void update_table_representation(int index)
+        {
+            update_table_representation(players[index], player_boards[index]);
+        }
+        public void update_table_representation(Player p, CardAreaManager table)
+        {
+            if (!p.table_need_update) return;
+
+            table.empty();
+            foreach (var cni in p.table.card_list)
+            {
+                table.add(cni);
+            }
+            p.table_need_update = false;
         }
     }
 }

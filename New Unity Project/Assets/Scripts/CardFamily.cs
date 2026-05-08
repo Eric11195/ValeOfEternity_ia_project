@@ -13,7 +13,21 @@ namespace voe{
 
     public static class stone_value{
         public static stone_quant get_value_per_family(CardFamily cf){
-            return per_family[(int)cf];
+            switch (cf)
+            {
+                case CardFamily.R:
+                    return per_family[0];
+                case CardFamily.G:
+                    return per_family[1];
+                case CardFamily.B:
+                    return per_family[2];
+                case CardFamily.P:
+                    return per_family[3];
+                case CardFamily.D:
+                    return per_family[4];
+                default:
+                    throw new UnityException("Non valid card family");
+            }
         }
         public static stone_quant[] per_family = {
             new stone_quant(3,0,0),

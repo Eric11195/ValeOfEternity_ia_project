@@ -151,6 +151,7 @@ Algunas prioridades son:
 Por día de uso
 
 ### 07/05/2026
+
 - https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/
 - https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c
 - https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Image.html
