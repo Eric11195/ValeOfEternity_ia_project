@@ -55,6 +55,7 @@
     <Compile Include="Assets\Scripts\CardComponent.cs" />
     <Compile Include="Assets\Scripts\PlayCardsRound.cs" />
     <Compile Include="Assets\Scripts\CardAreaManager.cs" />
+    <Compile Include="Assets\Scripts\OpponentChoosing.cs" />
     <Compile Include="Assets\Scripts\CoroutineWithData.cs" />
     <Compile Include="Assets\Scripts\CardsEnum.cs" />
     <Compile Include="Assets\Scripts\FileNames.cs" />

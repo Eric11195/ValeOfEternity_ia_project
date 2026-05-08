@@ -11,7 +11,8 @@ namespace voe{
     public class Player
     {
         static int threshold = 60;
-
+        
+        public int idx;
         public int points = 0;
         public bool hand_representation_needs_update = true;
         public bool table_need_update = false;

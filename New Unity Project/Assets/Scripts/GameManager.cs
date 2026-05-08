@@ -69,6 +69,12 @@ namespace voe{
             {
                 player_boards.Add(tr.GetComponent<CardAreaManager>());
             }
+
+            int i = 0;
+            foreach(Player p in players)
+            {
+                p.idx = i++;
+            }
         }
 
         public void Start()

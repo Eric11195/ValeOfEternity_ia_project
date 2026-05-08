@@ -43,5 +43,41 @@ namespace voe{
             {1,1,2,3,5,8,13,21,34,55,
                 89,144,233,377,610,987,1597,2584,4181,6765}
         };
+
+        public static int choose_best(int[] values)
+        {
+            int best = int.MinValue;
+            int best_idx = -1;
+            Assert.IsTrue(values.Length > 0);
+            int i = 0;
+            foreach (int v in values){
+                if(best < v)
+                {
+                    best_idx = i;
+                    best = v;
+                }
+                ++i;
+            }
+            Assert.IsTrue(best_idx != -1);
+            return best_idx;
+        }
+        public static int choose_worst(int[] values)
+        {
+            int best = int.MaxValue;
+            int best_idx = -1;
+            Assert.IsTrue(values.Length > 0);
+            int i = 0;
+            foreach (int v in values)
+            {
+                if (best > v)
+                {
+                    best_idx = i;
+                    best = v;
+                }
+                ++i;
+            }
+            Assert.IsTrue(best_idx != -1);
+            return best_idx;
+        }
     }
 }
