@@ -53,7 +53,7 @@ namespace voe{
             deck = new Deck();
             market = new CardList();
             players = new List<Player>();
-            for(int i = 0; i < initial_number_of_players; ++i){
+            for(int n = 0; n < initial_number_of_players; ++n){
                 players.Add(new Player());
             }
             watch_player_i(0);
