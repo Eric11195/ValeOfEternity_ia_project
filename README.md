@@ -152,10 +152,14 @@ Por día de uso
 
 ### 07/05/2026
 
-- https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/
-- https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c
-- https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Image.html
-- https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject.AddComponent.html
-- https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject-ctor.html
-- https://discussions.unity.com/t/destroy-all-children-of-object/92016
-- https://discussions.unity.com/t/how-to-get-list-of-child-game-objects/34696
+- [https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/](https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/)
+- [https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c](https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c)
+- [https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Image.html](https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Image.html)
+- [https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject.AddComponent.html](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject.AddComponent.html)
+- [https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject-ctor.html](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject-ctor.html)
+- [https://discussions.unity.com/t/destroy-all-children-of-object/92016](https://discussions.unity.com/t/destroy-all-children-of-object/92016)
+- [https://discussions.unity.com/t/how-to-get-list-of-child-game-objects/34696](https://discussions.unity.com/t/how-to-get-list-of-child-game-objects/34696)
+
+### 08/05/2026
+
+- [https://www.geeksforgeeks.org/c-sharp/lambda-expressions-in-c-sharp/](https://www.geeksforgeeks.org/c-sharp/lambda-expressions-in-c-sharp/)
