@@ -80,26 +80,40 @@ namespace voe{
             return best_idx;
         }
 
-        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        public delegate bool cost_precondition(int cost);
+        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
         {
-            var opponents_points = choose_card(p, cl, cf, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf,cp, scale, my_params);
             int idx = choose_best(opponents_points);
-            return cl.get(idx);
+
+            var card = CardData.get_card(cl.get(idx));
+
+            if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
+                return cl.get(idx);
+            else 
+                return CardNameId.NONE;
         }
-        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, cost_precondition cp,DecisionParameters.scale scale, params prms[] my_params)
         {
-            var opponents_points = choose_card(p, cl, cf, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf,cp, scale, my_params);
             int idx = choose_best(opponents_points);
-            return cl.get(idx);
+
+            var card = CardData.get_card(cl.get(idx));
+
+            if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
+                return cl.get(idx);
+            else
+                return CardNameId.NONE;
         }
 
-        public static int[] choose_card(Player p, CardList cl, CardFamily cf, DecisionParameters.scale scale, params prms[] my_params)
+        public static int[] choose_card(Player p, CardList cl, CardFamily cf, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
         {
             int[] card_points = new int[cl.size()];
             int idx = 0;
             foreach (CardNameId cni in cl.card_list)
             {
-                if((CardData.get_card(cni).family & cf) != 0 || cf == CardFamily.None)
+                var card = CardData.get_card(cni);
+                if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
                     card_points[idx++] = ponderate_card(p, cni, scale, my_params);
                 else
                     card_points[idx++] = int.MinValue;

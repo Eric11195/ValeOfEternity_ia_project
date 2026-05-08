@@ -12,11 +12,12 @@ namespace voe{
         public static IEnumerator void_func(Player p){
             return null;
         }
-        public static IEnumerator aerie_enter_func(Player p){
-            var card_chosen = 
+        public static IEnumerator aerie_enter_func(Player p) {
+            var card_chosen =
                 p.choose_best_card_in_tableau(
                     DecisionParameters.scale.fibonacci,
                     CardFamily.None,
+                    (int cost) =>{return true;},
                     DecisionParameters.prms.good_bounce_target,
                     DecisionParameters.prms.greater_cost,
                     DecisionParameters.prms.playable

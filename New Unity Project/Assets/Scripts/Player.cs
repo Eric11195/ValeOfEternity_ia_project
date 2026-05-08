@@ -1,11 +1,10 @@
-using UnityEngine;
-
-using voe;
-
-using UnityEngine.Assertions;
-using System.Collections.Generic;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Assertions;
+using voe;
+using static voe.DecisionParameters;
 
 namespace voe{
     public class Player
@@ -104,22 +103,12 @@ namespace voe{
         }
 
         //Order is priority
-        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, params DecisionParameters.prms[] my_params){
-            var card_chosen = DecisionParameters.choose_best_card(this, table, requisite, scale, my_params);
-            if ((CardData.get_card(card_chosen).family & requisite) != 0 || requisite == CardFamily.None)
-            {
-                return card_chosen;
-            }
-            return CardNameId.NONE;
+        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, cost_precondition cp, params DecisionParameters.prms[] my_params){
+            return DecisionParameters.choose_best_card(this, table, requisite, cp, scale, my_params);
         }
-        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, params DecisionParameters.prms[] my_params)
+        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, cost_precondition cp, params DecisionParameters.prms[] my_params)
         {
-            var card_chosen = DecisionParameters.choose_worst_card(this, table, requisite, scale, my_params);
-            if ((CardData.get_card(card_chosen).family & requisite) != 0 || requisite == CardFamily.None)
-            {
-                return card_chosen;
-            }
-            return CardNameId.NONE;
+            return DecisionParameters.choose_worst_card(this, table, requisite, cp, scale, my_params);
         }
 
         public void bounce_card(CardNameId card_name_id){
