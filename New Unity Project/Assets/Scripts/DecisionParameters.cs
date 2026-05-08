@@ -9,7 +9,8 @@ namespace voe{
             lower_cost,
             good_bounce_target,
             playable,
-            family_sinergy
+            sinergy,
+            points
         };
         //Return points for each card in the same order as given
         public delegate int param_chosing_function(Player p, CardNameId cl);
@@ -24,6 +25,7 @@ namespace voe{
             linear,
             pot2,
             fibonacci,
+            constant,
             COUNT
         };
         private const int max_scale_idx = 20;
@@ -41,7 +43,9 @@ namespace voe{
             {1,2,4,8,16,32,64,128,256,512,
                 1024,2048,4096,8192,16384,32768,65536,131072,262144,524288},
             {1,1,2,3,5,8,13,21,34,55,
-                89,144,233,377,610,987,1597,2584,4181,6765}
+                89,144,233,377,610,987,1597,2584,4181,6765},
+            {1,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1,1,1 }
         };
 
         public static int choose_best(int[] values)
@@ -79,34 +83,35 @@ namespace voe{
             Assert.IsTrue(best_idx != -1);
             return best_idx;
         }
+        public static bool check_conditions(CardNameId cni, CardFamily cf, CardEffectTypes cet, cost_precondition cp)
+        {
+            var card = CardData.get_card(cni);
+            return (cp(card.price) && CardEffectTypeUtils.has_card_effect(cni, cet) && ((card.family & cf) != 0 || cf == CardFamily.None));
+        }
 
         public delegate bool cost_precondition(int cost);
-        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
+        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
         {
-            var opponents_points = choose_card(p, cl, cf,cp, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, scale, my_params);
             int idx = choose_best(opponents_points);
 
-            var card = CardData.get_card(cl.get(idx));
-
-            if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
+            if (check_conditions(cl.get(idx), cf, cet, cp))
                 return cl.get(idx);
             else 
                 return CardNameId.NONE;
         }
-        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, cost_precondition cp,DecisionParameters.scale scale, params prms[] my_params)
+        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp,DecisionParameters.scale scale, params prms[] my_params)
         {
-            var opponents_points = choose_card(p, cl, cf,cp, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, scale, my_params);
             int idx = choose_best(opponents_points);
 
-            var card = CardData.get_card(cl.get(idx));
-
-            if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
+            if (check_conditions(cl.get(idx), cf, cet, cp))
                 return cl.get(idx);
             else
                 return CardNameId.NONE;
         }
 
-        public static int[] choose_card(Player p, CardList cl, CardFamily cf, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
+        public static int[] choose_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
         {
             int[] card_points = new int[cl.size()];
             int idx = 0;

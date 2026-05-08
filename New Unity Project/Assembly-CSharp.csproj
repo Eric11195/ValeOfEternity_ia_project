@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Deck.cs" />
     <Compile Include="Assets\Scripts\StoneComponent.cs" />
     <Compile Include="Assets\Scripts\CardData.cs" />
+    <Compile Include="Assets\Scripts\CardEffectTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

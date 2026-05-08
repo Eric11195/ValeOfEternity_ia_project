@@ -54,6 +54,11 @@ namespace voe{
             yield return null;
             throw new UnityException("Unimplemented");
         }
+        public IEnumerator activate_single_clock(CardNameId cni)
+        {
+            Assert.IsTrue(table.contains(cni));
+            yield return GameManager.get_instance().StartCoroutine(CardData.get_card(cni).clockEffect(this));
+        }
 
         public bool can_pay(int cost){
             return cost <= stone_manager.get_total_value();
@@ -103,12 +108,20 @@ namespace voe{
         }
 
         //Order is priority
-        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, cost_precondition cp, params DecisionParameters.prms[] my_params){
-            return DecisionParameters.choose_best_card(this, table, requisite, cp, scale, my_params);
+        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params){
+            return DecisionParameters.choose_best_card(this, table, requisite, cet, cp, scale, my_params);
         }
-        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
         {
-            return DecisionParameters.choose_worst_card(this, table, requisite, cp, scale, my_params);
+            return DecisionParameters.choose_worst_card(this, table, requisite, cet, cp, scale, my_params);
+        }
+        public CardNameId choose_best_card_in_hand(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        {
+            return DecisionParameters.choose_best_card(this, hand, requisite, cet, cp, scale, my_params);
+        }
+        public CardNameId choose_worst_card_in_hand(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        {
+            return DecisionParameters.choose_worst_card(this, hand, requisite, cet, cp, scale, my_params);
         }
 
         public void bounce_card(CardNameId card_name_id){
@@ -184,15 +197,39 @@ namespace voe{
             hand.add(GameManager._instance.deck.draw());
             hand_representation_needs_update = true;
         }
-        public IEnumerator discard_card()
+        public IEnumerator discard_card_from_hand(CardNameId cni)
         {
-            throw new UnityException("Unimplemented");
+            Assert.IsTrue(hand.contains(cni));
+            hand.extract(cni);
+            GameManager.get_instance().deck.discard(cni);
             hand_representation_needs_update = true;
+            yield return null;
         }
-        public IEnumerator discard_card_from_table()
+        public IEnumerator discard_card_by_type_from_table(CardFamily cf)
         {
-            throw new UnityException("Unimplemented");
+            var card = choose_worst_card_in_tableau(
+                DecisionParameters.scale.constant, cf, CardEffectTypes.none, (int cost) => { return true; },
+                DecisionParameters.prms.points
+            );
+            if(card != CardNameId.NONE)
+            {
+                discard_card_from_table(card);
+            }
+            yield return null;
+        }
+        public void discard_card_from_table(CardNameId cni)
+        {
+            Assert.IsTrue(table.contains(cni));
+            table.extract(cni);
+            GameManager._instance.deck.discard(cni);
             table_need_update = true;
+        }
+
+        public Player choose_enemy(DecisionParameters.scale s, params OpponentChoosing.prms[] prms)
+        {
+            var enemy = OpponentChoosing.choose_best_opponent(this, s, prms);
+            Assert.IsTrue(enemy != null);
+            return enemy;
         }
     }
 }

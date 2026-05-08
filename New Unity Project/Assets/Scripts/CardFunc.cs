@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace voe{
     public static class CardFuncs
     {
+        #region defaults
         public static IEnumerator unimplemented_func(Player p)
         {
             throw new UnityException("Unimplemented");
@@ -12,11 +13,25 @@ namespace voe{
         public static IEnumerator void_func(Player p){
             return null;
         }
+        public static IEnumerator dragon_enter_func(Player p, CardFamily cf, int points, OpponentChoosing.prms important_card_type)
+        {
+            var enemy = p.choose_enemy(DecisionParameters.scale.fibonacci,
+                OpponentChoosing.prms.points,
+                important_card_type
+            );
+            Assert.IsTrue(enemy != null);
+            p.gain_points(points);
+            enemy.discard_card_by_type_from_table(cf);
+            yield return null;
+        }
+        #endregion
+        #region Aerie
         public static IEnumerator aerie_enter_func(Player p) {
             var card_chosen =
                 p.choose_best_card_in_tableau(
                     DecisionParameters.scale.fibonacci,
                     CardFamily.None,
+                    CardEffectTypes.none,
                     (int cost) =>{return true;},
                     DecisionParameters.prms.good_bounce_target,
                     DecisionParameters.prms.greater_cost,
@@ -26,6 +41,7 @@ namespace voe{
             p.gain_points(CardData.get_card(card_chosen).price);
             throw new UnityException("Unimplemented");
         }
+        #endregion
         #region Agni
         public static IEnumerator agni_enter_func(Player p)
         {
@@ -38,11 +54,57 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Asmodeus
+        public static IEnumerator asmodeus_clock_func(Player p)
+        {
+            var card_chosen =
+                p.choose_best_card_in_tableau(
+                    DecisionParameters.scale.fibonacci,
+                    CardFamily.None,
+                    CardEffectTypes.enter,
+                    (int cost) => { return cost <= 2; },
+                    DecisionParameters.prms.good_bounce_target,
+                    DecisionParameters.prms.points,
+                    DecisionParameters.prms.playable
+                );
+            if(card_chosen != CardNameId.NONE)
+            {
+                p.bounce_card(card_chosen);
+            }
+            yield return null;
+        }
+        #endregion
+        #region Balog
+        public static IEnumerator balog_clock_func(Player p)
+        {
+            var card_chosen =
+                p.choose_best_card_in_tableau(
+                    DecisionParameters.scale.fibonacci,
+                    CardFamily.R,
+                    CardEffectTypes.enter,
+                    (int cost) => { return true; },
+                    DecisionParameters.prms.good_bounce_target,
+                    DecisionParameters.prms.points,
+                    DecisionParameters.prms.playable
+                );
+            if (card_chosen != CardNameId.NONE)
+            {
+                p.bounce_card(card_chosen);
+            }
+            yield return null;
+        }
+        #endregion
         #region Behemoth
         public static IEnumerator behemoth_enter_func(Player p)
         {
             p.gain_points(3 * p.count_families());
             yield return null;
+        }
+        #endregion
+        #region Boulder
+        public static IEnumerator boulder_enter_func(Player p)
+        {
+            yield return GameManager._instance.StartCoroutine(dragon_enter_func(p, CardFamily.P, 8, OpponentChoosing.prms.important_P_card));
         }
         #endregion
         #region Boreas
@@ -63,6 +125,31 @@ namespace voe{
         {
             p.bounce_card(CardNameId.Dandelionspirit);
             yield return null;
+        }
+        #endregion
+        #region Dragon Egg
+        public static IEnumerator dragon_egg_enter_func(Player p)
+        {
+            var dragon_chosen = p.choose_best_card_in_hand(
+                DecisionParameters.scale.fibonacci,
+                CardFamily.D,
+                CardEffectTypes.none,
+                (int cost) => { return true; },
+                DecisionParameters.prms.points,
+                DecisionParameters.prms.greater_cost
+            );
+            p.discard_card_from_table(CardNameId.Dragonegg);
+            if(dragon_chosen != CardNameId.NONE)
+            {
+                yield return GameManager._instance.StartCoroutine(p.play_card(dragon_chosen));
+            }
+            yield return null;
+        }
+        #endregion
+        #region Ember
+        public static IEnumerator ember_enter_func(Player p)
+        {
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.B, 7, OpponentChoosing.prms.important_B_card));
         }
         #endregion
         #region Eternity
@@ -93,6 +180,23 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Genie Exalted
+        public static IEnumerator genie_exalted_clock_func(Player p)
+        {
+            var card = p.choose_best_card_in_tableau(
+                DecisionParameters.scale.fibonacci,
+                CardFamily.None,
+                CardEffectTypes.clock,
+                (int cost) => { return true; },
+                DecisionParameters.prms.points
+            );
+            if(card != CardNameId.NONE)
+            {
+                yield return GameManager.get_instance().StartCoroutine(p.activate_single_clock(card));
+            }
+            yield return null;
+        }
+        #endregion
         #region Gi-rin
         public static IEnumerator girin_enter_func(Player p)
         {
@@ -100,11 +204,26 @@ namespace voe{
             yield return null;
         }
         #endregion
-        # region Griffon
+        #region Goblin
+        public static IEnumerator goblin_clock_func(Player p)
+        {
+            var enemy = p.choose_enemy(DecisionParameters.scale.constant, OpponentChoosing.prms.points);
+            p.gain_points(1);
+            enemy.loose_points(1);
+            yield return null;
+        }
+        #endregion
+        #region Griffon
         public static IEnumerator griffon_clock_func(Player p)
         {
             p.draw();
             yield return null;
+        }
+        #endregion
+        #region Gust
+        public static IEnumerator gust_enter_func(Player p)
+        {
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.G, 8, OpponentChoosing.prms.important_G_card));
         }
         #endregion
         #region Hae-tae
@@ -193,12 +312,31 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Leviathan
+        public static IEnumerator leviathan_enter_func(Player p)
+        { 
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.D, 7, OpponentChoosing.prms.important_D_card));
+        }
+        #endregion
+        #region Marina
+        public static IEnumerator marina_enter_func(Player p)
+        {
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.R, 7, OpponentChoosing.prms.important_R_card));
+        }
+        #endregion
         #region Medusa
         public static IEnumerator medusa_clock_func(Player p)
         {
             if (p.count_cards_in_hand() > 0)
             {
-                yield return p.discard_card();
+                var card = p.choose_worst_card_in_hand(
+                    DecisionParameters.scale.fibonacci,
+                    CardFamily.None,
+                    CardEffectTypes.none,
+                    (int cost) => { return true; },
+                    DecisionParameters.prms.points
+                );
+                yield return p.discard_card_from_hand(card);
                 p.gain_stones(new stone_quant(0, 0, 1));
             }
             yield return null;
@@ -276,6 +414,24 @@ namespace voe{
         public static IEnumerator sand_giant_enter_effect(Player p)
         {
             p.gain_points(4*p.count_cards_in_family(CardFamily.G));
+            yield return null;
+        }
+        #endregion
+        #region Scorch
+        public static IEnumerator scorch_enter_func(Player p)
+        {
+            var card = p.choose_best_card_in_tableau(
+                DecisionParameters.scale.fibonacci,
+                CardFamily.None,
+                CardEffectTypes.enter,
+                (int cost) => { return true; },
+                DecisionParameters.prms.points
+            );
+            if(card != CardNameId.NONE)
+            {
+                var card_data = CardData.get_card(card);
+                yield return GameManager.get_instance().StartCoroutine(card_data.enterEffect(p));
+            }
             yield return null;
         }
         #endregion
@@ -368,11 +524,51 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Water Giant
+        public static IEnumerator water_giant_enter_effect(Player p)
+        {
+            p.gain_stones(new stone_quant(0, 2, 0));
+            p.stone_manager.sv.s[(int)stone_type.ST_three] += 1;
+            p.stone_manager.sv.s[(int)stone_type.ST_six] += 1;
+            yield return null;
+        }
+        public static IEnumerator water_giant_exit_effect(Player p)
+        {
+            p.stone_manager.sv.s[(int)stone_type.ST_three] -= 1;
+            p.stone_manager.sv.s[(int)stone_type.ST_six] -= 1;
+            yield return null;
+        }
+        #endregion
         #region Willow
         public static IEnumerator willow_enter_effect(Player p)
         {
             p.gain_stones(new stone_quant(1, 1, 1));
             p.gain_points(3);
+            yield return null;
+        }
+        #endregion
+        #region
+        public static IEnumerator young_forest_spirit_enter_effect(Player p)
+        {
+            if (p.hand.size() > 1)
+            {
+                var worst_card = p.choose_worst_card_in_hand(
+                    DecisionParameters.scale.fibonacci,
+                    CardFamily.None,
+                    CardEffectTypes.none,
+                    (int cost) => { return true; },
+                    DecisionParameters.prms.points
+                );
+                var best_card = p.choose_best_card_in_hand(
+                    DecisionParameters.scale.fibonacci,
+                    CardFamily.None,
+                    CardEffectTypes.enter,
+                    (int cost) => { return true; },
+                    DecisionParameters.prms.points
+                );
+                p.discard_card_from_hand(worst_card);
+                p.play_card(best_card);
+            }
             yield return null;
         }
         #endregion
