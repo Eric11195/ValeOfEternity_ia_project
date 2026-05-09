@@ -58,8 +58,10 @@
     <Compile Include="Assets\Scripts\OpponentChoosing.cs" />
     <Compile Include="Assets\Scripts\CoroutineWithData.cs" />
     <Compile Include="Assets\Scripts\CardsEnum.cs" />
+    <Compile Include="Assets\Scripts\CardFlags.cs" />
     <Compile Include="Assets\Scripts\FileNames.cs" />
     <Compile Include="Assets\Scripts\CardFunc.cs" />
+    <Compile Include="Assets\Scripts\PlayerPriorities.cs" />
     <Compile Include="Assets\Scripts\StoneManager.cs" />
     <Compile Include="Assets\Scripts\CardFamily.cs" />
     <Compile Include="Assets\Scripts\StoneRepresentator.cs" />
