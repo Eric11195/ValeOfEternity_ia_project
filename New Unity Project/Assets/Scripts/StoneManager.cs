@@ -58,6 +58,17 @@ namespace voe{
             return sv.s[(int)q];
         }
 
+        public int get_number_of_stones(stone_type st)
+        {
+            return sa.s[(int) st];
+        }
+        public void discard_stones(stone_type st, int n)
+        {
+            Assert.IsTrue(n > 0);
+            Assert.IsTrue(get_number_of_stones(st) <= n);
+            sa.s[(int)st] -= n;
+        }
+
         public bool check_valid_payment(stone_quant q, int cost){
             int total_paid = get_value(q);
             if(cost <= total_paid) return false;

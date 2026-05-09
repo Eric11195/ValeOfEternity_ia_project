@@ -107,11 +107,31 @@ namespace voe{
             yield return GameManager._instance.StartCoroutine(dragon_enter_func(p, CardFamily.P, 8, OpponentChoosing.prms.important_P_card));
         }
         #endregion
+        #region BurningSkull
+        public static IEnumerator burning_skull_clock_func(Player p)
+        {
+            if (p.stone_manager.get_number_of_stones(stone_type.ST_one) > 0)
+            {
+                p.gain_points(3);
+            }
+            yield return null;
+        }
+        #endregion
         #region Boreas
         public static IEnumerator boreas_enter_func(Player p)
         {
             p.gain_points(p.count_cards_in_family(CardFamily.P));
             p.bounce_card(CardNameId.Boreas);
+            yield return null;
+        }
+        #endregion
+        #region Charybdis
+        public static IEnumerator charybdis_clock_func(Player p)
+        {
+            if (p.stone_manager.get_number_of_stones(stone_type.ST_three) > 0)
+            {
+                p.gain_points(5);
+            }
             yield return null;
         }
         #endregion

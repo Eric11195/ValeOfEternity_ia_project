@@ -73,11 +73,11 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.void_func
             ),
-            // 8 Burningskull,
+            //X 8 Burningskull,
             new CardData(3,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.burning_skull_clock_func,
+                CardFuncs.void_func
             ),
             // 9 Cerberus,
             new CardData(5,CardFamily.G,
@@ -85,11 +85,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 CardFuncs.unimplemented_func
             ),
-            // 10 Charybdis,
+            //X 10 Charybdis,
             new CardData(5,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.void_func,
+                CardFuncs.charybdis_clock_func,
+                CardFuncs.void_func
             ),
             //X 11 Dandelionspirit,
             new CardData(3,CardFamily.P,
