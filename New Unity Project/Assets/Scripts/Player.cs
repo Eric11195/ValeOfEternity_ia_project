@@ -85,7 +85,7 @@ namespace voe{
             Assert.IsTrue(
                 stone_manager.check_valid_payment(payed, cost)
             );
-            pay_for_card_event.Invoke(this, payed);
+            pay_for_card_event?.Invoke(this, payed);
 
             GameManager._instance.update_all_stones_representation();
             yield return null;
@@ -161,7 +161,7 @@ namespace voe{
                 throw new UnityException("Tried playing card whose cost could not be paid");
             }
 
-            card_enters_tableau_event.Invoke(this);
+            card_enters_tableau_event?.Invoke(this);
 
             hand_representation_needs_update= true;
             table_need_update = true;
@@ -173,7 +173,7 @@ namespace voe{
             hand.add(cni);
             PlayCardsRound.remove_card_from_market(cni);
 
-            tame_card_event.Invoke(this, CardData.get_card(cni).family);
+            tame_card_event?.Invoke(this, CardData.get_card(cni).family);
 
             hand_representation_needs_update = true;
         }
