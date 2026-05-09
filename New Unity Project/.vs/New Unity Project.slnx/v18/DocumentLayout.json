@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardfunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\new unity project\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\new unity project\\assets\\scripts\\stonemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stonemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\new unity project\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\new unity project\\assets\\scripts\\cardfamily.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardfamily.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\new unity project\\assets\\scripts\\decisionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,8 +42,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CardFamily.cs",
+              "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\CardFamily.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CardFamily.cs",
+              "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\CardFamily.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CardFamily.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:17:56.021Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -50,20 +67,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "StoneManager.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\StoneManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\StoneManager.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\StoneManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\StoneManager.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAYwEQAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAADwv0QAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-09T09:00:32.779Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "OpponentChoosing.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\OpponentChoosing.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\OpponentChoosing.cs",
@@ -75,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "CardEffectTypes.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\CardEffectTypes.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardEffectTypes.cs",
@@ -87,19 +104,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\Player.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\Player.cs",
               "RelativeToolTip": "Assets\\Scripts\\Player.cs",
-              "ViewState": "AgIAALMAAAAAAAAAAAAuwNQAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAswBwAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T13:31:50.037Z"
+              "WhenOpened": "2026-05-08T13:31:50.037Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DecisionParameters.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\DecisionParameters.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\DecisionParameters.cs",
@@ -117,7 +135,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardData.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\CardData.cs",
               "RelativeToolTip": "Assets\\Scripts\\CardData.cs",
-              "ViewState": "AgIAAKIAAAAAAAAAAAAAAMMAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAIYBAAAAAAAAAADwv68BAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-08T13:27:06.993Z",
               "EditorCaption": ""
@@ -130,7 +148,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardFunc.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\New Unity Project\\Assets\\Scripts\\CardFunc.cs",
               "RelativeToolTip": "Assets\\Scripts\\CardFunc.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAUwIYAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAADMCAAAAAAAAAAAswFUCAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-07T16:53:14.755Z",
               "EditorCaption": ""

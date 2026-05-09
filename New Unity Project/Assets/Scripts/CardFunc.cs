@@ -193,6 +193,25 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Gargoyle
+        public static void gargoyle_trigger_func(Player p, stone_quant q)
+        {
+            if (q.s[(int)stone_type.ST_six] > 0)
+            {
+                p.gain_points(3);
+            }
+        }
+        public static IEnumerator gargoyle_enter_func(Player p)
+        {
+            p.pay_for_card_event += gargoyle_trigger_func;
+            yield return null;
+        }
+        public static IEnumerator gargoyle_exit_func(Player p)
+        {
+            p.pay_for_card_event -= gargoyle_trigger_func;
+            yield return null;
+        }
+        #endregion
         #region Genie
         public static IEnumerator genie_enter_func(Player p)
         {
@@ -398,6 +417,42 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Pegasus
+        public static IEnumerator pegasus_enter_func(Player p)
+        {
+            p.draw();
+            for (int i = 0; i < p.card_reduction_cost_by_family.Length; i++)
+            {
+                p.card_reduction_cost_by_family[i] += 1;
+            }
+            yield return null;
+        }
+        public static IEnumerator pegasus_exit_func(Player p)
+        {
+            for (int i = 0; i < p.card_reduction_cost_by_family.Length; i++)
+            {
+                p.card_reduction_cost_by_family[i] -= 1;
+            }
+            yield return null;
+        }
+        #endregion
+        #region Phoenix
+        public static void phoenix_trigger_func(Player p, stone_quant q)
+        {
+            int number_of_1s = q.s[(int)stone_type.ST_one];
+            p.gain_points(number_of_1s);
+        }
+        public static IEnumerator phoenix_enter_func(Player p)
+        {
+            p.pay_for_card_event += phoenix_trigger_func;
+            yield return null;
+        }
+        public static IEnumerator phoenix_exit_func(Player p)
+        {
+            p.pay_for_card_event -= phoenix_trigger_func;
+            yield return null;
+        }
+        #endregion
         #region Poseidon
         public static IEnumerator poseidon_enter_func(Player p)
         {
@@ -491,6 +546,23 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Sylph
+        public static void sylph_trigger_func(Player p)
+        {
+            p.gain_points(1);
+        }
+        public static IEnumerator sylph_enter_func(Player p)
+        {
+            p.draw();
+            p.card_enters_tableau_event += sylph_trigger_func;
+            yield return null;
+        }
+        public static IEnumerator sylph_exit_func(Player p)
+        {
+            p.card_enters_tableau_event -= sylph_trigger_func;
+            yield return null;
+        }
+        #endregion
         #region Tengu
         public static IEnumerator tengu_enter_effect(Player p)
         {
@@ -505,6 +577,25 @@ namespace voe{
         public static IEnumerator tidal_enter_effect(Player p)
         {
             p.gain_points(5 * p.count_cards_in_family(CardFamily.D));
+            yield return null;
+        }
+        #endregion
+        #region Triton
+        public static void triton_trigger_effect(Player p, CardFamily cf)
+        {
+            if (cf == CardFamily.B)
+            {
+                p.gain_stones(new stone_quant( 0,2,0));
+            }
+        }
+        public static IEnumerator triton_enter_effect(Player p)
+        {
+            p.tame_card_event += triton_trigger_effect;
+            yield return null;
+        }
+        public static IEnumerator triton_exit_effect(Player p)
+        {
+            p.tame_card_event -= triton_trigger_effect;
             yield return null;
         }
         #endregion

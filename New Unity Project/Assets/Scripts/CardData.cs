@@ -133,11 +133,11 @@ namespace voe{
                 CardFuncs.freyja_clock_func,
                 CardFuncs.void_func
             ),
-            // 18 Gargoyle,
+            //X 18 Gargoyle,
             new CardData(2,CardFamily.G,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.gargoyle_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.gargoyle_exit_func
             ),
             //X 19 Genie,
             new CardData(4,CardFamily.P,
@@ -283,11 +283,11 @@ namespace voe{
                 CardFuncs.odin_clock_func,
                 CardFuncs.void_func
             ),
-            // 43 Pegasus,
+            //X 43 Pegasus,
             new CardData(3,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.pegasus_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.pegasus_exit_func
             ),
             // 44 Phoenix,
             new CardData(3,CardFamily.R,
@@ -361,11 +361,11 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.void_func
             ),
-            // 56 Sylph,
+            //X 56 Sylph,
             new CardData(4,CardFamily.P,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.sylph_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.sylph_exit_func
             ),
             //X 57 Tengu,
             new CardData(3,CardFamily.P,
@@ -379,11 +379,11 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.void_func
             ),
-            // 59 Triton,
+            //X 59 Triton,
             new CardData(4,CardFamily.B,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func
+                CardFuncs.triton_enter_effect,
+                CardFuncs.void_func,
+                CardFuncs.triton_exit_effect
             ),
             //X 60 Troll,
             new CardData(3,CardFamily.G,

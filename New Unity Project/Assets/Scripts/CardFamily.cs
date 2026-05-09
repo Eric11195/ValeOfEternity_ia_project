@@ -8,7 +8,7 @@ namespace voe{
         G=1<<1,
         B=1<<2,
         P=1<<3,
-        D=1<<4
+        D=1<<4,
     }
 
     public static class stone_value{

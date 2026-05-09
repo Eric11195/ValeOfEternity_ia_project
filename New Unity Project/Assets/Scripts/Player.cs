@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using voe;
 using static voe.DecisionParameters;
 
@@ -22,6 +23,12 @@ namespace voe{
 
         //This stores the card which it can currently select from
         public CardList current_card_pool_option;
+
+        public UnityAction<Player, stone_quant> pay_for_card_event;
+        public UnityAction<Player, CardFamily> tame_card_event;
+        public UnityAction<Player> card_enters_tableau_event;
+
+        public int[] card_reduction_cost_by_family = new int[5] {0,0,0,0,0};
 
         public Player()
         {
@@ -67,17 +74,19 @@ namespace voe{
         public IEnumerator pay_cost(int cost){
             Assert.IsTrue(can_pay(cost));
 
-            stone_quant sc = new stone_quant(0,0,0);
+            stone_quant payed = new stone_quant(0,0,0);
             int substracted_cost = cost;
             while(cost > 0){
                 stone_type st = stone_manager.extract_highest_cost_stone();
-                stone_manager.sa.s[(int)st] += 1;
+                payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
             }
 
             Assert.IsTrue(
-                stone_manager.check_valid_payment(sc, cost)
+                stone_manager.check_valid_payment(payed, cost)
             );
+            pay_for_card_event.Invoke(this, payed);
+
             GameManager._instance.update_all_stones_representation();
             yield return null;
         }
@@ -151,6 +160,9 @@ namespace voe{
             }else{
                 throw new UnityException("Tried playing card whose cost could not be paid");
             }
+
+            card_enters_tableau_event.Invoke(this);
+
             hand_representation_needs_update= true;
             table_need_update = true;
             yield return null;
@@ -160,6 +172,9 @@ namespace voe{
             chosen_at_market.extract(cni);
             hand.add(cni);
             PlayCardsRound.remove_card_from_market(cni);
+
+            tame_card_event.Invoke(this, CardData.get_card(cni).family);
+
             hand_representation_needs_update = true;
         }
 
