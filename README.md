@@ -70,6 +70,7 @@ Durante su turno cada jugador puede hacer cualquier número de las siguientes ac
 - **Jugar una carta**. Pagando el coste de una carta en la mano colocala en la mesa.
 - **Capturar una carta**. Quita uno de tus marcadores de jugador de una de las cartas del mercado y ponla en tu mano.
 - **Vende una carta**. Quita uno de tus marcadores de jugador de una de las cartas del mercado, colocala en descartes. Gana la divisa correspondiente.
+- **Eliminar una carta**. Paga igual valor al número de ronda. Descarta una de las cartas en tu mesa.
 
 ### Fase de activación
 
@@ -91,6 +92,8 @@ Las cartas puede tener uno o más de los siguientes efectos:
 - **Instantaneo** al jugarse este efecto se hace de inmediato. En caso de ser un efecto que cuente criaturas en mesa. La criatura con este efecto se cuenta.
 - **Infinito** mientras esta carta está en la mesa se hace este efecto se aplica. En caso de ser un efecto que cuente criaturas. Esta criatura no se cuenta en el efecto.
 - **Final** al final de cada turno haz este efecto
+
+_El número máximo de cartas en mesa es igual al número de ronda_
 
 ### Vender una carta
 
@@ -200,3 +203,5 @@ Por día de uso
 - [https://valeofeternity.wiki.gg](https://valeofeternity.wiki.gg)
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Events.UnityEvent.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Events.UnityEvent.html)
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/30_search.html?q=unityAction](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/30_search.html?q=unityAction)
+- [https://boardgamegeek.com/filepage/262447/english-rules](https://boardgamegeek.com/filepage/262447/english-rules)
+- [Vale of Eternity Rulebook](VOE_RULEBOOK_EN.pdf)
