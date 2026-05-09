@@ -39,6 +39,8 @@ namespace voe{
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
 
+        private int current_round = 0;
+
         public static GameManager get_instance()
         {
             Assert.IsTrue(_instance != null, "You are calling this function before Init was called");
@@ -86,11 +88,11 @@ namespace voe{
 
         IEnumerator game_loop()
         {
-            int round = 0;
-            while (round <= 10 && !any_player_past_threshold())
+            current_round = 0;
+            while (current_round <= 10 && !any_player_past_threshold())
             {
-                ++round;
-                Debug.Log("Round "+round+'\n');
+                ++current_round;
+                Debug.Log("Round "+ current_round + '\n');
                 yield return StartCoroutine(MarketRound.market_round());
                 yield return StartCoroutine(PlayCardsRound.play_cards_round());
                 yield return StartCoroutine(ClockRound.clock_round());
@@ -98,12 +100,23 @@ namespace voe{
             yield return null;
         }
 
+        public int get_round() { return current_round; }
+
         public void Update()
         {
             highlight_card();
             update_player_points_representation();
             paint_player_hand(watching_player_idx);
             update_all_players_table_representation();
+        }
+
+        public bool is_this_player_not_leading(Player p)
+        {
+            foreach(Player _p in players)
+            {
+                if (_p.points > p.points) return true;
+            }
+            return false;
         }
 
         private void highlight_card()

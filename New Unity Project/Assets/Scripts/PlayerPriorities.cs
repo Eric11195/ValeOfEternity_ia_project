@@ -4,27 +4,9 @@ namespace voe
 {
     public enum priorities
     {
-        free_space,
+        store_stones,
         gain_points,
-        gain_stones,
-        erase_enemy_threat,
-        stones1,
-        stones3,
-        stones6,
-        big_hand,
-        familyR,
-        familyB,
-        familyG,
-        familyP,
-        familyD,
-        number_of_families,
-        synergy_piece,
-        enablers,
-        payoffs,
-        clocks,
-        etbs,
-        recursion,
+        set_up_engine,
         COUNT
     }
-
 }

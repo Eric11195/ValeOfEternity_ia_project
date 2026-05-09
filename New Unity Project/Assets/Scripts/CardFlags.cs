@@ -26,6 +26,8 @@ namespace voe
         cost_reduction = 1 << 18,
         multicast = 1 << 19,
         tableau_width = 1 << 20,
+        COUNT = 21,
+        BEST = 22
     }
 
 }

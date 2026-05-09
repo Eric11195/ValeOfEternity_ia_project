@@ -30,12 +30,55 @@ namespace voe{
 
         public int[] card_reduction_cost_by_family = new int[5] {0,0,0,0,0};
 
+        public List<priorities> player_priorities = new List<priorities>((int)priorities.COUNT);
+        //COUNT IS SUM, COUNT+1 is best
+        public List<int> enabler_ratings = new List<int>((int)card_flags.COUNT+2);
+        //COUNT IS SUM, COUNT+1 is best
+        public List<int> payoffs_ratings = new List<int>((int)card_flags.COUNT+2);
+
         public Player()
         {
             hand = new CardList();
             table = new CardList();
             chosen_at_market = new CardList();
             stone_manager = new StoneManager();
+        }
+
+        private int get_cheapest_cost_of_card_in_hand()
+        {
+            throw new UnityException("unimplemented");
+            return 0;
+        }
+
+        public void create_list_of_priorities()
+        {
+            GameManager gm = GameManager.get_instance();
+            List<priorities> prio = new List<priorities>(0);
+            if(stone_manager.get_total_value() < get_cheapest_cost_of_card_in_hand())
+            {
+                prio.Add(priorities.store_stones);
+                if (gm.is_this_player_not_leading(this))
+                {
+                    prio.Add(priorities.gain_points);
+                }
+                else
+                {
+                    prio.Add(priorities.set_up_engine);
+                }
+            }
+            else
+            {
+                if (gm.is_this_player_not_leading(this))
+                {
+                    prio.Add(priorities.gain_points);
+                }
+                else
+                {
+                    prio.Add(priorities.set_up_engine);
+                }
+                prio.Add(priorities.store_stones);
+            }
+
         }
 
         public IEnumerator choose_card_on_market()
@@ -150,6 +193,35 @@ namespace voe{
             points = Mathf.Max(points, 1);
         }
 
+        private int get_total_rating(List<int> list)
+        {
+            return list[(int)card_flags.COUNT];
+        }
+        private void add_to_flags_ratings(CardNameId cni)
+        {
+            var card = CardData.get_card(cni);
+            add_to_flags_generic_ratings(card.enabler, enabler_ratings);
+            add_to_flags_generic_ratings(card.payoff, payoffs_ratings);
+        }
+        private void substract_from_flags_ratings(CardNameId cni)
+        {
+            var card = CardData.get_card(cni);
+            add_to_flags_generic_ratings(card.enabler, enabler_ratings, -1);
+            add_to_flags_generic_ratings(card.payoff, payoffs_ratings, -1);
+        }
+        private void add_to_flags_generic_ratings(card_flags cf, List<int> list, int mult = 1)
+        {
+            for(int i = 0; i < (int)card_flags.COUNT; ++i)
+            {
+                if(((int)cf & (1<<i)) != 0)
+                {
+                    int value = (mult * 1);
+                    list[i] += value;
+                    list[(int)card_flags.COUNT] += value;
+                }
+            }
+        }
+
         public IEnumerator play_card(CardNameId card_name_id){
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
@@ -162,6 +234,8 @@ namespace voe{
             }
 
             card_enters_tableau_event?.Invoke(this);
+
+            add_to_flags_ratings(card_name_id);
 
             hand_representation_needs_update= true;
             table_need_update = true;
@@ -230,6 +304,7 @@ namespace voe{
             {
                 discard_card_from_table(card);
             }
+
             yield return null;
         }
         public void discard_card_from_table(CardNameId cni)
@@ -237,6 +312,9 @@ namespace voe{
             Assert.IsTrue(table.contains(cni));
             table.extract(cni);
             GameManager._instance.deck.discard(cni);
+
+            substract_from_flags_ratings(cni);
+
             table_need_update = true;
         }
 
