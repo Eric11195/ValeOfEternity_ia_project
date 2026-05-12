@@ -381,6 +381,8 @@ Mientras la prioridad sea jugar la carta favorita. Se jugará inmediatamente est
 
 Mientras la prioridad sea obtener cartas en mano. Se llevarán cartas del mercado a la mano y se jugarán cartas que roben cartas.
 
+Mientras la prioridad sea jugar removal. Se jugarán cartas que eliminen cartas del resto de jugadores sobre aquel con más puntos con algún objetivo valido.
+
 ### Apartado D
 
 Durante la fase de activación de relojes sabemos con certeza que cada jugador debe activar todos los efectos de reloj en su mesa. Y de que un jugador ha de activar todos los efectos antes de que lo haga el siguiente.
