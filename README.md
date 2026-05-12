@@ -371,6 +371,16 @@ if_state4 --> ChooseWithObtainPointsPriority:false
 
 ### Apartado C
 
+Las acciones durante el turno vienen dadas por las prioridades del [Apartado E](#apartado-e).
+
+Podemos modelar esto como una máquina de estados simple.
+
+Mientras la prioridad sea obtener dinero. Se intentará vender la carta con piedras más valiosas del mercado, o jugar cartas generadoras de piedras/divisa.
+
+Mientras la prioridad sea jugar la carta favorita. Se jugará inmediatamente esta, y se saldrá de este estado.
+
+Mientras la prioridad sea obtener cartas en mano. Se llevarán cartas del mercado a la mano y se jugarán cartas que roben cartas.
+
 ### Apartado D
 
 Durante la fase de activación de relojes sabemos con certeza que cada jugador debe activar todos los efectos de reloj en su mesa. Y de que un jugador ha de activar todos los efectos antes de que lo haga el siguiente.
@@ -473,7 +483,7 @@ También tendremos en cuenta si hacer que devolver esa carta a su mano impedirá
 
 ### Apartado E
 
-Usanremos las mismas prioridades que en el [apartado B](#escoger-cartas):
+Usaremos las mismas prioridades que en el [apartado B](#escoger-cartas):
 
 - obtener puntos
 - obtener divisa
@@ -511,51 +521,7 @@ if_state3 --> SetGainMoneyAsPriority:False
 if_state2 --> SetRemovalAsPriority: False
 ```
 
-<!--
-### Selección de Cartas
-
-Un algoritmo de selección de cartas tomará tres parametros. Una lista de cartas, un escalado y un número variable de prioridades
-
-Para cada prioridad dada evaluará los individuos asignandoles una puntuación (un número entero).
-Se guardará la puntuación de cada individuo para cada propiedad.
-
-Cuando este completamente evaluado hará una suma ponderada. Obteniendo una puntación final para cada individuo. La ponderación de cada prioridad vendrá dada por el parametro escalado. La primera prioridad será aquella con menor ponderación generalmente y la última aquella con mayor ponderación.
-
-#### Escalado
-
-Algunos escalados posibles son:
-
-- Lineal (1,2,3,...)
-- Potencias de 2 (1,2,4,...)
-- Sucesión de Fibonnacci (1,2,3,5,...)
-- Constante (1,1,1,...)
-
-De forma que la primera de las propiedades se multiplicará por 1, la segunda por 2, la tercera por 3 o 4 dependiendo del escalado y así sucesivamente.
-De forma que a más a la derecha se haya escrito una prioridad mayor ponderación obtiene.
-
-#### Prioridades
-
-Algunas prioridades son:
-
-- Puede ser pagada
-- Alto coste
-- Bajo coste
-- Efectos finales
-- Efectos instantaneos
-- Valor por familia
-- Número de piedras por familia
-- Sinergias con monedas de 1
-- Sinergias con monedas de 3
-- Sinergias con monedas de 6
-- Sinergias con familia rosa
-- Sinergias con familia roja
-- Sinergias con familia verde
-- Sinergias con familia azul
-- Sinergias con familia dragones
-- Sinergias con número de familias
-- Sinergias con número de cartas en mesa
-- Sinergias con número de cartas en mano
--->
+Con esto elegiremos nuestra prioridad principal. El resto de decisiones en el juego la tendrán en cuenta a la hora de escoger el mejor resultado posible.
 
 ## Plan de pruebas
 
