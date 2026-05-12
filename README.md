@@ -188,6 +188,8 @@ Las funciones de cada carta están almacenadas en [CardFunc.cs](VOE/Assets/Scrip
 
 Cada carta almacena dos enteros que pueden contener distintas flags.
 
+Las clasificamos con estas etiquetas para que la IA pueda buscar coincidencias y evaluarlas correctamente.
+
 - EnablerFlags -> permite saber que sinergias habilita esta carta.
 - PayoffFlags -> permite saber que sinergias mejoran el efecto de esta carta.
 
@@ -223,6 +225,112 @@ Las cartas se representan en pantalla por medio de una entidad con un [CardCompo
 
 Además poniendo el ratón sobre una de las cartas una representación de tamaño aumentado de esta se colocará en pantalla para poder leer el texto mejor.
 
+### Apartado B
+
+Los procesos de la ronda de caza se verán en [MarketRound.cs](VOE/Assets/Scripts/MarketRound.cs).
+
+La parte importante de esta fase es que los jugadores escojan las cartas más valiosas para ellos. Esto lo hacen en la función choose_card_on_market de [Player.cs](VOE/Assets/Scripts/Player.cs).
+
+En esta función reciben una lista de cartas posibles entre las que elegir, escogeran una, la quitan de la lista de cartas posibles para el resto de jugadores y a partir de ahora sabran que esa carta es de su propiedad.
+
+#### Escoger cartas
+
+Para llevar a cabo la mayoría de sus acciones los jugadores mirarán su lista de prioridades. Esta se actualiza en cualquier momento en el que las cartas en su mano o en su mesa, o la divisa que poseen cambie.
+
+De forma que escogeran cartas en función de su lista de propiedades.
+
+Algunas prioridades básicas podrían ser:
+
+- obtener puntos
+- obtener divisa
+- obtener cartas en mano
+- jugar su carta favorita
+
+##### Carta Favorita
+
+Al escoger sus prioridades los jugadores tendrán en cuenta sus cartas en mano, en su mesa, poseidas en el mercado, o aún libres en el mercado.
+
+De entre todas estas escogerán la carta que, al jugarla, satisfaga de mejor forma las prioridades que tienen en ese momento. Esa carta será su **carta favorita**.
+
+##### Prioridades
+
+###### Obtener puntos
+
+Para saber que carta pueda obtener una mayor cantidad de puntos se hara una suma ponderada entre las sinergias que permite, y aquellas por las que recompensa. Adiccionalmente cada carta tiene un estimado de puntos al jugarla y por ronda. De forma que tomará esto en cuenta también y el número de rondas que quedan para saber cual es la carta que mayor cantidad de puntos le otorga.
+
+```cpp
+int ponderate_points_of_card(CardNameId cni){
+  int enabler_ponderation = 2* (flags coincidentes con cartas payoff en la mesa) + 1*(flags coincidentes con cartas payoff en la mano);
+  int payoff_ponderation = 2*(flags coincidentes con cartas enabler en la mesa) + 1*(flags coincidentes con cartas enabler en la mano);
+  int estimado_puntos_al_jugarla = CardData.getCard(cni).estimado_puntos_al_jugarla;
+  int estimado_puntos_por_ronda = rondas_que_faltan_por_jugar * CardData.getCard(cni).estimado_puntos_por_ronda;
+
+  return enabler_ponderation + payoff_ponderation + estimado_puntos_al_jugarla + estimado_puntos_por_ronda;
+}
+```
+
+##### Obtener divisa
+
+Para esto tendrá en cuenta tanto el valor de divisa de las cartas del mercado, como aquellas cartas que generen monedas en la mano como las sinergias con cada tipo de divisa.
+
+```cpp
+
+int get_stones_ponderated_value(stone_quant sq){
+  -- número de piedras generadas de cada tipo multiplicado con la sinergia con ellas
+  value += stones_if_sold.s[StoneType.Stones_1] * sinergies_with_1_stones;
+  value += stones_if_sold.s[StoneType.Stones_3]* sinergies_with_3_stones;
+  value += stones_if_sold.s[StoneType.Stones_6]* sinergies_with_6_stones;
+  value += total_stone_value;
+}
+
+int ponderate_stone_gain_of_card_in_market(CardNameId cni){
+  stone_quant stones_if_sold = CardFamily.stone_value.get_value_per_family(CardData.getCard(cni).family);
+  return get_stones_ponderated_value(stone_quant sq);
+}
+
+int poderate_stone_gain_of_card_in_hand(CardNameId cni){
+  int value = 0;
+  
+  stone_quant stones_if_played = CardData.getCard(cni).stones_if_played;
+  value += get_stones_ponderated_value(stone_quant sq);
+  
+  stone_quant stones_per_turn = CardData.getCard(cni).stones_per_turn;
+  value += get_stones_ponderated_value(stone_quant sq);
+
+  return value;
+}
+```
+
+##### Jugar carta favorita
+
+Para esto usaremos el siguiente grafo para saber que deberíamos hacer.
+
+```mermaid
+---
+title: Favourite Card Play
+---
+stateDiagram-v2
+state if_state <<choice>>
+state if_state2 <<choice>>
+state if_state3 <<choice>>
+state if_state4 <<choice>>
+[*] --> IsInHand?
+IsInHand? --> if_state
+if_state --> CanBePayed?:true
+if_state --> IsInMarket?:false
+IsInMarket? --> if_state2
+if_state2 --> chooseIt:true
+if_state2 --> throwError:false
+CanBePayed? --> if_state3
+if_state3 --> WeNeedMoreMoney?:true
+if_state3 --> ChooseWithObtainMoneyPriority:false
+WeNeedMoreMoney? --> if_state4
+if_state4 --> ChooseWithObtainMoneyPriority:true
+if_state4 --> ChooseWithObtainPointsPriority:false
+```
+
+### Apartado C
+<!-->
 ### Selección de Cartas
 
 Un algoritmo de selección de cartas tomará tres parametros. Una lista de cartas, un escalado y un número variable de prioridades
@@ -266,6 +374,7 @@ Algunas prioridades son:
 - Sinergias con número de familias
 - Sinergias con número de cartas en mesa
 - Sinergias con número de cartas en mano
+<!-->
 
 ## Implementación
 
