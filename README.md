@@ -117,11 +117,11 @@ Se parte únicamente de las reglas en formato físico del juego, y de las imagen
 
 El proyecto de unity parte de un proyecto vacio.
 
-## Planteamiento del problema
+## Planteamiento del Problema
 
 La práctica consiste en desarrollar este juego para un soporte digital en la que todos los jugadores estén controlados por la IA desarrollada.
 
-**A.** En la pantalla se pueden ver las distintas zonas del juego claramente diferenciadas. Estas son mercado, y tablero y mano de cada jugador. El tablero de todos los jugadores será visible en todo momento. Se podrá seleccionar la mano de que jugador ver presionando sobre el número del jugador. Y un marcador de un ojo sustituirá el número del jugador cuya mano se esté viendo.
+**A.** En la pantalla se pueden ver las distintas zonas del juego claramente diferenciadas. Estas son mercado, tablero y mano de cada jugador. El tablero de todos los jugadores será visible en todo momento. Se podrá seleccionar la mano de que jugador ver presionando sobre el número del jugador. Y un marcador de un ojo sustituirá el número del jugador cuya mano se esté viendo.
 Jugablemente, todas las cartas tienen sus efectos definidos. Se pueden ver la divisa que posee cada jugador en su zona y los puntos de victoria actuales que posee.
 
 **B.** Durante la fase de caza, cada jugador escoge cartas a su debido tiempo hasta tener 2. Las cartas se escogeran teniendo en cuenta posibles sinergias con cartas en la mesa o mano del jugador correspondiente, su precio de venta o si con alguna carta otro de los jugadores podría sacar una gran ventaja. El parametro decisivo viene dado por una lista de prioridades ordenadas.
@@ -137,7 +137,91 @@ Para confirmar el comportamiento de la IA, se dispondrán de métricas visibles 
 
 ## Diseño de la Solución
 
-Se harán algoritmos distintos para cada fase de la partida.
+El flujo de juego y las llamadas a todas las funciones necesarias para el funcionamiento de está aplicación se encuentran en el fichero [GameManager.cs](VOE/Assets/Scripts/GameManager.cs)
+
+### Apartado A
+
+#### Identificación de Zonas de Juego
+
+Una imagen de fondo nos permitirá ver delimitadas las distintas zonas de juego.
+Con el mercado estando a la derecha del todo. La mano del jugador siendo la parte de abajo de la pantalla y las zonas de cada jugador en el espacio que queda, donde colocaremos las cartas de su zona, así como la divisa que tengan.
+
+#### Zonas de Cartas
+
+En cada zona un objeto con un componente de tipo [CardAreaManager](VOE/Assets/Scripts/CardAreaManager.cs) será el encargado de crear las cartas, objetos con un [CardComponent.cs](VOE/Assets/Scripts/CardComponent.cs) y colocarlas en la posición correcta. **CardAreaManager** tiene varios parametros, filas y columnas, y 2 transforms. Estos 2 transforms delimitan el limite inferior izquierdo y el limite superior derecho de la zona. De forma que las cartas se coloquen automáticamente en la posición adecuada en función de esto y su índice en el array que las contiene mediante una interpolación entre ambas posiciones.
+
+#### Representación de Divisa
+
+En la zona de cada jugador un objeto con un componente de tipo [StoneRepresentator](VOE/Assets/Scripts/StoneRepresentator.cs) se encargará de mostrar la divisa de cada jugador. Teniendo en cuenta que aunque el límite de divisa sea de 4 piedras/monedas. Hay cartas que podrían ampliarlo.
+
+#### Cartas
+
+Las cartas son una gran parte del trabajo. El juego cuenta con 68 cartas únicas, cada una con efectos específicos.
+
+##### Información Fundamental
+
+Cada una está identificada unequívocamente por un [CardNameId](VOE/Assets/Scripts/CardsEnum.cs). Y se asocian por el valor de este a la posición del array de recurso de carta (nombre de imagen) en [FileNames.cs](VOE/Assets/Scripts/FileNames.cs).
+
+##### Parámetros de las Cartas
+
+Todos los parametros de cada carta del juego están guardados en [CardData.cs](VOE/Assets/Scripts/CardData.cs). Cada carta tiene:
+
+- una familia -> en enumerado entre Rojo, Azul, Verde, Rosa y Dragones
+- un precio -> valor numérico
+- enabler flags -> enumerado que contiene que tipo de estrategias permiten
+- payoff flags -> enumerado que contiene que tipo de estrategias recompensan. De forma que al tener varias cartas con enabler flags de un tipo, las cartas con payoff flags de ese mismo tipo serán más poderosas
+- funciones de:
+  - reloj
+  - al entrar al tablero
+  - al salir del tablero
+
+###### Funciones de Cartas
+
+Las funciones de cada carta están almacenadas en [CardFunc.cs](VOE/Assets/Scripts/CardFunc.cs). Clasificadas en regiones según la carta de la que provienen y en clock, enter, exit y trigger.
+
+- Clock son funciones de final de turno
+- Enter son funciones al entrar en el tablero
+- Exit son funciones al salir del tablero
+- Trigger son funciones a las que se suscribirán distintas UnityActions de los jugadores. De forma que al entrar o al salir alguna carta del tablero el jugador se podría suscribir a una de estas funciones. En cartas por ejemplo que al pagar costes con monedas de cierto tipo proporcionan puntos de victoria.
+
+###### Flags de Cartas
+
+Cada carta almacena dos enteros que pueden contener distintas flags.
+
+- EnablerFlags -> permite saber que sinergias habilita esta carta.
+- PayoffFlags -> permite saber que sinergias mejoran el efecto de esta carta.
+
+De forma que conviene tener el máximo número de cartas con enabler flags de un tipo, para hacer que el efecto de una carta con PayoffFlags de ese tipo sea lo más poderoso posible.
+
+Los arquetipos y sinergías que se tendrán en cuenta, intentando categorizar todos los del juego, se pueden encontrar en [CardFlags.cs](VOE/Assets/Scripts/CardFlags.cs) serán:
+
+- big_hand -> estrategia que te recompensa por tener muchas cartas en mano
+- familyR -> estrategia que te recompensa por tener muchas cartas rojas
+- familyB -> estrategia que te recompensa por tener muchas cartas azules
+- familyG -> estrategia que te recompensa por tener muchas cartas verdes
+- familyP -> estrategia que te recompensa por tener muchas cartas rosas
+- familyD -> estrategia que te recompensa por tener muchas cartas dragones
+- stones1 -> estrategia que te recompensa por tener o usar piedras/monedas de valor 1
+- stones3 -> estrategia que te recompensa por tener o usar piedras/monedas de valor 3
+- stones6 -> estrategia que te recompensa por tener o usar piedras/monedas de valor 6
+- number_of_families -> estrategia que te recompensa por tener el mayor número de cartas de distintas familias en tu mesa
+- clocks -> estrategia que te recompensa por tener muchas cartas con efectos de reloj o final de turno en tu mesa
+- etbs -> término proveniente de magic: the gathering. Significa efectos de (Enter The Battlefield), es decir de ponerse en el tablero. Por lo que da nombre a la estrategia que recompensa tener muchas cartas con efectos al entrar
+- recursion -> estrategia que te recompensa por poner cartas de tu mesa en tu mano, para poder volverlas a usar. Posiblemente por tener efectos al entrar poderosos y tener bajo coste
+- removal -> no es una estrategia en si, pero marca a las cartas que pueden eliminar cartas enemigas. Para desestabilizar sus planes.
+- space_free -> tampoco es una estrategia, pero marca a las cartas que eliminan cartas indeseadas de tu tablero o que se eliminan a si mismas tras jugarse
+- high_costs -> estrategía que te recompensa por tener cartas de alto coste
+- low_costs -> estrategia que te recompensa por tener cartas de bajo coste
+- loose_points -> estrategia que te recompensa por perder puntos, o no ir en cabeza
+- cost_reduction -> estrategia que te recompensa por tener cartas que reduzcan el coste de tus otras cartas de forma general o por familia
+- multicast -> estrategia que te recompensa por jugar muchas cartas, y hacer que un número alto de criaturas entren al tablero
+- tableau_width -> estrategia que te recompensa por tener muchas cartas en tu tablero
+
+##### Representación en pantalla
+
+Las cartas se representan en pantalla por medio de una entidad con un [CardComponent](VOE/Assets/Scripts/CardComponent.cs). En su creación recibe un [CardNameId](VOE/Assets/Scripts/CardsEnum.cs) y en función de este selecciona su imagen.
+
+Además poniendo el ratón sobre una de las cartas una representación de tamaño aumentado de esta se colocará en pantalla para poder leer el texto mejor.
 
 ### Selección de Cartas
 
@@ -156,6 +240,9 @@ Algunos escalados posibles son:
 - Potencias de 2 (1,2,4,...)
 - Sucesión de Fibonnacci (1,2,3,5,...)
 - Constante (1,1,1,...)
+
+De forma que la primera de las propiedades se multiplicará por 1, la segunda por 2, la tercera por 3 o 4 dependiendo del escalado y así sucesivamente.
+De forma que a más a la derecha se haya escrito una prioridad mayor ponderación obtiene.
 
 #### Prioridades
 
