@@ -557,6 +557,8 @@ Algunas prioridades son:
 - Sinergias con número de cartas en mano
 -->
 
+## Plan de pruebas
+
 ## Implementación
 
 ## Conclusiones
