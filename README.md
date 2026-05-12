@@ -330,6 +330,109 @@ if_state4 --> ChooseWithObtainPointsPriority:false
 ```
 
 ### Apartado C
+
+### Apartado D
+
+Durante la fase de activación de relojes sabemos con certeza que cada jugador debe activar todos los efectos de reloj en su mesa. Y de que un jugador ha de activar todos los efectos antes de que lo haga el siguiente.
+
+Por lo que para resolver el problema de en que orden activarlos usaremos el algoritmo de resolución de problemas con incertidumbre **[Monte Carlo Rollout](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)**.
+
+Para usar este algoritmo usaremos [MonteCarloClockSimulator.cs](VOE/Assets/Scripts/MonteCarloClockSimulator.cs). En este crearemos un DumbPlayer.cs con los parametros del jugador real. Y le dispondremos a hacer la ronda de relojes. Los cambios al estado de juego que pudiese hacer este bot no se ven reflejados en el juego real.
+
+Este algoritmo se trata de un algoritmo recursivo con decisiones en árbol.
+
+```cpp
+struct Rewards{
+  stone_count sq;
+  int points;
+  int cards_in_hand;
+}
+struct ClockActivation{
+  int order;
+  int card_decision;
+}
+int ponderate_reward(Priorities player_priorities, Rewards rwrd){
+  int value = 0;
+  value += get_stones_ponderated_value(rwrd);
+  value += points * idx_of_gain_points_in_player_priorities;
+  value += card_in_hand * big_hand_sinergy_puntuation
+  return value;
+}
+//value of ponderated + 
+static tuple<int,List<ClockActivation>> best_solution;
+//card_order inicializado a un array de -1 del mismo tamaño que el número de cartas con relojes en mesa
+//cards_to_activate tiene un identificador por cada carta con un reloj en mesa
+void MonteCarloClockResolutor(List<ClockActivation> activation_order, Rewards rew, const List<CardNameId> cards_to_activate, int depth){
+  if(no_more_cards_to_choose){
+    int answer_value = ponderate_answer(rew);
+    if(answer_value > best_solution.first) 
+      best_solution(answer_value, activation_order.get_deep_copy());
+    return;
+  }
+
+  for(int i = 0; i < card_order.Count; ++i){
+    if(card_order != -1) continue; //Ya ha sido escogido
+    if(card_has_decisions){
+      Rewards r;
+      int decision = 0;
+      //Por cada decisión posible que tenga la carta tiramos un algoritmo
+      foreach(Decision d in CardData.getCard(cards_to_activate).decisions){
+        Rewards rewards_of_this_card = CardData.getCard(cards_to_activate[i]).get_cards_reward(d);
+        rew += rewards_of_this_card;
+        activation_order[i] = ClockActivation(depth, decision);
+        MonteCarloClockResolutor(activation_order, rew, cards_to_activate, depth+1);
+        activation_order[i] = ClockActivation(-1,-1);
+        rew -= rewards_of_this_card;
+        ++decision;
+      }
+    }else{
+        Rewards rewards_of_this_card = CardData.getCard(cards_to_activate[i]).get_cards_reward(0);
+        rew += rewards_of_this_card;
+        activation_order[i] = ClockActivation(depth, 0);
+        MonteCarloClockResolutor(activation_order, rew, cards_to_activate, depth+1);
+        activation_order[i] = ClockActivation(-1,-1);
+        rew -= rewards_of_this_card;
+        ++decision;
+    }
+  }
+}
+```
+
+### Incertidumbre
+
+Este algoritmo podría ser uno de vuelta atrás cualquiera. En la parte en la que se adoptará el enfoque probabilista es con aquellas cartas que devuelvan cartas a la mano o que roben. Como es casi imposible saber que carta será más valiosa devolver a la mano o si robar nos dará un mejor resultado que descartar esa carta por otro efecto, usaremos probabilidad y los valores de sinergias y ponderaciones que usamos para el resto de cosas.
+
+#### Robar una carta
+
+El valor de recompensa que dá robar una carta será el siguiente:
+
+Cuanto más dispersas estén nuestras sinergias, es decir, que no haya una predominante querrá decir que es más probable que robemos una carta que nos sirva, ya sea porque esté empezando la partida o porque todavía no hemos encontrado una línea (una estrategia a seguir) para esta partida.
+
+Después tomaremos en cuenta si nuestra estrategia se basa en tener una mano con muchas cartas. Si es así sumaremos un bonus generoso.
+
+```cpp
+int ponderate_draw_on_player(Player p){
+  //A mayor sea este valor menos útil será robar cartas, pues indicará que ya tenemos un tablero con una estrategia enfocada y funcionando
+  float strategy_predominance = p.get_max_sinergie_value()/ p.get_total_sinergie_value();
+  //Cuantas cartas tenemos que tengan sinergia con tener una gran mano de cartas
+  int big_hand_strategy_value = p.sinergies[BIG_HAND_SINERGIE];
+  return Math.Floor((1-strategy_predominance)*100) + big_hand_strategy_value*10;
+}
+```
+
+#### Devolver a la mano
+
+De una forma parecida a robar cartas hay estrategias que benefician tener muchas cartas en mesa y otras que requieren reusar cartas poniendolas de vuelta a la mano. Por lo que usaremos otra función de ponderación.
+Además de que es complicado saber si una de las cartas que pongamos en mano, verá uso facilmente el próximo turno.
+
+Para esto lanzaremos una vez el algoritmo por cada carta que pudiesemos poner en mano, siendo cada una una decisión distinta de la carta.
+
+Y para cada carta tendremos en cuenta las sinergias y payoffs que satisface según sus flags o etiquetas. De forma que el valor ponderado de cada una escale en función de estas y las sinergias predominantes en el jugador.
+
+También tendremos en cuenta si hacer que devolver esa carta a su mano impedirá que se haga su efecto de reloj. Lo que a veces podría convenirnos.
+
+### Apartado E
+
 <!-->
 ### Selección de Cartas
 
@@ -409,3 +512,8 @@ Por día de uso
 - [https://www.whisthub.com/blog/how-to-write-an-ai-for-a-card-game](https://www.whisthub.com/blog/how-to-write-an-ai-for-a-card-game)
 - Monte Carlo Rollout como estrategia útil para resolver problemas en juegps de cartas [https://www.youtube.com/watch?v=lmSRnG4eaKs&t=635s](https://www.youtube.com/watch?v=lmSRnG4eaKs&t=635s)
 - Investigación Monte Carlo Rollout [https://en.wikipedia.org/wiki/Monte_Carlo_tree_search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
+
+### 11/05/2026
+
+- [https://mermaid.ai/open-source/syntax/stateDiagram.html](https://mermaid.ai/open-source/syntax/stateDiagram.html)
+- [https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/](https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/)
