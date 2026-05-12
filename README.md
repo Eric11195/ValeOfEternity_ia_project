@@ -16,10 +16,9 @@ Esta inteligencia artificial se basa en probabilidades. Y buscará sinergias par
 
 Se considera que el juego es un punto de partida interesante porque contiene una gran cantidad de pequeñas decisiones con repercusiones a medio o largo plazo.
 
-
 ## Sinopsis del Juego
 
-En este juego los distintos jugadores son cazadores de criaturas. Deberan capturarlas o comerciar con ellas para obtener el máximo número de puntos posibles.
+En este juego los distintos jugadores son cazadores de criaturas fantásticas. Deberan capturarlas o comerciar con ellas para obtener el máximo número de puntos posibles.
 
 La característica más interesante del juego es su sistema de divisa. Pues hay monedas de 3 tipos. De valor 1, 3 y 6. Cada jugador solo puede tener hasta cuatro piedras en cualquier momento y al gastar cualquiera no obtendrá cambio.
 
@@ -42,11 +41,56 @@ Cada jugador comienza con tantos puntos como número de jugador sea durante el p
 A partir de ahora numeraremos los jugadores con su número respecto al jugador con el token de primer jugador. En sentido antihorario.
 
 Dentro de cada ronda hay varias fases:
-
+<!-- 
 - Fase de Caza
 - Fase de Juego
 - Fase de Activación
-- Fase Final
+- Fase Final -->
+```mermaid
+---
+title: Game Cycle
+---
+stateDiagram-v2
+[*] --> RandomPlayerGetsFirstPlayerMarker
+RandomPlayerGetsFirstPlayerMarker --> MarketPhase: Round 1
+state MarketPhase{
+  [*] --> TwoCardPerPlayerAreRevealed
+  TwoCardPerPlayerAreRevealed --> FirstPlayerChoosesFirstCards
+  FirstPlayerChoosesFirstCards --> SecondPlayerChoosesFirstCards
+  SecondPlayerChoosesFirstCards --> ThirdPlayerChoosesFirstCard
+  ThirdPlayerChoosesFirstCard --> FourthPlayerChoosesFirstAndSecondCard
+  FourthPlayerChoosesFirstAndSecondCard --> ThirdPlayerChoosesSecondCard
+  ThirdPlayerChoosesSecondCard --> SecondPlayerChoosesSecondCard
+  SecondPlayerChoosesSecondCard --> FirstPlayerChoosesSecondCard
+  FirstPlayerChoosesSecondCard --> [*]
+}
+MarketPhase --> PlayPhase
+state PlayPhase{
+  [*] --> FirstPlayerPlays
+  FirstPlayerPlays --> SecondPlayerPlays
+  SecondPlayerPlays --> ThirdPlayerPlays
+  ThirdPlayerPlays --> FourthPlayerPlays
+  FourthPlayerPlays --> [*]
+}
+PlayPhase --> ClockPhase
+state ClockPhase{
+  [*] --> FirstPlayerActivatedClocks
+  FirstPlayerActivatedClocks --> SecondPlayerActivatedClocks
+  SecondPlayerActivatedClocks --> ThirdPlayerActivatedClocks
+  ThirdPlayerActivatedClocks --> FourthPlayerActivatedClocks
+  FourthPlayerActivatedClocks --> [*]
+}
+ClockPhase --> CleanupPhase
+state CleanupPhase{
+  [*] --> Round+=1
+  Round+=1 --> FirstPlayerMarkerMovesToNextPlayer
+  FirstPlayerMarkerMovesToNextPlayer --> [*]
+}
+state if_state <<choice>>
+CleanupPhase --> if_state
+if_state --> EndGame: Player has 60 or more points or Round>10
+if_state --> MarketPhase: Round < 10 && No player has >=60 points
+```
 
 ### Fase de Caza
 
