@@ -527,7 +527,87 @@ Con esto elegiremos nuestra prioridad principal. El resto de decisiones en el ju
 
 ## Plan de pruebas
 
-## Implementación
+1. Lanzar el ejecutable o ejecutar en el editor de unity el proyecto
+2. Pulsar el botón comenzar partida
+
+La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
+
+### A
+
+#### Prueba 1: Sobre las manos de cada jugador
+
+1. Pulsar el botón de siguiente jugador. Esto debería cambiar las cartas en mano que vemos y poner el icono del ojo sobre el jugador correspondiente. Repetir este proceso varias veces.
+2. Pulsar los números de jugador. El ojo debería colocarse sobre ese número y mostrarnos sus cartas en mano.
+
+#### Prueba 2: Sobre las representaciones de cartas
+
+1. Situar el ratón sobre una de las cartas en el tablero o en el mercado. Debería aparecer una representación de mayor tamaño.
+2. Comprobar que se puede leer el texto y apreciar los simbolos de la carta.
+3. Comprobar que al mover el ratón fuera de la carta desaparece esta versión ampliada.
+
+#### Prueba 3: Sobre la divisa
+
+1. En la zona de cada jugador aparece varias imagenes de piedras con los valores 1, 3 y 6.
+2. Asegurarse de que el número máximo de piedras en esta zona es 4.
+  En caso de encontrar más piedras asegurarse de que poseen la carta Hestia. Esta carta aumenta el límite a 6 piedras, asegurarse de que este límite se sigue cumpliendo.
+
+#### Prueba 4: Sobre los puntos de victoria
+
+1. En la zona de cada jugador aparece un número que cambia a lo largo de la partida, con el título "puntos" adyacente.
+2. Asegurarse de que este número está siempre entre los valores comprendidos (0-60).
+3. Si algún número sobrepasa 60 las condiciones de final de partida se cumplen. Por lo tanto el juego debería detenerse al final de la ronda.
+
+### B
+
+#### Prueba 1: Sobre el correcto orden de escoger en el mercado
+
+1. En la zona de mercado se colocan 2 marcadores por jugador
+2. En la zona de mercado se colocan los marcadores en el orden correcto. Esto debería ser: 1 >> 2 >> 3 >> 4 >> 4 >> 3 >> 2 >> 1. Siendo el primero el jugador con el marcador de primer jugador.
+
+#### Prueba 2: Sobre las cartas escogidas
+
+1. Asegurarse de que las cartas escogidas cumplían la prioridad de ese jugador en el momento de escogerlas. Esta prioridad se puede ver bajo el número del jugador.
+  Como reglas generales:
+
+- prioridad "ganar divisa" eligirá con esta prioridad:
+    dragones >> rosa >> verde >> azul >> rojo. Pues así se ordenan de mayor a menor valor.
+    Este orden fluctuará si tienen sinergias con piedras de algún color.
+- prioridad "ganar puntos" eligirá la carta con mayor sinergia con las suyas. Para esto habrá que ver el tablero y la mano de ese jugador y asegurarnos de que tiene sentido.
+
+### C
+
+#### Prueba 1: Cartas jugables
+
+1. Asegurarse de que el jugador solo juega cartas que puede pagar. En caso contrario el juego se detendrá y se lanzará una excepción. Cosa que no debería ocurrir en la versión final.
+2. Asegurarse de que al jugarlas desaparecen de su mano
+
+#### Prueba 2: Cartas jugadas
+
+1. Asegurarse de que las cartas jugadas, en la mesa de ese jugador, tienen cierta sinergia entre sí. esto debería ser claro leyendo los efectos de las cartas. En una mala partida esto se podría incumplir. Pero al menos dos de los 4 jugadores deberían tener cartas en mesa con cierto grado de sinergia entre sí en todo momento (pasadas las 3 primeras rondas).
+
+### D
+
+#### Prueba 1: Sobre el orden de los relojes
+
+1. Asegurarnos de que todas las cartas con relojes se giran 90 grados en la fase de relojes del jugador que las posee.
+2. Asegurarnos de que al final de la ronda todas las cartas giradas se vuelven a poner del derecho.
+
+#### Prueba 2: Asegurarnos de que el orden de los relojes tiene sentido
+
+1. En más de una caso el orden en el que se activen los relojes no afecta al resultado. Pero en la mayoría podremos maximizar el número de monedas/piedras obtenidas, el número de puntos, el número de cartas en mano o una combinación de todos estos.
+2. Asegurarnos de que el orden seguido cuadra con la prioridad actual del jugador.
+3. El orden en el que se giran debería ser sencillo de seguir con las pausas entre girar las distintas cartas.
+
+### E
+
+#### Prueba 1: Prioridad visible
+
+1. La prioridad actual de cada jugador es visible en pantalla, debajo de su número de jugador.
+2. La prioridad tiene sentido con sus recursos. No será obtener dinero si las reservas de monedas están llenas. No será jugar cartas si no tenemos dinero. No será usar removal si vamos en cabeza.
+
+### Final de las pruebas
+
+1. Salir de la aplicación o parar la ejecución en el entorno de unity.
 
 ## Conclusiones
 
