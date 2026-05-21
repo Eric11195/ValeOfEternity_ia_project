@@ -13,7 +13,7 @@ namespace voe
         {
             GameManager gm = GameManager.get_instance();
 
-            Debug.Log("Market: CALL STARTED");
+            Debug.Log("Market phase started");
             List<GameObject> physical_card_list = new List<GameObject>(0);
             foreach (Player p in gm.players)
             {

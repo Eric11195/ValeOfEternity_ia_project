@@ -47,7 +47,7 @@ namespace voe{
         }
         public int extract(CardNameId id)
         {
-            int index = card_list.FindIndex(id => id.Equals(id) );
+            int index = card_list.FindIndex(x => x.Equals(id) );
             card_list.RemoveAt(index);
             return index;
         }

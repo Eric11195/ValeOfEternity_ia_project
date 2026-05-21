@@ -135,7 +135,7 @@ namespace voe{
                 if(!cc)return;
 
                 CardNameId cni = cc.get_card_id();
-                Debug.Log(cni);
+                //Debug.Log(cni);
                 highlight_card_area.add(cni);
             }
         }

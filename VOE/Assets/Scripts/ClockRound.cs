@@ -7,6 +7,7 @@ namespace voe
     {
         public static IEnumerator clock_round()
         {
+            Debug.Log("Started clock round");
             GameManager gm = GameManager.get_instance();
             foreach (Player p in gm.players)
             {

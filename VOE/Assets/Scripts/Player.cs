@@ -154,7 +154,9 @@ namespace voe{
         }
         public IEnumerator play_favourite_turn_action()
         {
-            throw new UnityException("Unimplemented");
+            //throw new UnityException("Unimplemented");
+            yield return GameManager.get_instance().StartCoroutine(play_card(favourite));
+            favourite = CardNameId.NONE;
         }
         public IEnumerator store_stones_turn_action()
         {
