@@ -27,21 +27,21 @@ namespace voe {
             return chosers[(int)prm](p);
         }
 
-        public static Player choose_best_opponent(Player self, DecisionParameters.scale scale, params OpponentChoosing.prms[] my_params)
+        public static Player choose_best_opponent(Player self, CardFamily cf)
         {
-            var opponents_points = choose_oponent(self, scale, my_params);
+            var opponents_points = choose_oponent(self,cf);
             int idx = DecisionParameters.choose_best(opponents_points);
             if(idx >= self.idx) ++idx;
             return GameManager.get_instance().players[idx];
         }
-        public static Player choose_worst_opponent(Player self, DecisionParameters.scale scale, params OpponentChoosing.prms[] my_params)
+        public static Player choose_worst_opponent(Player self, CardFamily cf)
         {
-            var opponents_points = choose_oponent(self, scale, my_params);
+            var opponents_points = choose_oponent(self,cf);
             int idx = DecisionParameters.choose_worst(opponents_points);
             if (idx >= self.idx) ++idx;
             return GameManager.get_instance().players[idx];
         }
-        public static int[] choose_oponent(Player self, DecisionParameters.scale scale, params OpponentChoosing.prms[] my_params)
+        public static int[] choose_oponent(Player self, CardFamily cf)
         {
             GameManager gm = GameManager.get_instance();
             int[] opponents_points = new int[gm.players.Count - 1];
@@ -49,24 +49,25 @@ namespace voe {
             foreach (Player p in gm.players)
             {
                 if (p.idx == self.idx) continue;
-                opponents_points[idx++] = ponderate_player(p, scale, my_params);
+                opponents_points[idx++] = ponderate_player(p, cf);
             }
             return opponents_points;
         }
-        private static int ponderate_player(Player ponder, DecisionParameters.scale scale, params OpponentChoosing.prms[] my_params)
+        private static int ponderate_player(Player ponder, CardFamily cf)
         {
             int result = 0;
 
             int param_using = 0;
-            foreach (OpponentChoosing.prms prm in my_params)
-            {
-                var values_for_this_params = OpponentChoosing.doFunc(prm, ponder);
-                result +=
-                    DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
-                    values_for_this_params;
-                ++param_using;
-            }
-            return result;
+            throw new UnityException("Unimplemented: choose for most points");
+            //foreach (OpponentChoosing.prms prm in my_params)
+            //{
+            //    var values_for_this_params = OpponentChoosing.doFunc(prm, ponder);
+            //    result +=
+            //        DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
+            //        values_for_this_params;
+            //    ++param_using;
+            //}
+            //return result;
         }
     }
 }

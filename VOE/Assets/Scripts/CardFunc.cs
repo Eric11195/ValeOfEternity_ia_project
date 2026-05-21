@@ -13,11 +13,10 @@ namespace voe{
         public static IEnumerator void_func(Player p){
             return null;
         }
-        public static IEnumerator dragon_enter_func(Player p, CardFamily cf, int points, OpponentChoosing.prms important_card_type)
+        public static IEnumerator dragon_enter_func(Player p, CardFamily cf, int points)
         {
-            var enemy = p.choose_enemy(DecisionParameters.scale.fibonacci,
-                OpponentChoosing.prms.points,
-                important_card_type
+            var enemy = p.choose_enemy_with_card_of_family(
+                cf
             );
             Assert.IsTrue(enemy != null);
             p.gain_points(points);
@@ -29,13 +28,10 @@ namespace voe{
         public static IEnumerator aerie_enter_func(Player p) {
             var card_chosen =
                 p.choose_best_card_in_tableau(
-                    DecisionParameters.scale.fibonacci,
                     CardFamily.None,
                     CardEffectTypes.none,
                     (int cost) =>{return true;},
-                    DecisionParameters.prms.good_bounce_target,
-                    DecisionParameters.prms.greater_cost,
-                    DecisionParameters.prms.playable
+                    CardNameId.Aeris
                 );
             p.bounce_card(card_chosen);
             p.gain_points(CardData.get_card(card_chosen).price);
@@ -59,13 +55,10 @@ namespace voe{
         {
             var card_chosen =
                 p.choose_best_card_in_tableau(
-                    DecisionParameters.scale.fibonacci,
                     CardFamily.None,
                     CardEffectTypes.enter,
                     (int cost) => { return cost <= 2; },
-                    DecisionParameters.prms.good_bounce_target,
-                    DecisionParameters.prms.points,
-                    DecisionParameters.prms.playable
+                    CardNameId.Asmodeus
                 );
             if(card_chosen != CardNameId.NONE)
             {
@@ -79,13 +72,10 @@ namespace voe{
         {
             var card_chosen =
                 p.choose_best_card_in_tableau(
-                    DecisionParameters.scale.fibonacci,
                     CardFamily.R,
                     CardEffectTypes.enter,
                     (int cost) => { return true; },
-                    DecisionParameters.prms.good_bounce_target,
-                    DecisionParameters.prms.points,
-                    DecisionParameters.prms.playable
+                    CardNameId.Balog
                 );
             if (card_chosen != CardNameId.NONE)
             {
@@ -104,7 +94,7 @@ namespace voe{
         #region Boulder
         public static IEnumerator boulder_enter_func(Player p)
         {
-            yield return GameManager._instance.StartCoroutine(dragon_enter_func(p, CardFamily.P, 8, OpponentChoosing.prms.important_P_card));
+            yield return GameManager._instance.StartCoroutine(dragon_enter_func(p, CardFamily.P, 8));
         }
         #endregion
         #region BurningSkull
@@ -151,12 +141,11 @@ namespace voe{
         public static IEnumerator dragon_egg_enter_func(Player p)
         {
             var dragon_chosen = p.choose_best_card_in_hand(
-                DecisionParameters.scale.fibonacci,
+                
                 CardFamily.D,
                 CardEffectTypes.none,
                 (int cost) => { return true; },
-                DecisionParameters.prms.points,
-                DecisionParameters.prms.greater_cost
+                CardNameId.Dragonegg
             );
             p.discard_card_from_table(CardNameId.Dragonegg);
             if(dragon_chosen != CardNameId.NONE)
@@ -169,7 +158,7 @@ namespace voe{
         #region Ember
         public static IEnumerator ember_enter_func(Player p)
         {
-            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.B, 7, OpponentChoosing.prms.important_B_card));
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.B, 7));
         }
         #endregion
         #region Eternity
@@ -223,11 +212,11 @@ namespace voe{
         public static IEnumerator genie_exalted_clock_func(Player p)
         {
             var card = p.choose_best_card_in_tableau(
-                DecisionParameters.scale.fibonacci,
+                
                 CardFamily.None,
                 CardEffectTypes.clock,
                 (int cost) => { return true; },
-                DecisionParameters.prms.points
+                CardNameId.Genieexalted
             );
             if(card != CardNameId.NONE)
             {
@@ -246,7 +235,7 @@ namespace voe{
         #region Goblin
         public static IEnumerator goblin_clock_func(Player p)
         {
-            var enemy = p.choose_enemy(DecisionParameters.scale.constant, OpponentChoosing.prms.points);
+            var enemy = p.choose_enemy();
             p.gain_points(1);
             enemy.loose_points(1);
             yield return null;
@@ -262,7 +251,7 @@ namespace voe{
         #region Gust
         public static IEnumerator gust_enter_func(Player p)
         {
-            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.G, 8, OpponentChoosing.prms.important_G_card));
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.G, 8));
         }
         #endregion
         #region Hae-tae
@@ -354,13 +343,13 @@ namespace voe{
         #region Leviathan
         public static IEnumerator leviathan_enter_func(Player p)
         { 
-            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.D, 7, OpponentChoosing.prms.important_D_card));
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.D, 7));
         }
         #endregion
         #region Marina
         public static IEnumerator marina_enter_func(Player p)
         {
-            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.R, 7, OpponentChoosing.prms.important_R_card));
+            yield return GameManager.get_instance().StartCoroutine(dragon_enter_func(p, CardFamily.R, 7));
         }
         #endregion
         #region Medusa
@@ -369,11 +358,10 @@ namespace voe{
             if (p.count_cards_in_hand() > 0)
             {
                 var card = p.choose_worst_card_in_hand(
-                    DecisionParameters.scale.fibonacci,
+                    
                     CardFamily.None,
                     CardEffectTypes.none,
-                    (int cost) => { return true; },
-                    DecisionParameters.prms.points
+                    (int cost) => { return true; }
                 );
                 yield return p.discard_card_from_hand(card);
                 p.gain_stones(new stone_quant(0, 0, 1));
@@ -496,11 +484,11 @@ namespace voe{
         public static IEnumerator scorch_enter_func(Player p)
         {
             var card = p.choose_best_card_in_tableau(
-                DecisionParameters.scale.fibonacci,
+                
                 CardFamily.None,
                 CardEffectTypes.enter,
                 (int cost) => { return true; },
-                DecisionParameters.prms.points
+                CardNameId.Scorch
             );
             if(card != CardNameId.NONE)
             {
@@ -658,24 +646,23 @@ namespace voe{
             yield return null;
         }
         #endregion
-        #region
+        #region Young Forest Spirit
         public static IEnumerator young_forest_spirit_enter_effect(Player p)
         {
             if (p.hand.size() > 1)
             {
                 var worst_card = p.choose_worst_card_in_hand(
-                    DecisionParameters.scale.fibonacci,
+                    
                     CardFamily.None,
                     CardEffectTypes.none,
-                    (int cost) => { return true; },
-                    DecisionParameters.prms.points
+                    (int cost) => { return true; }
                 );
                 var best_card = p.choose_best_card_in_hand(
-                    DecisionParameters.scale.fibonacci,
+                    
                     CardFamily.None,
                     CardEffectTypes.enter,
                     (int cost) => { return true; },
-                    DecisionParameters.prms.points
+                    CardNameId.Youngforestspirit
                 );
                 p.discard_card_from_hand(worst_card);
                 p.play_card(best_card);

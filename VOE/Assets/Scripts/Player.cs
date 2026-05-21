@@ -99,6 +99,7 @@ namespace voe{
         {
             //FOR the moment this will sell one card and play the other one, regardless of if it can be played
             CardNameId to_sell = chosen_at_market.peek();
+            choose_best_card_in_personal_market_pool(CardFamily.None,CardEffectTypes.none, (int n)=>{ return true; });
             yield return GameManager._instance.StartCoroutine(sell_card(to_sell));
             
             CardNameId to_play = chosen_at_market.peek();
@@ -170,20 +171,28 @@ namespace voe{
         }
 
         //Order is priority
-        public CardNameId choose_best_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params){
-            return DecisionParameters.choose_best_card(this, table, requisite, cet, cp, scale, my_params);
+        public CardNameId choose_best_card_in_tableau(CardFamily requisite, CardEffectTypes cet, cost_precondition cp, CardNameId effect_by){
+            return DecisionParameters.choose_best_card(this, table, requisite, cet, cp, player_prio);
         }
-        public CardNameId choose_worst_card_in_tableau(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        public CardNameId choose_worst_card_in_tableau(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_worst_card(this, table, requisite, cet, cp, scale, my_params);
+            return DecisionParameters.choose_worst_card(this, table, requisite, cet, cp, player_prio);
         }
-        public CardNameId choose_best_card_in_hand(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        public CardNameId choose_best_card_in_hand(CardFamily requisite, CardEffectTypes cet, cost_precondition cp, CardNameId effect_by)
         {
-            return DecisionParameters.choose_best_card(this, hand, requisite, cet, cp, scale, my_params);
+            return DecisionParameters.choose_best_card(this, hand, requisite, cet, cp, player_prio);
         }
-        public CardNameId choose_worst_card_in_hand(DecisionParameters.scale scale, CardFamily requisite, CardEffectTypes cet, cost_precondition cp, params DecisionParameters.prms[] my_params)
+        public CardNameId choose_worst_card_in_hand(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_worst_card(this, hand, requisite, cet, cp, scale, my_params);
+            return DecisionParameters.choose_worst_card(this, hand, requisite, cet, cp, player_prio);
+        }
+        public CardNameId choose_best_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
+        {
+            return DecisionParameters.choose_best_card(this, chosen_at_market, requisite, cet, cp, player_prio);
+        }
+        public CardNameId choose_worst_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
+        {
+            return DecisionParameters.choose_worst_card(this, chosen_at_market, requisite, cet, cp, player_prio);
         }
 
         public void bounce_card(CardNameId card_name_id){
@@ -312,8 +321,7 @@ namespace voe{
         public IEnumerator discard_card_by_type_from_table(CardFamily cf)
         {
             var card = choose_worst_card_in_tableau(
-                DecisionParameters.scale.constant, cf, CardEffectTypes.none, (int cost) => { return true; },
-                DecisionParameters.prms.points
+                cf, CardEffectTypes.none, (int cost) => { return true; }
             );
             if(card != CardNameId.NONE)
             {
@@ -333,9 +341,15 @@ namespace voe{
             table_need_update = true;
         }
 
-        public Player choose_enemy(DecisionParameters.scale s, params OpponentChoosing.prms[] prms)
+        public Player choose_enemy()
         {
-            var enemy = OpponentChoosing.choose_best_opponent(this, s, prms);
+            var enemy = OpponentChoosing.choose_best_opponent(this, CardFamily.None);
+            Assert.IsTrue(enemy != null);
+            return enemy;
+        }
+        public Player choose_enemy_with_card_of_family(CardFamily cf)
+        {
+            var enemy = OpponentChoosing.choose_best_opponent(this,cf);
             Assert.IsTrue(enemy != null);
             return enemy;
         }

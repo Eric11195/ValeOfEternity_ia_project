@@ -4,22 +4,22 @@ using UnityEngine.Assertions;
 namespace voe{
     public static class DecisionParameters
     {
-        public enum prms{
-            greater_cost,
-            lower_cost,
-            good_bounce_target,
-            playable,
-            sinergy,
-            points
-        };
-        //Return points for each card in the same order as given
-        public delegate int param_chosing_function(Player p, CardNameId cl);
-        //Functions in same order as params
-        public static param_chosing_function[] chosers = {
-        };
-        public static int doFunc(prms prm, Player p, CardNameId cl){
-            return chosers[(int)prm](p, cl);
-        }
+        //public enum prms{
+        //    greater_cost,
+        //    lower_cost,
+        //    good_bounce_target,
+        //    playable,
+        //    sinergy,
+        //    points
+        //};
+        ////Return points for each card in the same order as given
+        //public delegate int param_chosing_function(Player p, CardNameId cl);
+        ////Functions in same order as params
+        //public static param_chosing_function[] chosers = {
+        //};
+        //public static int doFunc(prms prm, Player p, CardNameId cl){
+        //    return chosers[(int)prm](p, cl);
+        //}
 
         public enum scale{
             linear,
@@ -90,9 +90,9 @@ namespace voe{
         }
 
         public delegate bool cost_precondition(int cost);
-        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
+        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
         {
-            var opponents_points = choose_card(p, cl, cf, cet, cp, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio);
             int idx = choose_best(opponents_points);
 
             if (check_conditions(cl.get(idx), cf, cet, cp))
@@ -100,9 +100,9 @@ namespace voe{
             else 
                 return CardNameId.NONE;
         }
-        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp,DecisionParameters.scale scale, params prms[] my_params)
+        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
         {
-            var opponents_points = choose_card(p, cl, cf, cet, cp, scale, my_params);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio);
             int idx = choose_best(opponents_points);
 
             if (check_conditions(cl.get(idx), cf, cet, cp))
@@ -111,7 +111,7 @@ namespace voe{
                 return CardNameId.NONE;
         }
 
-        public static int[] choose_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, DecisionParameters.scale scale, params prms[] my_params)
+        public static int[] choose_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
         {
             int[] card_points = new int[cl.size()];
             int idx = 0;
@@ -119,26 +119,27 @@ namespace voe{
             {
                 var card = CardData.get_card(cni);
                 if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
-                    card_points[idx++] = ponderate_card(p, cni, scale, my_params);
+                    card_points[idx++] = ponderate_card(p, cni, player_prio);
                 else
                     card_points[idx++] = int.MinValue;
             }
             return card_points;
         }
-        public static int ponderate_card(Player p, CardNameId cni, DecisionParameters.scale scale, params prms[] my_params)
+        public static int ponderate_card(Player p, CardNameId cni, priorities my_params)
         {
             int result = 0;
 
             int param_using = 0;
-            foreach (DecisionParameters.prms prm in my_params)
-            {
-                var values_for_this_params = DecisionParameters.doFunc(prm, p, cni);
-                result +=
-                    DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
-                    values_for_this_params;
-                ++param_using;
-            }
-            return result;
+            throw new UnityException("Unimplemented: take corresponding func");
+            //foreach (DecisionParameters.prms prm in my_params)
+            //{
+            //    var values_for_this_params = DecisionParameters.doFunc(prm, p, cni);
+            //    result +=
+            //        DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
+            //        values_for_this_params;
+            //    ++param_using;
+            //}
+            //return result;
         }
     }
 }
