@@ -72,7 +72,7 @@ namespace voe{
 
         public bool check_valid_payment(stone_quant q, int cost){
             int total_paid = get_value(q);
-            if(cost < total_paid) return false;
+            if(cost > total_paid) return false;
             
             int delta = total_paid - cost;
             if(delta >= sv.s[(int)stone_type.ST_one] && q.s[(int)stone_type.ST_one] > 0) return false;

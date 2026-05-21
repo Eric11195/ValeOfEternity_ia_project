@@ -14,7 +14,7 @@ namespace voe{
         static int threshold = 60;
         
         public int idx;
-        public int points = 0;
+        public int my_points = 0;
         public bool hand_representation_needs_update = true;
         public bool table_need_update = false;
         public CardList hand;
@@ -198,15 +198,15 @@ namespace voe{
 
         public IEnumerator pay_cost(int cost, CardFamily cf){
             Assert.IsTrue(can_pay(cost, cf));
-
+            cost -= card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
             stone_quant payed = new stone_quant(0,0,0);
-            int substracted_cost = cost - card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
+            int substracted_cost = cost;
             while (substracted_cost > 0){
                 stone_type st = stone_manager.extract_highest_cost_stone();
                 payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
             }
-
+            Debug.Log("Player "+idx+" payed " + stone_manager.get_value(payed)+" to cover "+cost);
             Assert.IsTrue(
                 stone_manager.check_valid_payment(payed, cost)
             );
@@ -272,7 +272,7 @@ namespace voe{
 
         public bool points_past_threshold()
         {
-            return this.points >= threshold;
+            return this.my_points >= threshold;
         }
 
         //Order is priority
@@ -309,12 +309,13 @@ namespace voe{
 
         public void gain_points(int points){
             Assert.IsTrue(points >= 0);
-            points += points;
+            my_points += points;
+            //GameManager.get_instance().update_player_points_representation();
         }
         public void loose_points(int points){
             Assert.IsTrue(points <= 0);
-            points -= points;
-            points = Mathf.Max(points, 1);
+            my_points -= points;
+            my_points = Mathf.Max(points, 1);
         }
 
         private int get_total_rating(List<int> list)
@@ -415,9 +416,8 @@ namespace voe{
             hand.extract(card_name_id);
             table.add(card_name_id);
             var gm = GameManager.get_instance();
-            yield return gm.StartCoroutine(card.enterEffect(this));
-
             card_enters_tableau_event?.Invoke(this);
+            yield return gm.StartCoroutine(card.enterEffect(this));
 
             add_to_flags_ratings(card_name_id);
 

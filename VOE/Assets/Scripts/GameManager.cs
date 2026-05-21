@@ -116,7 +116,7 @@ namespace voe{
         {
             foreach(Player _p in players)
             {
-                if (_p.points > p.points) return true;
+                if (_p.my_points > p.my_points) return true;
             }
             return false;
         }
@@ -210,7 +210,7 @@ namespace voe{
             for(int i = 0; i < players.Count; ++i)
             {
                 Assert.IsTrue(player_points[i] != null);
-                player_points[i].text = players[i].points.ToString();
+                player_points[i].text = players[i].my_points.ToString();
             }
         }
         private void update_all_players_table_representation()
@@ -241,7 +241,7 @@ namespace voe{
             int best = 0;
             for (int j = 1; j < players.Count; ++j)
             {
-                if (players[best].points < players[j].points)
+                if (players[best].my_points < players[j].my_points)
                 {
                     best = j;
                 }
@@ -251,7 +251,7 @@ namespace voe{
         public int get_points_delta_with_winner(Player p)
         {
             choose_current_winner();
-            return current_winner.points - p.points;
+            return current_winner.my_points - p.my_points;
         }
     }
 }
