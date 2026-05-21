@@ -430,9 +430,9 @@ namespace voe{
             ),
             // 44 Phoenix,
             new CardData(3,CardFamily.R,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
-                CardFuncs.unimplemented_func,
+                CardFuncs.phoenix_enter_func,
+                CardFuncs.void_func,
+                CardFuncs.phoenix_exit_func,
                 card_flags.none,
                 card_flags.multicast | card_flags.stones1,
                 CardEffectTypes.infinite

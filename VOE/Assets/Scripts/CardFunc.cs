@@ -11,7 +11,7 @@ namespace voe{
             throw new UnityException("Unimplemented");
         }
         public static IEnumerator void_func(Player p){
-            return null;
+            yield return null;
         }
         public static IEnumerator dragon_enter_func(Player p, CardFamily cf, int points)
         {

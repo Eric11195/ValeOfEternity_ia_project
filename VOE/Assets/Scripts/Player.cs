@@ -65,14 +65,29 @@ namespace voe{
         {
             favourite = choose_best_card_in_hand(CardFamily.None, CardEffectTypes.none, (int cost)=>{ return true; }, CardNameId.NONE);
         }
+
+        private bool is_playable(CardNameId cni)
+        {
+            var cd = CardData.get_card(cni);
+            return can_pay(cd.price, cd.family);
+        }
         private bool cannot_play_cards()
         {
             if (GameManager.get_instance().get_round() <= table.size() || hand.empty()) return true;
 
             foreach (var card in hand.card_list)
             {
-                var cd = CardData.get_card(card);
-                if (can_pay(cd.price, cd.family)) return false;
+                if(is_playable(card)) return false;
+            }
+            return true;
+        }
+        private bool cannot_play_card_from_market()
+        {
+            if (GameManager.get_instance().get_round() <= table.size() || chosen_at_market.empty()) return true;
+
+            foreach (var card in chosen_at_market.card_list)
+            {
+                if(is_playable(card)) return false;
             }
             return true;
         }
@@ -91,20 +106,20 @@ namespace voe{
             }
             else
             {
-                if(cannot_play_cards())
+                if (cannot_play_card_from_market())
                 {
-                    if(stone_manager.get_number_of_spaces_to_fill() > 0)
+                    if (stone_manager.get_number_of_spaces_to_fill() > 0)
                     {
                         player_prio = priorities.store_stones;
                     }
-                    else 
-                    { 
-                        player_prio = priorities.take_playable_card;
+                    else
+                    {
+                        player_prio = priorities.gain_points;
                     }
                 }
                 else
                 {
-                    player_prio = priorities.gain_points;
+                    player_prio = priorities.take_playable_card;
                 }
             }
         }

@@ -609,6 +609,10 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 
 1. Salir de la aplicación o parar la ejecución en el entorno de unity.
 
+## Recuento de Tareas
+
+Se pueden encontrar en el [proyects](https://github.com/users/IzanDeVegaLopez/projects/7/views/1). Todas han sido realizadas por el único alumno responsable del proyecto.
+
 ## Conclusiones
 
 ## Referencias
@@ -651,3 +655,5 @@ Por día de uso
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html)
 - [https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value](https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value)
 - [https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary](https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary)
+- [https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3](https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3)
+- [https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html](https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html)
