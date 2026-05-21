@@ -645,3 +645,9 @@ Por día de uso
 
 - [https://mermaid.ai/open-source/syntax/stateDiagram.html](https://mermaid.ai/open-source/syntax/stateDiagram.html)
 - [https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/](https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/)
+
+### 21/05/2026
+
+- [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html)
+- [https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value](https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value)
+- [https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary](https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary)
