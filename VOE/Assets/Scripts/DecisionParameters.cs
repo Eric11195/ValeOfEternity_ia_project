@@ -166,9 +166,10 @@ namespace voe{
         public static int ponder_single_stone(Player p, stone_type st, int number_of_stones)
         {
             int quant =
-                number_of_stones * //number
+                Mathf.Min(number_of_stones, p.stone_manager.get_number_of_spaces_to_fill()) * //number
                 p.stone_manager.sv.s[(int)st] //value
                 ;
+            if (quant == 0) return 0;
             switch (st)
             {
                 case stone_type.ST_six:
@@ -186,13 +187,20 @@ namespace voe{
         public static int ponder_point_gain(Player p, CardNameId cni, bool market)
         {
             //Synergies
-            throw new UnityException("Unimplemented: ponder point gain function");
+            int quant = 0;
+            for(int i = 0; i < (int)card_flags_idx.COUNT; ++i)
+            {
+                quant += 5* p.get_sinergies_rating_delta_with_new_card((card_flags_idx)i,cni);
+            }
+            return quant;
         }
         public static int ponder_hand_card_gain(Player p, CardNameId cni, bool market)
         {
-            throw new UnityException("Unimplemented ponder hand card gain");
             int result = 0;
             if (market) result += 15;
+            Debug.LogWarning("Ponder hand card gain does not take into account cards whose effects are drawing");
+            
+            return result;
         }
     }
 }

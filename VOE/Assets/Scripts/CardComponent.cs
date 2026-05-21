@@ -30,7 +30,7 @@ namespace voe{
 
             player_owner = _player_number+1;
             string name = "P"+player_owner.ToString();
-            Debug.Log(name);
+            //Debug.Log(name);
             card_owner_marker.sprite = Resources.Load<Sprite>(name);
             Assert.IsTrue(card_owner_marker.sprite);
         }

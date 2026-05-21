@@ -130,7 +130,7 @@ namespace voe{
             if (hit != null)
             {
                 GameObject item = hit.gameObject;
-                Debug.Log(item);
+                //Debug.Log(item);
                 CardComponent cc = item.GetComponent<CardComponent>();
                 if(!cc)return;
 
@@ -149,7 +149,7 @@ namespace voe{
 
         public void update_all_stones_representation(){
             int i = 0;
-            Debug.Log("Update stone representation");
+            //Debug.Log("Update stone representation");
             foreach (Transform child in stone_markers_parent.transform)
             {
                 update_stone_representation_from_player(players[i], child.gameObject);
@@ -159,7 +159,7 @@ namespace voe{
             }
         }
         private void update_stone_representation_from_player(Player p, GameObject parent){
-            Debug.Log("Updating stone representation");
+            //Debug.Log("Updating stone representation");
             parent.GetComponent<StoneRepresentator>().set_stones(p.stone_manager.sa);
         }
         private void paint_player_hand(Player p)

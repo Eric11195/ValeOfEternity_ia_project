@@ -134,11 +134,10 @@ namespace voe{
 
         public IEnumerator pay_cost(int cost, CardFamily cf){
             Assert.IsTrue(can_pay(cost, cf));
-            cost -= card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
 
             stone_quant payed = new stone_quant(0,0,0);
-            int substracted_cost = cost;
-            while(cost > 0){
+            int substracted_cost = cost - card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
+            while (substracted_cost > 0){
                 stone_type st = stone_manager.extract_highest_cost_stone();
                 payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
@@ -243,7 +242,26 @@ namespace voe{
             substract_from_flags_ratings(cni);
             return value;
         }
+        public int get_simulated_sinergy_rating_with_new_card(card_flags_idx flags, CardNameId cni)
+        {
+            add_to_flags_ratings(cni);
+            int value = get_sinergy_complete_rating(flags);
+            substract_from_flags_ratings(cni);
+            return value;
+        }
+        public int get_sinergies_rating_delta_with_new_card(card_flags flags, CardNameId cni)
+        {
+            return get_sinergy_complete_rating(flags) - get_simulated_sinergy_rating_with_new_card(flags, cni);
+        }
+        public int get_sinergies_rating_delta_with_new_card(card_flags_idx flags, CardNameId cni)
+        {
+            return get_sinergy_complete_rating(flags) - get_simulated_sinergy_rating_with_new_card(flags, cni);
+        }
         public int get_sinergy_complete_rating(card_flags flags)
+        {
+            return Mathf.CeilToInt(Mathf.Pow(get_payoff_sinergy_rating(flags), get_enablers_sinergy_rating(flags)));
+        }
+        public int get_sinergy_complete_rating(card_flags_idx flags)
         {
             return Mathf.CeilToInt(Mathf.Pow(get_payoff_sinergy_rating(flags), get_enablers_sinergy_rating(flags)));
         }
@@ -261,7 +279,7 @@ namespace voe{
         }
         public int get_payoff_sinergy_rating(card_flags_idx flags)
         {
-            Debug.Log("Get payoff sinergy flag: " + (int)flags);
+            //Debug.Log("Get payoff sinergy flag: " + (int)flags);
             return payoffs_ratings[(int)flags];
         }
         private void add_to_flags_generic_ratings(card_flags cf, List<int> list, int mult = 1)
