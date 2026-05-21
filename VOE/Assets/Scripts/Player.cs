@@ -61,13 +61,9 @@ namespace voe{
             return 0;
         }
 
-        public void choose_favourite_card(CardList c)
+        public void choose_favourite_card()
         {
-            favourite = choose_best_card(c);
-        }
-        public CardNameId choose_best_card(CardList c)
-        {
-            throw new UnityException("Unimplemented");
+            favourite = choose_best_card_in_hand(CardFamily.None, CardEffectTypes.none, (int cost)=>{ return true; }, CardNameId.NONE);
         }
         private bool cannot_play_cards()
         {
@@ -131,7 +127,7 @@ namespace voe{
                         yield return gm.StartCoroutine(gain_points_turn_action());
                         break;
                     case priorities.take_playable_card:
-                        yield return gm.StartCoroutine(stock_up_hand_turn_action());
+                        yield return gm.StartCoroutine(take_playable_card_turn_action());
                         break;
                     case priorities.play_favourite:
                         yield return gm.StartCoroutine(play_favourite_turn_action());
@@ -149,9 +145,12 @@ namespace voe{
         {
             throw new UnityException("Unimplemented");
         }
-        public IEnumerator stock_up_hand_turn_action()
+        public IEnumerator take_playable_card_turn_action()
         {
-            throw new UnityException("Unimplemented");
+            //Put best card that we can pay from market on hand
+            var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return stone_manager.get_total_value() >= cost; });
+            add_to_hand(cni);
+            yield return null;
         }
         public IEnumerator play_favourite_turn_action()
         {
@@ -417,6 +416,8 @@ namespace voe{
             tame_card_event?.Invoke(this, CardData.get_card(cni).family);
 
             hand_representation_needs_update = true;
+
+            choose_favourite_card();
         }
 
         public IEnumerator sell_card(CardNameId cni){
@@ -453,6 +454,7 @@ namespace voe{
         {
             hand.add(GameManager._instance.deck.draw());
             hand_representation_needs_update = true;
+            choose_favourite_card();
         }
         public IEnumerator discard_card_from_hand(CardNameId cni)
         {
