@@ -34,6 +34,24 @@ namespace voe {
             if(idx >= self.idx) ++idx;
             return GameManager.get_instance().players[idx];
         }
+        public static bool opponent_has_card_with_card_family(Player self, CardFamily cf)
+        {
+            GameManager gm = GameManager.get_instance();
+            foreach(Player p in gm.players)
+            {
+                if(p==self) continue;
+
+                foreach(CardNameId cni in p.table.card_list)
+                {
+                    CardData cd = CardData.get_card(cni);
+                    if(cf == CardFamily.None || cd.family == cf)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public static Player choose_worst_opponent(Player self, CardFamily cf)
         {
             var opponents_points = choose_oponent(self,cf);

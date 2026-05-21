@@ -66,10 +66,24 @@ namespace voe{
             favourite = choose_best_card_in_hand(CardFamily.None, CardEffectTypes.none, (int cost)=>{ return true; }, CardNameId.NONE);
         }
 
+        public bool has_card_with_requiriment(CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp)
+        {
+            foreach (CardNameId cni in cl.card_list)
+            {
+                if(DecisionParameters.check_conditions(cni, cf, cet, cp)) return true;
+            }
+            return false;
+        }
+
         private bool is_playable(CardNameId cni)
         {
             var cd = CardData.get_card(cni);
-            return can_pay(cd.price, cd.family);
+            return can_pay(cd.price, cd.family) && cd.can_be_played(this);
+        }
+        public int free_slots_on_table()
+        {
+            GameManager gm = GameManager.get_instance();
+            return gm.get_round() - table.size();
         }
         private bool cannot_play_cards()
         {
@@ -194,6 +208,14 @@ namespace voe{
         public bool can_pay(int cost, CardFamily cf){
             cost -= card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
             return cost <= stone_manager.get_total_value();
+        }
+        public bool can_pay(CardData cd)
+        {
+            return can_pay(cd.price, cd.family);
+        }
+        public bool can_pay(CardNameId cni)
+        {
+            return can_pay(CardData.get_card(cni));
         }
 
         public IEnumerator pay_cost(int cost, CardFamily cf){

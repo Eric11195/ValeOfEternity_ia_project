@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 
 namespace voe{
     public delegate IEnumerator CardFunc(Player p);
+    public delegate bool can_be_played_func(Player p);
 
     public class CardData
     {   
@@ -15,7 +16,8 @@ namespace voe{
         public card_flags enabler;
         public card_flags payoff;
         public CardEffectTypes effect_type;
-        public CardData(int _price, CardFamily cf, CardFunc _enter, CardFunc _clock, CardFunc _exit, card_flags _enabler, card_flags _payoff, CardEffectTypes _ce){
+        public can_be_played_func can_be_played;
+        public CardData(int _price, CardFamily cf, CardFunc _enter, CardFunc _clock, CardFunc _exit, card_flags _enabler, card_flags _payoff, CardEffectTypes _ce, can_be_played_func _can_be_played){
             price = _price; family = cf;
             enterEffect = _enter;
             clockEffect = _clock;
@@ -23,6 +25,7 @@ namespace voe{
             enabler = _enabler;
             payoff = _payoff;
             effect_type = _ce;
+            can_be_played = _can_be_played;
         }
 
         public static CardData get_card(CardNameId cid){
@@ -32,13 +35,22 @@ namespace voe{
 
         private static CardData[] cd = {
             //X 0 Aeris,
-            new CardData(9, CardFamily.D, 
-                CardFuncs.aerie_enter_func, 
-                CardFuncs.void_func, 
+            new CardData(9, CardFamily.D,
+                CardFuncs.aerie_enter_func,
+                CardFuncs.void_func,
                 CardFuncs.void_func,
                 card_flags.recursion | card_flags.etbs | card_flags.space_free,
                 card_flags.high_costs,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return
+                        p.has_card_with_requiriment(
+                            p.table,
+                            CardFamily.None,
+                            CardEffectTypes.none,
+                            (int cost)=>{return true; }
+                        );
+                }
             ),
             //X 1 Agni,
             new CardData(4,CardFamily.R,
@@ -47,7 +59,8 @@ namespace voe{
                 CardFuncs.agni_exit_func,
                 card_flags.stones1 | card_flags.high_costs,
                 card_flags.none,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 2 Asmodeus,
             new CardData(4,CardFamily.R,
@@ -56,7 +69,16 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks | card_flags.recursion | card_flags.low_costs | card_flags.space_free,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                (Player p)=>{
+                    return
+                        p.has_card_with_requiriment(
+                            p.table,
+                            CardFamily.None,
+                            CardEffectTypes.enter,
+                            (int cost)=>{return cost<=2; }
+                        );
+                }
             ),
             //X 3 Balog,
             new CardData(4,CardFamily.R,
@@ -65,7 +87,16 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks | card_flags.recursion | card_flags.space_free | card_flags.familyR | card_flags.space_free,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                (Player p)=>{
+                    return
+                        p.has_card_with_requiriment(
+                            p.table,
+                            CardFamily.R,
+                            CardEffectTypes.enter,
+                            (int cost)=>{return true; }
+                        );
+                }
             ),
             // 4 Basilisk,
             new CardData(3,CardFamily.G,
@@ -74,7 +105,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.clocks | card_flags.stones1 | card_flags.stones3 | card_flags.stones6 | card_flags.loose_points,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 5 Behemoth,
             new CardData(9,CardFamily.G,
@@ -83,7 +115,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.number_of_families,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 6 Boreas,
             new CardData(4,CardFamily.P,
@@ -92,7 +125,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.multicast,
                 card_flags.cost_reduction,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 7 Boulder,
             new CardData(8,CardFamily.D,
@@ -101,7 +135,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.removal | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.P);
+                }
             ),
             //X 8 Burningskull,
             new CardData(3,CardFamily.R,
@@ -110,7 +147,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.stones1,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             // 9 Cerberus,
             new CardData(5,CardFamily.G,
@@ -119,16 +157,20 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.space_free,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return p.table.size() > 1;
+                }
             ),
             //X 10 Charybdis,
             new CardData(5,CardFamily.B,
                 CardFuncs.void_func,
                 CardFuncs.charybdis_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks, 
+                card_flags.clocks,
                 card_flags.stones3,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 11 Dandelionspirit,
             new CardData(3,CardFamily.P,
@@ -137,7 +179,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks | card_flags.space_free | card_flags.multicast | card_flags.big_hand,
                 card_flags.none,
-                CardEffectTypes.enter | CardEffectTypes.clock
+                CardEffectTypes.enter | CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 12 Dragonegg,
             new CardData(3,CardFamily.D,
@@ -146,7 +189,11 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.multicast | card_flags.high_costs | card_flags.familyD,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return p.free_slots_on_table() >= 2 &&
+                        p.has_card_with_requiriment(p.hand, CardFamily.D, CardEffectTypes.none, (int cost)=>{return true; });
+                }
             ),
             //X 13 Ember,
             new CardData(7,CardFamily.D,
@@ -155,7 +202,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.removal | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.B);
+                }
             ),
             //X 14 Eternity,
             new CardData(12,CardFamily.D,
@@ -164,7 +214,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.number_of_families,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 15 Firefox,
             new CardData(1,CardFamily.R,
@@ -173,7 +224,11 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.big_hand | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p) =>
+                {
+                    return p.hand.size() >= 3;
+                }
             ),
             // 16 Forestspirit,
             new CardData(2,CardFamily.G,
@@ -182,7 +237,11 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.etbs,
                 card_flags.high_costs | card_flags.big_hand | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p) =>
+                {
+                    return p.hand.size()>0;
+                }
 
             ),
             //X 17 Freyja,
@@ -192,7 +251,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.clocks,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 18 Gargoyle,
             new CardData(2,CardFamily.G,
@@ -201,7 +261,8 @@ namespace voe{
                 CardFuncs.gargoyle_exit_func,
                 card_flags.none,
                 card_flags.stones6,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 19 Genie,
             new CardData(4,CardFamily.P,
@@ -210,7 +271,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.clocks | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.clock, (int cost)=>{return true; });
+                }
             ),
             //X 20 Genieexalted,
             new CardData(5,CardFamily.P,
@@ -219,7 +283,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.clocks,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                (Player p)=>{
+                    return p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.clock, (int cost)=>{return true; });
+                }
             ),
             //X 21 Gi_rin,
             new CardData(10,CardFamily.P,
@@ -228,7 +295,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.number_of_families,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 22 Goblin,
             new CardData(1,CardFamily.G,
@@ -237,7 +305,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             // 23 Goblinsoldier,
             new CardData(4,CardFamily.G,
@@ -246,7 +315,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.loose_points | card_flags.clocks,
                 card_flags.loose_points,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 24 Griffon,
             new CardData(7,CardFamily.P,
@@ -255,7 +325,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.big_hand,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 25 Gust,
             new CardData(8,CardFamily.D,
@@ -264,7 +335,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.removal | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.G);
+                }
             ),
             //X 26 Hae_tae,
             new CardData(3,CardFamily.B,
@@ -273,7 +347,8 @@ namespace voe{
                 CardFuncs.haetae_enter_n_exit_func,
                 card_flags.stones3,
                 card_flags.none,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 27 Harpy,
             new CardData(3,CardFamily.P,
@@ -282,7 +357,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.big_hand,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 28 Hestia,
             new CardData(0,CardFamily.R,
@@ -291,7 +367,8 @@ namespace voe{
                 CardFuncs.hestia_exit_func,
                 card_flags.stones1 | card_flags.stones3 | card_flags.stones6,
                 card_flags.none,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 29 Hornedsalamander,
             new CardData(2,CardFamily.R,
@@ -300,7 +377,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.stones1 | card_flags.clocks,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             // 30 Hydra,
             new CardData(4,CardFamily.B,
@@ -309,7 +387,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.stones6 | card_flags.stones3 | card_flags.big_hand | card_flags.etbs,
                 card_flags.none | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 31 Ifrit,
             new CardData(2,CardFamily.R,
@@ -318,7 +397,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs | card_flags.recursion,
                 card_flags.tableau_width ,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return p.table.size() > 3;
+                }
             ),
             //X 32 Imp,
             new CardData(0,CardFamily.R,
@@ -327,7 +409,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.space_free | card_flags.clocks | card_flags.stones1 | card_flags.multicast,
                 card_flags.none,
-                CardEffectTypes.enter | CardEffectTypes.clock
+                CardEffectTypes.enter | CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 33 Incubus,
             new CardData(2,CardFamily.R,
@@ -336,7 +419,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs | card_flags.recursion,
                 card_flags.low_costs | card_flags.tableau_width,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             // 34 Kappa,
             new CardData(1,CardFamily.B,
@@ -345,7 +429,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.none,
                 card_flags.stones3,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 35 Lavagiant,
             new CardData(3,CardFamily.R,
@@ -354,7 +439,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.familyR | card_flags.tableau_width | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 36 Leviathan,
             new CardData(4,CardFamily.B,
@@ -363,7 +449,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.removal | card_flags.etbs,
                 card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.D);
+                }
             ),
             //X 37 Marina,
             new CardData(7,CardFamily.D,
@@ -372,7 +461,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.removal | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.R);
+                }
             ),
             //X 38 Medusa,
             new CardData(4,CardFamily.G,
@@ -381,7 +473,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.stones6 | card_flags.clocks,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                (Player p)=>{
+                    return p.hand.size() > 1;
+                }
             ),
             // 39 Mimic,
             new CardData(6,CardFamily.G,
@@ -390,7 +485,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.big_hand | card_flags.clocks | card_flags.familyG,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 40 Mudslime,
             new CardData(6,CardFamily.G,
@@ -399,7 +495,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.multicast | card_flags.etbs | card_flags.space_free,
                 card_flags.none,
-                CardEffectTypes.enter | CardEffectTypes.clock
+                CardEffectTypes.enter | CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 41 Nessie,
             new CardData(2,CardFamily.B,
@@ -408,7 +505,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                (Player p)=>{
+                    return !p.has_card_with_requiriment(p.table, CardFamily.D, CardEffectTypes.none, (int cost)=>{return true; });
+                }
             ),
             //X 42 Odin,
             new CardData(6,CardFamily.P,
@@ -417,7 +517,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.stones6,
                 card_flags.big_hand,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 43 Pegasus,
             new CardData(3,CardFamily.P,
@@ -426,7 +527,8 @@ namespace voe{
                 CardFuncs.pegasus_exit_func,
                 card_flags.cost_reduction | card_flags.big_hand,
                 card_flags.none,
-                CardEffectTypes.infinite |CardEffectTypes.enter
+                CardEffectTypes.infinite |CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             // 44 Phoenix,
             new CardData(3,CardFamily.R,
@@ -435,7 +537,8 @@ namespace voe{
                 CardFuncs.phoenix_exit_func,
                 card_flags.none,
                 card_flags.multicast | card_flags.stones1,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 45 Poseidon,
             new CardData(7,CardFamily.B,
@@ -444,7 +547,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.familyB | card_flags.tableau_width,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 46 Rockgolem,
             new CardData(6,CardFamily.G,
@@ -453,7 +557,11 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.stones6,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p) =>
+                {
+                    return p.stone_manager.sa.s[(int)stone_type.ST_six] > 2;
+                }
             ),
             //X 47 Rudra,
             new CardData(8,CardFamily.P,
@@ -462,7 +570,10 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.big_hand,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p)=>{
+                    return p.hand.size()>4;
+                }
             ),
             //X 48 Salamander,
             new CardData(1,CardFamily.R,
@@ -471,7 +582,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks | card_flags.stones1,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 49 Sandgiant,
             new CardData(10,CardFamily.G,
@@ -480,7 +592,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.familyG | card_flags.tableau_width,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 50 Scorch,
             new CardData(9,CardFamily.D,
@@ -489,7 +602,11 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.none,
                 card_flags.etbs,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p) =>
+                {
+                    return p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.enter, (int cost)=>{return true; });
+                }
             ),
             //X 51 Seaspirit,
             new CardData(1,CardFamily.B,
@@ -498,7 +615,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.stones3,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             // 52 Snailmaiden,
             new CardData(3,CardFamily.B,
@@ -507,7 +625,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.clocks | card_flags.stones3 | card_flags.stones6,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             // 53 Stonegolem,
             new CardData(6,CardFamily.G,
@@ -516,7 +635,8 @@ namespace voe{
                 CardFuncs.unimplemented_func,
                 card_flags.stones6 | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 54 Succubus,
             new CardData(0,CardFamily.R,
@@ -525,7 +645,9 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.tableau_width | card_flags.low_costs | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
+
             ),
             //X 55 Surtr,
             new CardData(4,CardFamily.R,
@@ -534,7 +656,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.number_of_families | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 56 Sylph,
             new CardData(4,CardFamily.P,
@@ -543,7 +666,8 @@ namespace voe{
                 CardFuncs.sylph_exit_func,
                 card_flags.big_hand,
                 card_flags.multicast,
-                CardEffectTypes.enter | CardEffectTypes.infinite
+                CardEffectTypes.enter | CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 57 Tengu,
             new CardData(3,CardFamily.P,
@@ -552,7 +676,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.space_free,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 58 Tidal,
             new CardData(5,CardFamily.D,
@@ -561,7 +686,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.etbs,
                 card_flags.familyD | card_flags.recursion,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 59 Triton,
             new CardData(4,CardFamily.B,
@@ -570,7 +696,8 @@ namespace voe{
                 CardFuncs.triton_exit_effect,
                 card_flags.stones3,
                 card_flags.familyB,
-                CardEffectTypes.infinite
+                CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 60 Troll,
             new CardData(3,CardFamily.G,
@@ -579,7 +706,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.stones6,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 61 Undine,
             new CardData(1,CardFamily.B,
@@ -588,7 +716,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.stones3 | card_flags.multicast | card_flags.clocks,
                 card_flags.none,
-                CardEffectTypes.enter |CardEffectTypes.clock
+                CardEffectTypes.enter |CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 62 Undinequeen,
             new CardData(3,CardFamily.B,
@@ -597,7 +726,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks | card_flags.stones3,
                 card_flags.none,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 63 Valkyrie,
             new CardData(5,CardFamily.P,
@@ -606,7 +736,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.clocks,
                 card_flags.number_of_families,
-                CardEffectTypes.clock
+                CardEffectTypes.clock,
+                CardFuncs.bool_true_func
             ),
             //X 64 Watergiant,
             new CardData(4,CardFamily.B,
@@ -615,7 +746,8 @@ namespace voe{
                 CardFuncs.water_giant_exit_effect,
                 card_flags.stones3 | card_flags.stones6,
                 card_flags.none,
-                CardEffectTypes.enter |CardEffectTypes.infinite
+                CardEffectTypes.enter |CardEffectTypes.infinite,
+                CardFuncs.bool_true_func
             ),
             //X 65 Willow,
             new CardData(10,CardFamily.D,
@@ -624,7 +756,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.stones3 | card_flags.stones1 | card_flags.stones6 | card_flags.big_hand | card_flags.etbs,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 66 Youngforestspirit,
             new CardData(0,CardFamily.G,
@@ -633,7 +766,11 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.high_costs ,
                 card_flags.none,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                (Player p) =>
+                {
+                    return p.free_slots_on_table()>=2;
+                }
             ),
             //X 67 Yukionna,
             new CardData(0,CardFamily.B,
@@ -642,7 +779,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.none,
                 card_flags.stones3 | card_flags.stones1 | card_flags.stones6,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
             //X 68 Yukionnaexalted
             new CardData(3,CardFamily.B,
@@ -651,7 +789,8 @@ namespace voe{
                 CardFuncs.void_func,
                 card_flags.none,
                 card_flags.stones3,
-                CardEffectTypes.enter
+                CardEffectTypes.enter,
+                CardFuncs.bool_true_func
             ),
         };
     }

@@ -6,6 +6,11 @@ namespace voe{
     public static class CardFuncs
     {
         #region defaults
+        //public static bool cost_func(Player p, CardNameId cni)
+        //{
+        //    return p.can_pay(cni);
+        //}
+        public static bool bool_true_func(Player p) { return true; }
         public static IEnumerator unimplemented_func(Player p)
         {
             throw new UnityException("Unimplemented");
