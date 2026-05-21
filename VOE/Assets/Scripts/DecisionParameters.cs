@@ -90,9 +90,9 @@ namespace voe{
         }
 
         public delegate bool cost_precondition(int cost);
-        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
+        public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio, bool market)
         {
-            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio, market);
             int idx = choose_best(opponents_points);
 
             if (check_conditions(cl.get(idx), cf, cet, cp))
@@ -100,9 +100,9 @@ namespace voe{
             else 
                 return CardNameId.NONE;
         }
-        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
+        public static CardNameId choose_worst_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio, bool market)
         {
-            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio);
+            var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio,market);
             int idx = choose_best(opponents_points);
 
             if (check_conditions(cl.get(idx), cf, cet, cp))
@@ -111,7 +111,7 @@ namespace voe{
                 return CardNameId.NONE;
         }
 
-        public static int[] choose_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio)
+        public static int[] choose_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio, bool market)
         {
             int[] card_points = new int[cl.size()];
             int idx = 0;
@@ -119,27 +119,80 @@ namespace voe{
             {
                 var card = CardData.get_card(cni);
                 if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
-                    card_points[idx++] = ponderate_card(p, cni, player_prio);
+                    card_points[idx++] = ponderate_card(p, cni, player_prio,market);
                 else
                     card_points[idx++] = int.MinValue;
             }
             return card_points;
         }
-        public static int ponderate_card(Player p, CardNameId cni, priorities my_params)
+        public static float multiplier_for_priority = 5.0f;
+        public static int ponderate_card(Player p, CardNameId cni, priorities my_params, bool market)
         {
-            int result = 0;
+            float result = 0;
 
-            int param_using = 0;
-            throw new UnityException("Unimplemented: take corresponding func");
-            //foreach (DecisionParameters.prms prm in my_params)
-            //{
-            //    var values_for_this_params = DecisionParameters.doFunc(prm, p, cni);
-            //    result +=
-            //        DecisionParameters.get_scale_value_min_to_max(scale, param_using) *
-            //        values_for_this_params;
-            //    ++param_using;
-            //}
-            //return result;
+            result += ponder_stones_gain(p, cni, market) * (my_params == priorities.store_stones ? multiplier_for_priority : 1.0f) ;
+            result += ponder_point_gain(p, cni, market) * (my_params == priorities.gain_points ? multiplier_for_priority : 1.0f);
+            result += ponder_hand_card_gain(p, cni, market) *(my_params == priorities.stock_up_hand ? multiplier_for_priority : 1.0f);
+
+            return Mathf.CeilToInt(result);
+        }
+        const int stone_ponderation_sinergy_multiplier = 5;
+        public static int ponder_stones_gain(Player p, CardNameId cni, bool market)
+        {
+            CardData cd = CardData.get_card(cni);
+            int result = 0;
+            int free = p.stone_manager.get_number_of_spaces_to_fill();
+            //ADD MARKET COST * rock synergies
+            if (market)
+            {
+                stone_quant sq = stone_value.get_value_per_family(cd.family);
+                result += ponder_single_stone(p, stone_type.ST_six, sq.s[(int)stone_type.ST_six]);
+
+                result += ponder_single_stone(p, stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
+
+                result += ponder_single_stone(p, stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
+            }
+
+            //ADD stone sinergy
+            result += stone_ponderation_sinergy_multiplier * p.get_simulated_sinergy_rating_with_new_card(card_flags.stones1, cni);
+            result += stone_ponderation_sinergy_multiplier * p.get_simulated_sinergy_rating_with_new_card(card_flags.stones3, cni);
+            result += stone_ponderation_sinergy_multiplier * p.get_simulated_sinergy_rating_with_new_card(card_flags.stones6, cni);
+
+            // ADD Rock generation capabilities
+            Debug.LogWarning("Stone ponderation only takes into account price on table or sinergy on hand. Does not check whether that card produces stones");
+
+            return result;
+        }
+        public static int ponder_single_stone(Player p, stone_type st, int number_of_stones)
+        {
+            int quant =
+                number_of_stones * //number
+                p.stone_manager.sv.s[(int)st] //value
+                ;
+            switch (st)
+            {
+                case stone_type.ST_six:
+                    quant += stone_ponderation_sinergy_multiplier * p.get_sinergy_complete_rating(card_flags.stones6);
+                    break;
+                case stone_type.ST_three:
+                    quant += stone_ponderation_sinergy_multiplier * p.get_sinergy_complete_rating(card_flags.stones3);
+                    break;
+                case stone_type.ST_one:
+                    quant += stone_ponderation_sinergy_multiplier * p.get_sinergy_complete_rating(card_flags.stones1);
+                    break;
+            }
+            return quant;
+        }
+        public static int ponder_point_gain(Player p, CardNameId cni, bool market)
+        {
+            //Synergies
+            throw new UnityException("Unimplemented: ponder point gain function");
+        }
+        public static int ponder_hand_card_gain(Player p, CardNameId cni, bool market)
+        {
+            throw new UnityException("Unimplemented ponder hand card gain");
+            int result = 0;
+            if (market) result += 15;
         }
     }
 }

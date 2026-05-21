@@ -34,9 +34,9 @@ namespace voe{
         public priorities player_prio = priorities.play_favourite;
 
         //COUNT IS SUM, COUNT+1 is best
-        public List<int> enabler_ratings = new List<int>((int)card_flags.COUNT+2);
+        public List<int> enabler_ratings;
         //COUNT IS SUM, COUNT+1 is best
-        public List<int> payoffs_ratings = new List<int>((int)card_flags.COUNT+2);
+        public List<int> payoffs_ratings;
 
         public Player()
         {
@@ -44,6 +44,14 @@ namespace voe{
             table = new CardList();
             chosen_at_market = new CardList();
             stone_manager = new StoneManager();
+
+            enabler_ratings = new List<int>(0);
+            payoffs_ratings = new List<int>(0);
+            for (int i = 0; i < (int)card_flags_idx.BEST + 1; ++i)
+            {
+                enabler_ratings.Add(0);
+                payoffs_ratings.Add(0);
+            }
         }
 
         private int get_cheapest_cost_of_card_in_hand()
@@ -172,27 +180,27 @@ namespace voe{
 
         //Order is priority
         public CardNameId choose_best_card_in_tableau(CardFamily requisite, CardEffectTypes cet, cost_precondition cp, CardNameId effect_by){
-            return DecisionParameters.choose_best_card(this, table, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_best_card(this, table, requisite, cet, cp, player_prio,false);
         }
         public CardNameId choose_worst_card_in_tableau(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_worst_card(this, table, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_worst_card(this, table, requisite, cet, cp, player_prio,false);
         }
         public CardNameId choose_best_card_in_hand(CardFamily requisite, CardEffectTypes cet, cost_precondition cp, CardNameId effect_by)
         {
-            return DecisionParameters.choose_best_card(this, hand, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_best_card(this, hand, requisite, cet, cp, player_prio,false);
         }
         public CardNameId choose_worst_card_in_hand(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_worst_card(this, hand, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_worst_card(this, hand, requisite, cet, cp, player_prio,false);
         }
         public CardNameId choose_best_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_best_card(this, chosen_at_market, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_best_card(this, chosen_at_market, requisite, cet, cp, player_prio,true);
         }
         public CardNameId choose_worst_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
-            return DecisionParameters.choose_worst_card(this, chosen_at_market, requisite, cet, cp, player_prio);
+            return DecisionParameters.choose_worst_card(this, chosen_at_market, requisite, cet, cp, player_prio,true);
         }
 
         public void bounce_card(CardNameId card_name_id){
@@ -214,7 +222,7 @@ namespace voe{
 
         private int get_total_rating(List<int> list)
         {
-            return list[(int)card_flags.COUNT];
+            return list[(int)card_flags_idx.COUNT];
         }
         private void add_to_flags_ratings(CardNameId cni)
         {
@@ -228,17 +236,48 @@ namespace voe{
             add_to_flags_generic_ratings(card.enabler, enabler_ratings, -1);
             add_to_flags_generic_ratings(card.payoff, payoffs_ratings, -1);
         }
+        public int get_simulated_sinergy_rating_with_new_card(card_flags flags, CardNameId cni)
+        {
+            add_to_flags_ratings(cni);
+            int value = get_sinergy_complete_rating(flags);
+            substract_from_flags_ratings(cni);
+            return value;
+        }
+        public int get_sinergy_complete_rating(card_flags flags)
+        {
+            return Mathf.CeilToInt(Mathf.Pow(get_payoff_sinergy_rating(flags), get_enablers_sinergy_rating(flags)));
+        }
+        public int get_enablers_sinergy_rating(card_flags flags)
+        {
+            return get_enablers_sinergy_rating((card_flags_idx)(int)Mathf.Log((float)flags, 2));
+        }
+        public int get_payoff_sinergy_rating(card_flags flags)
+        {
+            return get_payoff_sinergy_rating((card_flags_idx)(int)Mathf.Log((float)flags, 2));
+        }
+        public int get_enablers_sinergy_rating(card_flags_idx flags)
+        {
+            return enabler_ratings[(int)flags];
+        }
+        public int get_payoff_sinergy_rating(card_flags_idx flags)
+        {
+            Debug.Log("Get payoff sinergy flag: " + (int)flags);
+            return payoffs_ratings[(int)flags];
+        }
         private void add_to_flags_generic_ratings(card_flags cf, List<int> list, int mult = 1)
         {
-            for(int i = 0; i < (int)card_flags.COUNT; ++i)
+            int best = int.MinValue;
+            for(int i = 0; i < (int)card_flags_idx.COUNT; ++i)
             {
                 if(((int)cf & (1<<i)) != 0)
                 {
                     int value = (mult * 1);
                     list[i] += value;
-                    list[(int)card_flags.COUNT] += value;
+                    if (list[i] > best) best = value;
+                    list[(int)card_flags_idx.COUNT] += value;
                 }
             }
+            list[(int)card_flags_idx.BEST] = best;
         }
 
         public IEnumerator play_card(CardNameId card_name_id){
