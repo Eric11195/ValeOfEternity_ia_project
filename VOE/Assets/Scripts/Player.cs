@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using System.Linq;
 using voe;
 using static voe.DecisionParameters;
 
@@ -199,8 +200,42 @@ namespace voe{
             yield return null;
         }
 
+        private Dictionary<stone_type,int> create_stone_priority_list()
+        {
+            Dictionary<stone_type, int> myDict = new Dictionary<stone_type, int>();
+            myDict.Add(stone_type.ST_six, DecisionParameters.ponder_single_stone(this, stone_type.ST_six, 1));
+            myDict.Add(stone_type.ST_three, DecisionParameters.ponder_single_stone(this, stone_type.ST_three, 1));
+            myDict.Add(stone_type.ST_one, DecisionParameters.ponder_single_stone(this, stone_type.ST_one, 1));
+
+            var sortedDict = from entry in myDict orderby entry.Value ascending select entry;
+            return myDict;
+        }
+
         public IEnumerator choose_stones_to_add(stone_quant sq){
-            throw new UnityException("Unimplemented");
+            //throw new UnityException("Unimplemented");
+            int free_stones = stone_manager.get_number_of_spaces_to_fill();
+            int total_stones = sq.get_number_of_stones();
+            //ALL STONES ARE EQUAL, WE DO NOT CHOOSE
+            if (total_stones == sq.s[(int)stone_type.ST_six] || total_stones == sq.s[(int)stone_type.ST_one] || total_stones == sq.s[(int)stone_type.ST_three])
+            {
+                int i = 0;
+                while (sq.s[i] == 0) ++i;
+                stone_manager.add_stones((stone_type)i, free_stones);
+            }
+            //STONES ARE DIFFERENT
+            var sorted_dir = create_stone_priority_list();
+            int stone_idx = 0;
+            while ((free_stones = stone_manager.get_number_of_spaces_to_fill()) > 0)
+            {
+                var item = sorted_dir.ElementAt(stone_idx);
+                int stones_to_add = Mathf.Min(sq.s[(int)item.Key], free_stones);
+
+                stone_manager.add_stones(item.Key, stones_to_add);
+
+                ++stone_idx;
+            }
+
+            yield return null;
         }
 
         public IEnumerator gain_stones(stone_quant sq){
@@ -357,6 +392,7 @@ namespace voe{
         }
         public IEnumerator play_card_without_paying(CardNameId card_name_id)
         {
+            Debug.Log("Player "+idx+" playing "+AssetDataBase.get_card_file_name(card_name_id));
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
 
@@ -384,6 +420,7 @@ namespace voe{
         }
 
         public IEnumerator sell_card(CardNameId cni){
+            Debug.Log("Player "+idx+" selling "+ AssetDataBase.get_card_file_name(cni));
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             GameManager._instance.deck.discard(cni);

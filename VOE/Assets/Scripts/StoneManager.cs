@@ -94,7 +94,7 @@ namespace voe{
         }
 
         public void add_stones(stone_type st, int quant_to_add){
-            Debug.Log("stone type is:" +(int)st);
+            //Debug.Log("stone type is:" +(int)st);
             sa.s[(int)st] += quant_to_add;
 
             //Checks
