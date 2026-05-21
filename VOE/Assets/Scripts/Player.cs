@@ -28,9 +28,11 @@ namespace voe{
         public UnityAction<Player, CardFamily> tame_card_event;
         public UnityAction<Player> card_enters_tableau_event;
 
-        public int[] card_reduction_cost_by_family = new int[5] {0,0,0,0,0};
+        public int[] card_reduction_cost_by_family = new int[6] {0,0,0,0,0,0};
 
-        public List<priorities> player_priorities = new List<priorities>((int)priorities.COUNT);
+        public CardNameId favourite;
+        public priorities player_prio = priorities.play_favourite;
+
         //COUNT IS SUM, COUNT+1 is best
         public List<int> enabler_ratings = new List<int>((int)card_flags.COUNT+2);
         //COUNT IS SUM, COUNT+1 is best
@@ -50,35 +52,41 @@ namespace voe{
             return 0;
         }
 
-        public void create_list_of_priorities()
+        public void choose_favourite_card(CardList c)
+        {
+            favourite = choose_best_card(c);
+        }
+        public CardNameId choose_best_card(CardList c)
+        {
+            throw new UnityException("Unimplemented");
+        }
+
+        public void choose_priority()
         {
             GameManager gm = GameManager.get_instance();
-            List<priorities> prio = new List<priorities>(0);
-            if(stone_manager.get_total_value() < get_cheapest_cost_of_card_in_hand())
+            var cd = CardData.get_card(favourite);
+            if(can_pay(cd.price, cd.family))
             {
-                prio.Add(priorities.store_stones);
-                if (gm.is_this_player_not_leading(this))
-                {
-                    prio.Add(priorities.gain_points);
-                }
-                else
-                {
-                    prio.Add(priorities.set_up_engine);
-                }
+                player_prio = priorities.play_favourite;
             }
             else
             {
-                if (gm.is_this_player_not_leading(this))
+                if(stone_manager.get_number_of_spaces_to_fill() > 0)
                 {
-                    prio.Add(priorities.gain_points);
+                    player_prio = priorities.store_stones;
                 }
                 else
                 {
-                    prio.Add(priorities.set_up_engine);
+                    if (gm.get_points_delta_with_winner(this) < 10)
+                    {
+                        player_prio = priorities.stock_up_hand;
+                    }
+                    else
+                    {
+                        player_prio = priorities.gain_points;
+                    }
                 }
-                prio.Add(priorities.store_stones);
             }
-
         }
 
         public IEnumerator choose_card_on_market()
@@ -110,12 +118,14 @@ namespace voe{
             yield return GameManager.get_instance().StartCoroutine(CardData.get_card(cni).clockEffect(this));
         }
 
-        public bool can_pay(int cost){
+        public bool can_pay(int cost, CardFamily cf){
+            cost -= card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
             return cost <= stone_manager.get_total_value();
         }
 
-        public IEnumerator pay_cost(int cost){
-            Assert.IsTrue(can_pay(cost));
+        public IEnumerator pay_cost(int cost, CardFamily cf){
+            Assert.IsTrue(can_pay(cost, cf));
+            cost -= card_reduction_cost_by_family[family_idx.get_card_family_idx(cf)];
 
             stone_quant payed = new stone_quant(0,0,0);
             int substracted_cost = cost;
@@ -225,7 +235,7 @@ namespace voe{
         public IEnumerator play_card(CardNameId card_name_id){
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
-            if(can_pay(card.price)){
+            if(can_pay(card.price, card.family)){
                 hand.extract(card_name_id);
                 table.add(card_name_id);
                 card.enterEffect(this);

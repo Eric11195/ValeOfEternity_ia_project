@@ -6,7 +6,8 @@ namespace voe
     {
         store_stones,
         gain_points,
-        set_up_engine,
+        stock_up_hand,
+        play_favourite,
         COUNT
     }
 }

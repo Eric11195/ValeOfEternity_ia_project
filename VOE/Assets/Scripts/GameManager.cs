@@ -23,6 +23,8 @@ namespace voe{
 
         public List<Player> players;
 
+        Player current_winner;
+
         [SerializeField]
         public CardAreaManager hand_area;
         [SerializeField]
@@ -232,6 +234,24 @@ namespace voe{
                 table.add(cni);
             }
             p.table_need_update = false;
+        }
+
+        public void choose_current_winner()
+        {
+            int best = 0;
+            for (int j = 1; j < players.Count; ++j)
+            {
+                if (players[best].points < players[j].points)
+                {
+                    best = j;
+                }
+            }
+            current_winner = players[best];
+        }
+        public int get_points_delta_with_winner(Player p)
+        {
+            choose_current_winner();
+            return current_winner.points - p.points;
         }
     }
 }

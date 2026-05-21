@@ -421,7 +421,7 @@ namespace voe{
         public static IEnumerator pegasus_enter_func(Player p)
         {
             p.draw();
-            for (int i = 0; i < p.card_reduction_cost_by_family.Length; i++)
+            for (int i = 1; i < p.card_reduction_cost_by_family.Length; i++)
             {
                 p.card_reduction_cost_by_family[i] += 1;
             }
@@ -431,7 +431,7 @@ namespace voe{
         {
             for (int i = 0; i < p.card_reduction_cost_by_family.Length; i++)
             {
-                p.card_reduction_cost_by_family[i] -= 1;
+                p.card_reduction_cost_by_family[family_idx.get_card_family_idx(CardFamily.P)] -= 1;
             }
             yield return null;
         }

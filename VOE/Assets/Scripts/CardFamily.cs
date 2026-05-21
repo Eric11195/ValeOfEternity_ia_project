@@ -10,7 +10,29 @@ namespace voe{
         P=1<<3,
         D=1<<4,
     }
-
+    public static class family_idx
+    {
+        public static int get_card_family_idx(CardFamily cf)
+        {
+            switch (cf)
+            {
+                case CardFamily.None:
+                    return 0;
+                case CardFamily.R:
+                    return 1;
+                case CardFamily.G:
+                    return 2;
+                case CardFamily.B:
+                    return 3;
+                case CardFamily.P:
+                    return 4;
+                case CardFamily.D:
+                    return 5;
+                default:
+                    throw new UnityException("Non valid card family");
+            }
+        }
+    }
     public static class stone_value{
         public static stone_quant get_value_per_family(CardFamily cf){
             switch (cf)
