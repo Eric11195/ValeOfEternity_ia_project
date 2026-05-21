@@ -30,7 +30,7 @@ namespace voe{
 
         public int[] card_reduction_cost_by_family = new int[6] {0,0,0,0,0,0};
 
-        public CardNameId favourite;
+        public CardNameId favourite = CardNameId.NONE;
         public priorities player_prio = priorities.play_favourite;
 
         //COUNT IS SUM, COUNT+1 is best
@@ -68,31 +68,46 @@ namespace voe{
         {
             throw new UnityException("Unimplemented");
         }
+        private bool cannot_play_cards()
+        {
+            if (GameManager.get_instance().get_round() <= table.size() || hand.empty()) return true;
 
+            foreach (var card in hand.card_list)
+            {
+                var cd = CardData.get_card(card);
+                if (can_pay(cd.price, cd.family)) return false;
+            }
+            return true;
+        }
+        private bool turn_can_go_on()
+        {
+            return !cannot_play_cards() || !chosen_at_market.empty();
+        }
         public void choose_priority()
         {
             GameManager gm = GameManager.get_instance();
-            var cd = CardData.get_card(favourite);
-            if(can_pay(cd.price, cd.family))
+            //var cd = CardData.get_card(favourite);
+            CardData cd;
+            if(favourite!=CardNameId.NONE && can_pay((cd = CardData.get_card(favourite)).price, cd.family))
             {
                 player_prio = priorities.play_favourite;
             }
             else
             {
-                if(stone_manager.get_number_of_spaces_to_fill() > 0)
+                if(cannot_play_cards())
                 {
-                    player_prio = priorities.store_stones;
+                    if(stone_manager.get_number_of_spaces_to_fill() > 0)
+                    {
+                        player_prio = priorities.store_stones;
+                    }
+                    else 
+                    { 
+                        player_prio = priorities.take_playable_card;
+                    }
                 }
                 else
                 {
-                    if (gm.get_points_delta_with_winner(this) < 10)
-                    {
-                        player_prio = priorities.stock_up_hand;
-                    }
-                    else
-                    {
-                        player_prio = priorities.gain_points;
-                    }
+                    player_prio = priorities.gain_points;
                 }
             }
         }
@@ -105,17 +120,49 @@ namespace voe{
         }
         public IEnumerator play_turn()
         {
-            //FOR the moment this will sell one card and play the other one, regardless of if it can be played
-            CardNameId to_sell = chosen_at_market.peek();
-            choose_best_card_in_personal_market_pool(CardFamily.None,CardEffectTypes.none, (int n)=>{ return true; });
-            yield return GameManager._instance.StartCoroutine(sell_card(to_sell));
-            
-            CardNameId to_play = chosen_at_market.peek();
-            add_to_hand(to_play);
-            yield return GameManager._instance.StartCoroutine(play_card(to_play));
-
+            var gm = GameManager.get_instance();
+            while (turn_can_go_on())
+            {
+                choose_priority();
+                switch (player_prio)
+                {
+                    case priorities.gain_points:
+                        yield return gm.StartCoroutine(gain_points_turn_action());
+                        break;
+                    case priorities.take_playable_card:
+                        yield return gm.StartCoroutine(stock_up_hand_turn_action());
+                        break;
+                    case priorities.play_favourite:
+                        yield return gm.StartCoroutine(play_favourite_turn_action());
+                        break;
+                    case priorities.store_stones:
+                        yield return gm.StartCoroutine(store_stones_turn_action());
+                        break;
+                    default:
+                        throw new UnityException("Not valid priority value");
+                }
+            }
             yield return null;
         }
+        public IEnumerator gain_points_turn_action()
+        {
+            throw new UnityException("Unimplemented");
+        }
+        public IEnumerator stock_up_hand_turn_action()
+        {
+            throw new UnityException("Unimplemented");
+        }
+        public IEnumerator play_favourite_turn_action()
+        {
+            throw new UnityException("Unimplemented");
+        }
+        public IEnumerator store_stones_turn_action()
+        {
+            //throw new UnityException("Unimplemented");
+            var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return true; });
+            yield return GameManager.get_instance().StartCoroutine(sell_card(cni));
+        }
+
         public IEnumerator activate_clocks()
         {
             yield return null;
@@ -259,7 +306,10 @@ namespace voe{
         }
         public int get_sinergy_complete_rating(card_flags flags)
         {
-            return Mathf.CeilToInt(Mathf.Pow(get_payoff_sinergy_rating(flags), get_enablers_sinergy_rating(flags)));
+            int payoffs_value = get_payoff_sinergy_rating(flags);
+            int enabler_value = get_enablers_sinergy_rating(flags);
+            if (payoffs_value == 0 || enabler_value == 0) return 0;
+            return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
         }
         public int get_sinergy_complete_rating(card_flags_idx flags)
         {

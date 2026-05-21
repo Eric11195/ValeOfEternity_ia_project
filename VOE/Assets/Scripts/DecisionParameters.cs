@@ -132,7 +132,7 @@ namespace voe{
 
             result += ponder_stones_gain(p, cni, market) * (my_params == priorities.store_stones ? multiplier_for_priority : 1.0f) ;
             result += ponder_point_gain(p, cni, market) * (my_params == priorities.gain_points ? multiplier_for_priority : 1.0f);
-            result += ponder_hand_card_gain(p, cni, market) *(my_params == priorities.stock_up_hand ? multiplier_for_priority : 1.0f);
+            result += ponder_hand_card_gain(p, cni, market) *(my_params == priorities.take_playable_card ? multiplier_for_priority : 1.0f);
 
             return Mathf.CeilToInt(result);
         }

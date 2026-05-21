@@ -14,7 +14,7 @@ namespace voe
         {
             var card = CardData.get_card(cni);
 
-            return (card.effect_type & cet) != 0;
+            return cet == CardEffectTypes.none || (card.effect_type & cet) != 0;
         }
     }
 
