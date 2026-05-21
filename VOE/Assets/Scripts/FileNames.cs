@@ -79,7 +79,7 @@ namespace voe{
         }
 
         static string[] rock_assets = new string[]{
-            "Symb_1stone","Symb_3stone","Symb_6stone"
+            "Symb_6stone","Symb_3stone","Symb_1stone"
         };
         public static string get_stone_file_name(stone_type st)
         {

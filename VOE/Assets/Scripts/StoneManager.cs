@@ -5,7 +5,7 @@ namespace voe{
 
     public class stone_quant{
         //stones
-        public int[] s = new int[3];
+        public int[] s = new int[(int)stone_type.ST_NONE];
         public stone_quant(int _one, int _three, int _six){
             s[(int)stone_type.ST_one] =_one;
             s[(int)stone_type.ST_three] = _three;
@@ -19,9 +19,10 @@ namespace voe{
     }
 
     public enum stone_type{
-        ST_one=0,
-        ST_three=1,
-        ST_six=2
+        ST_six = 0,
+        ST_three = 1,
+        ST_one = 2,
+        ST_NONE = 3
     }
 
     public class StoneManager
@@ -83,7 +84,7 @@ namespace voe{
 
         public stone_type get_highest_cost_stone(){
             stone_type type = stone_type.ST_six;
-            while(sa.s[(int)type] == 0) --type;
+            while(((int)type < (int)stone_type.ST_NONE) && sa.s[(int)type] == 0) ++type;
             return type;
         }
         public stone_type extract_highest_cost_stone(){
@@ -93,6 +94,7 @@ namespace voe{
         }
 
         public void add_stones(stone_type st, int quant_to_add){
+            Debug.Log("stone type is:" +(int)st);
             sa.s[(int)st] += quant_to_add;
 
             //Checks

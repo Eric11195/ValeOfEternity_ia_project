@@ -3,10 +3,10 @@ namespace voe
 {
     public enum CardEffectTypes
     {
-        enter,
-        clock,
-        exit,
-        none
+        enter = 1 << 0,
+        clock = 1 << 1,
+        infinite = 1 << 2,
+        none = 0
     }
     public static class CardEffectTypeUtils
     {
@@ -14,19 +14,7 @@ namespace voe
         {
             var card = CardData.get_card(cni);
 
-            if((cet & CardEffectTypes.enter) != 0)
-            {
-                if (card.enterEffect == CardFuncs.void_func) return false;
-            }
-            if ((cet & CardEffectTypes.clock) != 0)
-            {
-                if (card.clockEffect == CardFuncs.void_func) return false;
-            }
-            if ((cet & CardEffectTypes.exit) != 0)
-            {
-                if (card.exitEffect == CardFuncs.void_func) return false;
-            }
-            return true;
+            return (card.effect_type & cet) != 0;
         }
     }
 

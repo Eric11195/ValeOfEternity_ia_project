@@ -154,7 +154,7 @@ namespace voe{
             }else{
                 choose_stones_to_add(sq);
             }
-            Debug.Log("gain_stones right before updating stone representation");
+            //Debug.Log("gain_stones right before updating stone representation");
             GameManager._instance.update_all_stones_representation();
             yield return null;
         }
@@ -233,23 +233,28 @@ namespace voe{
         }
 
         public IEnumerator play_card(CardNameId card_name_id){
+            CardData card = CardData.get_card(card_name_id);
+            Assert.IsTrue(can_pay(card.price, card.family));
+            var gm = GameManager.get_instance();
+            yield return gm.StartCoroutine(pay_cost(card.price, card.family));
+            yield return gm.StartCoroutine(play_card_without_paying(card_name_id));
+        }
+        public IEnumerator play_card_without_paying(CardNameId card_name_id)
+        {
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
-            if(can_pay(card.price, card.family)){
-                hand.extract(card_name_id);
-                table.add(card_name_id);
-                card.enterEffect(this);
-            }else{
-                throw new UnityException("Tried playing card whose cost could not be paid");
-            }
+
+            hand.extract(card_name_id);
+            table.add(card_name_id);
+            var gm = GameManager.get_instance();
+            yield return gm.StartCoroutine(card.enterEffect(this));
 
             card_enters_tableau_event?.Invoke(this);
 
             add_to_flags_ratings(card_name_id);
 
-            hand_representation_needs_update= true;
+            hand_representation_needs_update = true;
             table_need_update = true;
-            yield return null;
         }
         public void add_to_hand(CardNameId cni){
             Assert.IsTrue(chosen_at_market.contains(cni));
