@@ -39,6 +39,7 @@ namespace voe{
         List<CardAreaManager> player_boards;
 
         TextMeshProUGUI turn_text_obj;
+        Transform turn_marker;
 
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
@@ -85,6 +86,7 @@ namespace voe{
             }
             current_turn_player = 0;
             turn_text_obj = GameObject.Find("CurrentTurnText").GetComponent<TextMeshProUGUI>();
+            turn_marker = GameObject.Find("FirstPlayerToken").transform;
         }
 
         public void Start()
@@ -268,9 +270,12 @@ namespace voe{
             choose_current_winner();
             return current_winner.my_points - p.my_points;
         }
+
+        private static Vector3 turn_marker_eye_offset = new Vector3(80,50,0);
         private void set_current_turn_text()
         {
             turn_text_obj.text = current_round.ToString();
+            turn_marker.position = player_eyes[current_turn_player].transform.position + turn_marker_eye_offset;
         }
     }
 }
