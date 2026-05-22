@@ -45,6 +45,8 @@ namespace voe{
 
         private int current_round = 0;
 
+        private int current_turn_player;
+
         public static GameManager get_instance()
         {
             Assert.IsTrue(_instance != null, "You are calling this function before Init was called");
@@ -81,7 +83,7 @@ namespace voe{
             {
                 p.idx = i++;
             }
-
+            current_turn_player = 0;
             turn_text_obj = GameObject.Find("CurrentTurnText").GetComponent<TextMeshProUGUI>();
         }
 
@@ -103,8 +105,16 @@ namespace voe{
                 yield return StartCoroutine(MarketRound.market_round());
                 yield return StartCoroutine(PlayCardsRound.play_cards_round());
                 yield return StartCoroutine(ClockRound.clock_round());
+                current_turn_player = (current_turn_player+1)%players.Count;
             }
             yield return null;
+        }
+
+        public int get_turn_player_idx() { return current_turn_player; }
+        public Player get_player_with_idx_i_from_turn_player(int i)
+        {
+            int idx = (get_turn_player_idx() + i) % players.Count;
+            return players[idx];
         }
 
         public int get_round() { return current_round; }

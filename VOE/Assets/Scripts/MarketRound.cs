@@ -23,8 +23,7 @@ namespace voe
             CardList temporal_market = GameManager.get_instance().market.clone();
             for (int i = 0; i < gm.players.Count; ++i)
             {
-                // Debug.Log("Market: Choose card started");
-                Player p = gm.players[i];
+                Player p = gm.get_player_with_idx_i_from_turn_player(i);
                 p.current_card_pool_option = temporal_market;
 
                 CoroutineWithData<CardNameId> cd = new CoroutineWithData<CardNameId>(gm, p.choose_card_on_market());
@@ -38,12 +37,10 @@ namespace voe
                 physical_card_list.RemoveAt(index);
 
                 p.add_chosen_at_market(cni);
-                // Debug.Log("Market: Choose card End");
             }
             for (int i = gm.players.Count - 1; i >= 0; --i)
             {
-                //Debug.Log("Market: Choose card started");
-                Player p = gm.players[i];
+                Player p = gm.get_player_with_idx_i_from_turn_player(i);
                 p.current_card_pool_option = temporal_market;
 
                 CoroutineWithData<CardNameId> cd = new CoroutineWithData<CardNameId>(gm, p.choose_card_on_market());

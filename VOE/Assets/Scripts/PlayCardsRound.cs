@@ -10,11 +10,11 @@ namespace voe
         {
             Logger.LogH2("Started Play Phase");
             GameManager gm = GameManager.get_instance();
-            foreach (Player p in gm.players)
+
+            for (int i = 0; i < gm.players.Count; i++)
             {
-                yield return p.play_turn();
+                yield return gm.StartCoroutine(gm.get_player_with_idx_i_from_turn_player(i).play_turn());
             }
-            yield return null;
         }
     
         public static IEnumerator sell_card(Player p, CardNameId card){
