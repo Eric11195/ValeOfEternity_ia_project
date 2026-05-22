@@ -142,10 +142,14 @@ namespace voe{
         {
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
-            yield return current_card_pool_option.get(0);
+            CardNameId cni = current_card_pool_option.get(0);
+            yield return cni;
+
+            Logger.Log("Player "+idx+" chooses "+ AssetDataBase.get_card_file_name(cni));
         }
         public IEnumerator play_turn()
         {
+            Logger.LogH3("Player "+idx+" turn:");
             var gm = GameManager.get_instance();
             while (turn_can_go_on())
             {
@@ -210,7 +214,7 @@ namespace voe{
         }
         public IEnumerator activate_single_clock(CardNameId cni)
         {
-            Debug.Log("Player " + idx + " activates " + AssetDataBase.get_card_file_name(cni) + " clock.");
+            Logger.LogBold("Player " + idx + " activates " + AssetDataBase.get_card_file_name(cni) + " clock.");
 
             Assert.IsTrue(table.contains(cni));
             Assert.IsTrue(CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock));
@@ -240,7 +244,7 @@ namespace voe{
                 payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
             }
-            Debug.Log("Player "+idx+" payed " + stone_manager.get_value(payed)+" to cover "+cost);
+            Logger.Log("Player "+idx+" payed " + stone_manager.get_value(payed)+" to cover "+cost);
             Assert.IsTrue(
                 stone_manager.check_valid_payment(payed, cost)
             );
@@ -289,6 +293,14 @@ namespace voe{
         }
 
         public IEnumerator gain_stones(stone_quant sq){
+            int i = 0;
+            foreach(int val in sq.s)
+            {
+                if (val != 0) {
+                    Logger.Log("Player " + idx + " gains " + val + " stones with value " + stone_manager.sv.s[i]);
+                }
+                ++i;
+            }
             if(stone_manager.get_number_of_spaces_to_fill() >= sq.get_number_of_stones()){
                 stone_manager.add_stones(sq);
             }else{
@@ -343,6 +355,7 @@ namespace voe{
 
         public void gain_points(int points){
             Assert.IsTrue(points >= 0);
+            Logger.Log("Player "+idx+" gains "+points+" points");
             my_points += points;
             //GameManager.get_instance().update_player_points_representation();
         }
@@ -443,7 +456,7 @@ namespace voe{
         }
         public IEnumerator play_card_without_paying(CardNameId card_name_id)
         {
-            Debug.Log("Player "+idx+" playing "+AssetDataBase.get_card_file_name(card_name_id));
+            Logger.LogBold("Player "+idx+" playing "+AssetDataBase.get_card_file_name(card_name_id));
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
 
@@ -460,7 +473,7 @@ namespace voe{
         }
         public void add_to_hand(CardNameId cni){
 
-            Debug.Log("Player " + idx + " puts into his hand " + AssetDataBase.get_card_file_name(cni));
+            Logger.Log("Player " + idx + " puts into his hand " + AssetDataBase.get_card_file_name(cni));
 
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
@@ -475,7 +488,7 @@ namespace voe{
         }
 
         public IEnumerator sell_card(CardNameId cni){
-            Debug.Log("Player "+idx+" selling "+ AssetDataBase.get_card_file_name(cni));
+            Logger.LogBold("Player "+idx+" selling "+ AssetDataBase.get_card_file_name(cni));
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             GameManager._instance.deck.discard(cni);
@@ -506,7 +519,9 @@ namespace voe{
 
         public void draw()
         {
-            hand.add(GameManager._instance.deck.draw());
+            var cni = GameManager._instance.deck.draw();
+            hand.add(cni);
+            Logger.Log("Player "+idx+" draws "+AssetDataBase.get_card_file_name(cni));
             hand_representation_needs_update = true;
             choose_favourite_card();
         }

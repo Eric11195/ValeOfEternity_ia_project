@@ -94,7 +94,7 @@ namespace voe{
             while (current_round <= 10 && !any_player_past_threshold())
             {
                 ++current_round;
-                Debug.Log("Round "+ current_round + '\n');
+                Logger.LogH1("Round "+ current_round + '\n');
                 yield return StartCoroutine(MarketRound.market_round());
                 yield return StartCoroutine(PlayCardsRound.play_cards_round());
                 yield return StartCoroutine(ClockRound.clock_round());

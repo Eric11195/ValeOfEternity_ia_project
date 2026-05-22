@@ -663,3 +663,5 @@ Por día de uso
 - [https://www.emergentmind.com/topics/monte-carlo-rollouts](https://www.emergentmind.com/topics/monte-carlo-rollouts)
 - [https://www.emergentmind.com/topics/monte-carlo-tree-search](https://www.emergentmind.com/topics/monte-carlo-tree-search)
 - [https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave](https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave)
+- [https://www.youtube.com/watch?v=TR_XbJBwjvw](https://www.youtube.com/watch?v=TR_XbJBwjvw)
+- [https://www.youtube.com/watch?v=gayEHaol4Lc](https://www.youtube.com/watch?v=gayEHaol4Lc)
