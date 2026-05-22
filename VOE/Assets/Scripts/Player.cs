@@ -169,10 +169,14 @@ namespace voe{
                 }
             }
             yield return null;
+            Assert.IsTrue(this.chosen_at_market.size()==0);
         }
         public IEnumerator gain_points_turn_action()
         {
-            throw new UnityException("Unimplemented");
+            //throw new UnityException("Unimplemented");
+            var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return true; });
+            add_to_hand(cni);
+            yield return null;
         }
         public IEnumerator take_playable_card_turn_action()
         {

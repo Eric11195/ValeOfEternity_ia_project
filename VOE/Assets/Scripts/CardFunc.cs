@@ -284,13 +284,13 @@ namespace voe{
         public static IEnumerator hestia_enter_func(Player p)
         {
             p.stone_manager.max_stones += 2;
-            Assert.IsTrue(p.stone_manager.get_number_of_stones()==6);
+            Assert.IsTrue(p.stone_manager.get_max_num_of_stones()==6);
             yield return null;
         }
         public static IEnumerator hestia_exit_func(Player p)
         {
             p.stone_manager.max_stones -= 2;
-            Assert.IsTrue(p.stone_manager.get_number_of_stones() == 4);
+            Assert.IsTrue(p.stone_manager.get_max_num_of_stones() == 4);
             yield return null;
         }
         #endregion

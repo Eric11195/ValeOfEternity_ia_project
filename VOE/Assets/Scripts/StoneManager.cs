@@ -52,6 +52,10 @@ namespace voe{
         public int get_total_value(){
             return get_value(sa);
         }
+        public int get_max_num_of_stones()
+        {
+            return max_stones;
+        }
         public int get_number_of_stones(){
             return sa.get_number_of_stones();
         }
