@@ -6,6 +6,51 @@ namespace voe{
     public delegate IEnumerator CardFunc(Player p);
     public delegate bool can_be_played_func(Player p);
 
+    public class PlayerResources
+    {
+        public int points;
+        public int cards_in_hand;
+        public stone_quant sq;
+        public PlayerResources(int _points, int _cards_in_hand, stone_quant _sq)
+        {
+            points = _points;
+            cards_in_hand = _cards_in_hand;
+            sq = _sq;
+        }
+        public PlayerResources( stone_quant _sq)
+        {
+            points = 0;
+            cards_in_hand = 0;
+            sq = _sq;
+        }
+        public PlayerResources(int _points, int _cards_in_hand)
+        {
+            points = _points;
+            cards_in_hand = _cards_in_hand;
+            sq = new stone_quant(0,0,0);
+        }
+        public PlayerResources()
+        {
+            points = 0;
+            cards_in_hand = 0;
+            sq = new stone_quant(0, 0, 0);
+        }
+    }
+    public class CardInputOutput
+    {
+        public PlayerResources input;
+        public PlayerResources output;
+        public CardInputOutput()
+        {
+            input = new PlayerResources();
+            output = new PlayerResources();
+        }
+        public CardInputOutput(PlayerResources input, PlayerResources output)
+        {
+            this.input = input;
+            this.output = output;
+        }
+    }
     public class CardData
     {   
         public int price;
@@ -17,7 +62,8 @@ namespace voe{
         public card_flags payoff;
         public CardEffectTypes effect_type;
         public can_be_played_func can_be_played;
-        public CardData(int _price, CardFamily cf, CardFunc _enter, CardFunc _clock, CardFunc _exit, card_flags _enabler, card_flags _payoff, CardEffectTypes _ce, can_be_played_func _can_be_played){
+        public CardInputOutput clock_expect;
+        public CardData(int _price, CardFamily cf, CardFunc _enter, CardFunc _clock, CardFunc _exit, card_flags _enabler, card_flags _payoff, CardEffectTypes _ce, can_be_played_func _can_be_played, CardInputOutput _clock_expect){
             price = _price; family = cf;
             enterEffect = _enter;
             clockEffect = _clock;
@@ -26,6 +72,19 @@ namespace voe{
             payoff = _payoff;
             effect_type = _ce;
             can_be_played = _can_be_played;
+            clock_expect = _clock_expect;
+        }
+        public CardData(int _price, CardFamily cf, CardFunc _enter, CardFunc _clock, CardFunc _exit, card_flags _enabler, card_flags _payoff, CardEffectTypes _ce, can_be_played_func _can_be_played)
+        {
+            price = _price; family = cf;
+            enterEffect = _enter;
+            clockEffect = _clock;
+            exitEffect = _exit;
+            enabler = _enabler;
+            payoff = _payoff;
+            effect_type = _ce;
+            can_be_played = _can_be_played;
+            clock_expect = new CardInputOutput();
         }
 
         public static CardData get_card(CardNameId cid){
@@ -78,7 +137,11 @@ namespace voe{
                             CardEffectTypes.enter,
                             (int cost)=>{return cost<=2; }
                         );
-                }
+                },
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 3 Balog,
             new CardData(4,CardFamily.R,
@@ -96,7 +159,11 @@ namespace voe{
                             CardEffectTypes.enter,
                             (int cost)=>{return true; }
                         );
-                }
+                },
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(0,1)
+                    )
             ),
             // 4 Basilisk,
             new CardData(3,CardFamily.G,
@@ -106,7 +173,11 @@ namespace voe{
                 card_flags.clocks | card_flags.stones1 | card_flags.stones3 | card_flags.stones6 | card_flags.loose_points,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,2),
+                    new PlayerResources(new stone_quant(1,1,1))
+                    )
             ),
             //X 5 Behemoth,
             new CardData(9,CardFamily.G,
@@ -148,7 +219,12 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.stones1,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(new stone_quant(1,0,0)),
+                    new PlayerResources(3,0)
+                    )
+
             ),
             // 9 Cerberus,
             new CardData(5,CardFamily.G,
@@ -170,7 +246,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.stones3,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(new stone_quant(0,1,0)),
+                    new PlayerResources(5,0)
+                    )
             ),
             //X 11 Dandelionspirit,
             new CardData(3,CardFamily.P,
@@ -180,7 +260,11 @@ namespace voe{
                 card_flags.clocks | card_flags.space_free | card_flags.multicast | card_flags.big_hand,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 12 Dragonegg,
             new CardData(3,CardFamily.D,
@@ -252,7 +336,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.clocks,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(0,3)
+                    )
             ),
             //X 18 Gargoyle,
             new CardData(2,CardFamily.G,
@@ -306,7 +394,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(1,0)
+                    )
             ),
             // 23 Goblinsoldier,
             new CardData(4,CardFamily.G,
@@ -316,7 +408,11 @@ namespace voe{
                 card_flags.loose_points | card_flags.clocks,
                 card_flags.loose_points,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(4,0),
+                    new PlayerResources(4,0)
+                    )
             ),
             //X 24 Griffon,
             new CardData(7,CardFamily.P,
@@ -326,7 +422,11 @@ namespace voe{
                 card_flags.big_hand,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 25 Gust,
             new CardData(8,CardFamily.D,
@@ -358,7 +458,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.big_hand,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(3,0)
+                    )
             ),
             //X 28 Hestia,
             new CardData(0,CardFamily.R,
@@ -378,7 +482,11 @@ namespace voe{
                 card_flags.stones1 | card_flags.clocks,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(new stone_quant(4,0,0))
+                    )
             ),
             // 30 Hydra,
             new CardData(4,CardFamily.B,
@@ -410,7 +518,11 @@ namespace voe{
                 card_flags.space_free | card_flags.clocks | card_flags.stones1 | card_flags.multicast,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 33 Incubus,
             new CardData(2,CardFamily.R,
@@ -476,7 +588,11 @@ namespace voe{
                 CardEffectTypes.clock,
                 (Player p)=>{
                     return p.hand.size() > 1;
-                }
+                },
+                new CardInputOutput(
+                    new PlayerResources(0,1),
+                    new PlayerResources(new stone_quant(0,0,1))
+                    )
             ),
             // 39 Mimic,
             new CardData(6,CardFamily.G,
@@ -486,7 +602,11 @@ namespace voe{
                 card_flags.big_hand | card_flags.clocks | card_flags.familyG,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 40 Mudslime,
             new CardData(6,CardFamily.G,
@@ -496,7 +616,11 @@ namespace voe{
                 card_flags.multicast | card_flags.etbs | card_flags.space_free,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 41 Nessie,
             new CardData(2,CardFamily.B,
@@ -508,7 +632,11 @@ namespace voe{
                 CardEffectTypes.clock,
                 (Player p)=>{
                     return !p.has_card_with_requiriment(p.table, CardFamily.D, CardEffectTypes.none, (int cost)=>{return true; });
-                }
+                },
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(2,0)
+                    )
             ),
             //X 42 Odin,
             new CardData(6,CardFamily.P,
@@ -518,7 +646,11 @@ namespace voe{
                 card_flags.stones6,
                 card_flags.big_hand,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(2,0,new stone_quant(0,0,1))
+                    )
             ),
             //X 43 Pegasus,
             new CardData(3,CardFamily.P,
@@ -583,7 +715,11 @@ namespace voe{
                 card_flags.clocks | card_flags.stones1,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(0,0),
+                    new PlayerResources(1,0, new stone_quant(1,0,0))
+                    )
             ),
             //X 49 Sandgiant,
             new CardData(10,CardFamily.G,
@@ -616,7 +752,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.stones3,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(new stone_quant(0,1,0)),
+                    new PlayerResources(6,0)
+                    )
             ),
             // 52 Snailmaiden,
             new CardData(3,CardFamily.B,
@@ -626,7 +766,11 @@ namespace voe{
                 card_flags.clocks | card_flags.stones3 | card_flags.stones6,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(new stone_quant(0,1,1)),
+                    new PlayerResources(new stone_quant(0,3,1))
+                    )
             ),
             // 53 Stonegolem,
             new CardData(6,CardFamily.G,
@@ -687,7 +831,11 @@ namespace voe{
                 card_flags.etbs,
                 card_flags.familyD | card_flags.recursion,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(new stone_quant(0,0,1)),
+                    new PlayerResources(6,0)
+                    )
             ),
             //X 59 Triton,
             new CardData(4,CardFamily.B,
@@ -717,7 +865,11 @@ namespace voe{
                 card_flags.stones3 | card_flags.multicast | card_flags.clocks,
                 card_flags.none,
                 CardEffectTypes.enter |CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(0,1)
+                    )
             ),
             //X 62 Undinequeen,
             new CardData(3,CardFamily.B,
@@ -727,7 +879,11 @@ namespace voe{
                 card_flags.clocks | card_flags.stones3,
                 card_flags.none,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(new stone_quant(0,1,0))
+                    )
             ),
             //X 63 Valkyrie,
             new CardData(5,CardFamily.P,
@@ -737,7 +893,11 @@ namespace voe{
                 card_flags.clocks,
                 card_flags.number_of_families,
                 CardEffectTypes.clock,
-                CardFuncs.bool_true_func
+                CardFuncs.bool_true_func,
+                new CardInputOutput(
+                    new PlayerResources(),
+                    new PlayerResources(3,0)
+                    )
             ),
             //X 64 Watergiant,
             new CardData(4,CardFamily.B,

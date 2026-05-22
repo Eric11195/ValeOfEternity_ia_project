@@ -10,11 +10,15 @@ namespace voe{
     {
         public List<CardNameId> card_list;
 
+        public CardList get_deep_copy()
+        {
+            return new CardList(this.card_list);
+        }
         public CardList()
         {
             card_list = new List<CardNameId>(0);
         }
-        public CardList(ref List<CardNameId> list)
+        public CardList(List<CardNameId> list)
         {
             card_list = new List<CardNameId>(list);
         }
@@ -63,7 +67,7 @@ namespace voe{
 
         public CardList clone()
         {
-            return new CardList(ref card_list);
+            return new CardList(card_list);
         }
         public int count_families()
         {

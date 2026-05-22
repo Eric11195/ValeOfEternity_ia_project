@@ -196,12 +196,20 @@ namespace voe{
 
         public IEnumerator activate_clocks()
         {
-            yield return null;
-            throw new UnityException("Unimplemented");
+            var gm = GameManager.get_instance();
+            //throw new UnityException("Unimplemented");
+            var cal = MonteCarloClockSimulator.get_clock_order(this);
+            foreach(CardNameId cni in cal.aol)
+            {
+                yield return gm.StartCoroutine(activate_single_clock(cni));
+            }
         }
         public IEnumerator activate_single_clock(CardNameId cni)
         {
+            Debug.Log("Player " + idx + " activates " + AssetDataBase.get_card_file_name(cni) + " clock.");
+
             Assert.IsTrue(table.contains(cni));
+            Assert.IsTrue(CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock));
             yield return GameManager.get_instance().StartCoroutine(CardData.get_card(cni).clockEffect(this));
         }
 

@@ -27,6 +27,21 @@ namespace voe{
 
     public class StoneManager
     {
+        public StoneManager get_deep_copy()
+        {
+            return new StoneManager(this.sa,this.sv);
+        }
+
+        public StoneManager()
+        {
+            sa = new stone_quant(0, 0, 0);
+            sv = new stone_quant(1, 3, 6);
+        }
+        public StoneManager(stone_quant _sa, stone_quant _sv)
+        {
+            this.sa = _sa;
+            this.sv = _sv;
+        }
 
         public int max_stones = 4;
         //stone amounts
@@ -68,6 +83,14 @@ namespace voe{
             Assert.IsTrue(n > 0);
             Assert.IsTrue(get_number_of_stones(st) <= n);
             sa.s[(int)st] -= n;
+        }
+        public void discard_stones(stone_quant sq)
+        {
+            int idx = 0;
+            foreach(int i in sq.s)
+            {
+                sa.s[idx] -= sq.s[i];
+            }
         }
 
         public bool check_valid_payment(stone_quant q, int cost){
@@ -125,6 +148,13 @@ namespace voe{
         public void clear_stones()
         {
             sa = new stone_quant(0,0,0);
+        }
+
+        public bool has(stone_quant sq)
+        {
+            return sq.s[(int)stone_type.ST_one] <= sa.s[(int)stone_type.ST_one] &&
+                sq.s[(int)stone_type.ST_three] <= sa.s[(int)stone_type.ST_three] &&
+                sq.s[(int)stone_type.ST_six] <= sa.s[(int)stone_type.ST_six];
         }
     }
 }

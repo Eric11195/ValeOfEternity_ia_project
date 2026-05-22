@@ -657,3 +657,9 @@ Por día de uso
 - [https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary](https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary)
 - [https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3](https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3)
 - [https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html](https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html)
+
+## 22/05/2026
+
+- [https://www.emergentmind.com/topics/monte-carlo-rollouts](https://www.emergentmind.com/topics/monte-carlo-rollouts)
+- [https://www.emergentmind.com/topics/monte-carlo-tree-search](https://www.emergentmind.com/topics/monte-carlo-tree-search)
+- [https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave](https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave)
