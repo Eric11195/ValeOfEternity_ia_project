@@ -146,11 +146,7 @@ namespace voe{
             if (market)
             {
                 stone_quant sq = stone_value.get_value_per_family(cd.family);
-                result += ponder_single_stone(p, stone_type.ST_six, sq.s[(int)stone_type.ST_six]);
-
-                result += ponder_single_stone(p, stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
-
-                result += ponder_single_stone(p, stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
+                result += ponder_stones_gain(p, sq);
             }
 
             //ADD stone sinergy
@@ -160,6 +156,18 @@ namespace voe{
 
             // ADD Rock generation capabilities
             Debug.LogWarning("Stone ponderation only takes into account price on table or sinergy on hand. Does not check whether that card produces stones");
+
+            return result;
+        }
+        public static int ponder_stones_gain(Player p, stone_quant sq)
+        {
+            int result = 0;
+
+            result += ponder_single_stone(p, stone_type.ST_six, sq.s[(int)stone_type.ST_six]);
+
+            result += ponder_single_stone(p, stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
+
+            result += ponder_single_stone(p, stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
 
             return result;
         }

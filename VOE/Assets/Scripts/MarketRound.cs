@@ -60,6 +60,7 @@ namespace voe
                 //Debug.Log("Market: Choose card End");
             }
             //Debug.Log("Market: CALL ENDED");
+            gm.market.empty();
         }
 
         private static GameObject add_card_to_market()

@@ -41,16 +41,32 @@ namespace voe {
                 points = 0;
                 ponderation = -1;
             }
-            public int ponder()
+            public int ponder(Player p)
             {
+                priorities pp = p.player_prio;
                 if(ponderation != -1)
                 {
                     return ponderation;
                 }
                 else
                 {
-                    throw new UnityException("Unimplemented");
-                    //Ponder resources
+                    //throw new UnityException("Unimplemented");
+                    int card_in_hand_value = this.cards_in_hand * 5 *
+                        ((pp ==priorities.take_playable_card) ? 3 : 1);
+                    int stones_value = DecisionParameters.ponder_stones_gain(p, sm.sa) *
+                        ((pp == priorities.store_stones) ? 3 : 1);
+                    int points_value = this.points *
+                        ((pp == priorities.gain_points) ? 3 : 1);
+
+                    int result = card_in_hand_value + stones_value + points_value;
+
+                    if (p.favourite != CardNameId.NONE)
+                    {
+                        int is_favourite_playable = p.can_pay(p.favourite) ? 10 : 0 *
+                            ((pp == priorities.play_favourite) ? 3 : 1);
+                        result += is_favourite_playable;
+                    }
+                    return result;
                 }
             }
         }
@@ -58,7 +74,7 @@ namespace voe {
         {
             //Initialize relevant values
             //throw new UnityException("unimplemented: needs to call recursive monte carlo rollout");
-            var aux = recursive_monte_carlo_rollout(new state(p));
+            var aux = recursive_monte_carlo_rollout(new state(p), p);
             return aux.cal;
         }
         public class clock_activation_list
@@ -79,7 +95,7 @@ namespace voe {
             }
         }
 
-        private static state recursive_monte_carlo_rollout(state st)
+        private static state recursive_monte_carlo_rollout(state st, Player p)
         {
             int activated_cards = 0;
             state best_outcome = new state(st);
@@ -91,10 +107,10 @@ namespace voe {
                 if (!CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock)) continue;
 
                 activate_clock(st, cni);
-                state st_aux = recursive_monte_carlo_rollout(st);
+                state st_aux = recursive_monte_carlo_rollout(st, p);
                 deactivate_clock(st, cni);
 
-                if(st_aux.ponder() > best_outcome.ponder()) best_outcome = st_aux;
+                if(st_aux.ponder(p) > best_outcome.ponder(p)) best_outcome = st_aux;
 
                 ++activated_cards;
             }
@@ -129,7 +145,7 @@ namespace voe {
                 st.cards_in_hand -= cost.cards_in_hand;
 
 
-                st.sm.add_stones(cost.sq);
+                st.sm.add_stones_unchecked(cost.sq);
                 st.points += cost.points;
                 st.cards_in_hand += cost.cards_in_hand;
             }

@@ -455,6 +455,9 @@ namespace voe{
             table_need_update = true;
         }
         public void add_to_hand(CardNameId cni){
+
+            Debug.Log("Player " + idx + " puts into his hand " + AssetDataBase.get_card_file_name(cni));
+
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             hand.add(cni);

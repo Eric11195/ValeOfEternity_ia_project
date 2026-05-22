@@ -117,12 +117,14 @@ namespace voe{
         }
 
         public void add_stones(stone_type st, int quant_to_add){
-            //Debug.Log("stone type is:" +(int)st);
-            sa.s[(int)st] += quant_to_add;
+            add_stones_unchecked(st, quant_to_add); 
 
-            //Checks
             int stone_number = get_number_of_stones();
             Assert.IsTrue(stone_number <= max_stones && stone_number >= 0);
+        }
+        public void add_stones_unchecked(stone_type st, int quant_to_add)
+        {
+            sa.s[(int)st] += quant_to_add;
         }
 
         public stone_type get_stone_from_value(int value){
@@ -144,6 +146,12 @@ namespace voe{
             add_stones(stone_type.ST_six, sq.s[(int)stone_type.ST_six]);
             add_stones(stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
             add_stones(stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
+        }
+        public void add_stones_unchecked(stone_quant sq)
+        {
+            add_stones_unchecked(stone_type.ST_six, sq.s[(int)stone_type.ST_six]);
+            add_stones_unchecked(stone_type.ST_three, sq.s[(int)stone_type.ST_three]);
+            add_stones_unchecked(stone_type.ST_one, sq.s[(int)stone_type.ST_one]);
         }
         public void clear_stones()
         {
