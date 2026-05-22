@@ -88,8 +88,15 @@ namespace voe{
         }
 
         public static CardData get_card(CardNameId cid){
-            Assert.IsTrue((int)cid >= 0 && (int)cid< (int)CardNameId.NUMBER_OF_CARDS);
-            return cd[(int)cid];
+            //Debug.Log("Obtaining data of card: "+ (int)cid);
+            if((int)cid >= 0 && (int)cid < (int)CardNameId.NUMBER_OF_CARDS)
+            {
+                return cd[(int)cid];
+            }
+            else
+            {
+                throw new UnityException("La carta esta va borracha");
+            }
         }
 
         private static CardData[] cd = {

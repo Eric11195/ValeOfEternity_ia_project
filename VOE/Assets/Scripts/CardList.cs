@@ -12,7 +12,12 @@ namespace voe{
 
         public CardList get_deep_copy()
         {
-            return new CardList(this.card_list);
+            CardList cl = new();
+            foreach(var cni in this.card_list)
+            {
+                cl.card_list.Add(cni);
+            }
+            return cl;
         }
         public CardList()
         {

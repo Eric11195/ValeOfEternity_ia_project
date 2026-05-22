@@ -77,6 +77,7 @@ namespace voe{
 
         private bool is_playable(CardNameId cni)
         {
+            if (cni == CardNameId.NONE) return false;
             var cd = CardData.get_card(cni);
             return can_pay(cd.price, cd.family) && cd.can_be_played(this);
         }
@@ -107,14 +108,13 @@ namespace voe{
         }
         private bool turn_can_go_on()
         {
-            return !cannot_play_cards() || !chosen_at_market.empty();
+            return is_playable(favourite) || !chosen_at_market.empty();
         }
         public void choose_priority()
         {
             GameManager gm = GameManager.get_instance();
             //var cd = CardData.get_card(favourite);
-            CardData cd;
-            if(favourite!=CardNameId.NONE && can_pay((cd = CardData.get_card(favourite)).price, cd.family))
+            if(favourite!=CardNameId.NONE && is_playable(favourite))
             {
                 player_prio = priorities.play_favourite;
             }
@@ -177,7 +177,6 @@ namespace voe{
         }
         public IEnumerator gain_points_turn_action()
         {
-            //throw new UnityException("Unimplemented");
             var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return true; });
             add_to_hand(cni);
             yield return null;
@@ -197,7 +196,6 @@ namespace voe{
         }
         public IEnumerator store_stones_turn_action()
         {
-            //throw new UnityException("Unimplemented");
             var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return true; });
             yield return GameManager.get_instance().StartCoroutine(sell_card(cni));
         }
@@ -448,9 +446,9 @@ namespace voe{
         }
 
         public IEnumerator play_card(CardNameId card_name_id){
-            CardData card = CardData.get_card(card_name_id);
-            Assert.IsTrue(can_pay(card.price, card.family));
+            Assert.IsTrue(is_playable(card_name_id));
             var gm = GameManager.get_instance();
+            CardData card = CardData.get_card(card_name_id);
             yield return gm.StartCoroutine(pay_cost(card.price, card.family));
             yield return gm.StartCoroutine(play_card_without_paying(card_name_id));
         }

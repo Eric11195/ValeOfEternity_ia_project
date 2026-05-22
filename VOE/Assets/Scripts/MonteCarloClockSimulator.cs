@@ -13,7 +13,6 @@ namespace voe {
             public int points;
             public CardList table;
             public clock_activation_list cal;
-            public int ponderation;
             public state(StoneManager _sm, int _cards_in_hand, CardList _table)
             {
                 sm = _sm;
@@ -21,16 +20,14 @@ namespace voe {
                 table = _table;
                 points = 0;
                 cal = new clock_activation_list();
-                ponderation = -1;
             }
             public state(state st)
             {
                 sm = st.sm.get_deep_copy();
                 cards_in_hand = st.cards_in_hand;
                 table = st.table.get_deep_copy();
-                cal = new clock_activation_list(st.cal);
+                cal = st.cal.get_deep_copy(st.cal);
                 points = st.points;
-                ponderation = -1;
             }
             public state(Player p)
             {
@@ -39,35 +36,28 @@ namespace voe {
                 table = p.table.get_deep_copy();
                 cal = new clock_activation_list();
                 points = 0;
-                ponderation = -1;
             }
             public int ponder(Player p)
             {
                 priorities pp = p.player_prio;
-                if(ponderation != -1)
-                {
-                    return ponderation;
-                }
-                else
-                {
-                    //throw new UnityException("Unimplemented");
-                    int card_in_hand_value = this.cards_in_hand * 5 *
-                        ((pp ==priorities.take_playable_card) ? 3 : 1);
-                    int stones_value = DecisionParameters.ponder_stones_gain(p, sm.sa) *
-                        ((pp == priorities.store_stones) ? 3 : 1);
-                    int points_value = this.points *
-                        ((pp == priorities.gain_points) ? 3 : 1);
 
-                    int result = card_in_hand_value + stones_value + points_value;
+                //throw new UnityException("Unimplemented");
+                int card_in_hand_value = this.cards_in_hand * 5 *
+                    ((pp ==priorities.take_playable_card) ? 3 : 1);
+                int stones_value = DecisionParameters.ponder_stones_gain(p, sm.sa) *
+                    ((pp == priorities.store_stones) ? 3 : 1);
+                int points_value = this.points *
+                    ((pp == priorities.gain_points) ? 3 : 1);
 
-                    if (p.favourite != CardNameId.NONE)
-                    {
-                        int is_favourite_playable = p.can_pay(p.favourite) ? 10 : 0 *
-                            ((pp == priorities.play_favourite) ? 3 : 1);
-                        result += is_favourite_playable;
-                    }
-                    return result;
+                int result = card_in_hand_value + stones_value + points_value;
+
+                if (p.favourite != CardNameId.NONE)
+                {
+                    int is_favourite_playable = p.can_pay(p.favourite) ? 10 : 0 *
+                        ((pp == priorities.play_favourite) ? 3 : 1);
+                    result += is_favourite_playable;
                 }
+                return result;
             }
         }
         public static clock_activation_list get_clock_order(Player p)
@@ -85,6 +75,15 @@ namespace voe {
             {
                 aol = new(0);
             }
+            public clock_activation_list get_deep_copy(clock_activation_list _cal)
+            {
+                clock_activation_list cal = new();
+                for (int i = 0; i < _cal.aol.Count; ++i)
+                {
+                    cal.aol.Add(_cal.aol[i]);
+                }
+                return cal;
+            }
             public clock_activation_list(clock_activation_list _cal)
             {
                 aol = new(0);
@@ -97,9 +96,9 @@ namespace voe {
 
         private static state recursive_monte_carlo_rollout(state st, Player p)
         {
-            int activated_cards = 0;
+            //int activated_cards = 0;
             state best_outcome = new state(st);
-            best_outcome.ponderation = int.MinValue;
+            bool first_time = true;
             for (int i = 0; i < st.table.size(); ++i)
             {
                 CardNameId cni = st.table.get(i);
@@ -110,12 +109,15 @@ namespace voe {
                 state st_aux = recursive_monte_carlo_rollout(st, p);
                 deactivate_clock(st, cni);
 
-                if(st_aux.ponder(p) > best_outcome.ponder(p)) best_outcome = st_aux;
+                if (first_time || st_aux.ponder(p) > best_outcome.ponder(p))
+                {
+                    best_outcome = st_aux;
+                    first_time = false;
+                }
 
-                ++activated_cards;
+                //++activated_cards;
             }
-            if (activated_cards == 0) return st;
-            else return best_outcome;
+            return best_outcome;
         }
 
         private static void activate_clock(state st, CardNameId cni)

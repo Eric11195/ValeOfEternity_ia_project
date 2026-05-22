@@ -91,7 +91,7 @@ namespace voe{
         IEnumerator game_loop()
         {
             current_round = 0;
-            while (current_round <= 10 && !any_player_past_threshold())
+            while (current_round < 10 && !any_player_past_threshold())
             {
                 ++current_round;
                 Logger.LogH1("Round "+ current_round + '\n');
