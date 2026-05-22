@@ -8,8 +8,12 @@ namespace voe
     {
         [SerializeField]
         Transform scroll_pan_content;
+        [SerializeField]
+        CanvasGroup log_pannel;
+
         GameObject txt_prefab;
         GameObject h_prefab;
+        private bool active = false;
 
         private static Logger _instance = null;
         public static Logger get_instance()
@@ -24,11 +28,26 @@ namespace voe
 
             txt_prefab = Resources.Load("Prefabs/ScrollPanText") as GameObject;
             h_prefab = Resources.Load("Prefabs/ScrollPanHeader") as GameObject;
+
+            log_pannel = this.GetComponent<CanvasGroup>();
         }
 
         public static void Log(string s)
         {
             Log(s, Color.white);
+        }
+        public static void toggle_visibility()
+        {
+            var l = _instance;
+            l.active = !l.active;
+
+            if (l.active) {
+                l.log_pannel.alpha = 1;
+            }
+            else
+            {
+                l.log_pannel.alpha = 0;
+            }
         }
         public static void Log(string s, Color c)
         {
