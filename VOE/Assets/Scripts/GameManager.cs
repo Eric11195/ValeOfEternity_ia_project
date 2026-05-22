@@ -38,6 +38,8 @@ namespace voe{
         [SerializeField]
         List<CardAreaManager> player_boards;
 
+        TextMeshProUGUI turn_text_obj;
+
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
 
@@ -79,6 +81,8 @@ namespace voe{
             {
                 p.idx = i++;
             }
+
+            turn_text_obj = GameObject.Find("CurrentTurnText").GetComponent<TextMeshProUGUI>();
         }
 
         public void Start()
@@ -94,6 +98,7 @@ namespace voe{
             while (current_round < 10 && !any_player_past_threshold())
             {
                 ++current_round;
+                set_current_turn_text();
                 Logger.LogH1("Round "+ current_round + '\n');
                 yield return StartCoroutine(MarketRound.market_round());
                 yield return StartCoroutine(PlayCardsRound.play_cards_round());
@@ -252,6 +257,10 @@ namespace voe{
         {
             choose_current_winner();
             return current_winner.my_points - p.my_points;
+        }
+        private void set_current_turn_text()
+        {
+            turn_text_obj.text = current_round.ToString();
         }
     }
 }
