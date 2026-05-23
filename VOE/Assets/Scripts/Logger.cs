@@ -68,6 +68,11 @@ namespace voe
                 my_scrollbar.value = 0;
             }
         }
+
+        public static string player_log(int idx, string s)
+        {
+            return "Player "+(idx+1)+": "+s;
+        }
         public static void Log(string s, Color c)
         {
             GameObject obj = Instantiate(_instance.txt_prefab, _instance.scroll_pan_content);
