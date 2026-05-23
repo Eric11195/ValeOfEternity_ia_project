@@ -205,7 +205,7 @@ namespace voe{
         public static int ponder_hand_card_gain(Player p, CardNameId cni, bool market)
         {
             int result = 0;
-            if (market) result += 15;
+            if (market) result += 5 * p.get_sinergy_complete_rating(card_flags.big_hand);
             Debug.LogWarning("Ponder hand card gain does not take into account cards whose effects are drawing");
             
             return result;

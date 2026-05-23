@@ -142,10 +142,9 @@ namespace voe{
         {
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
-            CardNameId cni = current_card_pool_option.get(0);
+            CardNameId cni = choose_best_card(this, current_card_pool_option, CardFamily.None, CardEffectTypes.none, (int cost) => { return true; }, player_prio, true);//current_card_pool_option.get(0);
+            Logger.Log("Player " + idx + " chooses " + AssetDataBase.get_card_file_name(cni));
             yield return cni;
-
-            Logger.Log("Player "+idx+" chooses "+ AssetDataBase.get_card_file_name(cni));
         }
         public IEnumerator play_turn()
         {
