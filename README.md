@@ -615,6 +615,10 @@ Se pueden encontrar en el [proyects](https://github.com/users/IzanDeVegaLopez/pr
 
 ## Conclusiones
 
+## Agradecimientos Especiales
+
+Quiero agradecer a mi padre por su aportación en el apartado visual al proyecto. Que convirtió mi boceto chuchurrió del fondo del menú no solo en algo que no te diese un sarpullido en los ojos si no en algo verdaderamente genial.
+
 ## Referencias
 
 Por día de uso
