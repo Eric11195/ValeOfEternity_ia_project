@@ -41,8 +41,13 @@ public class CardAreaManager : MonoBehaviour
 
     void Start()
     {
-        float half_cx = card_size.x/2;
-        float half_cy = card_size.y/2;
+        calculate_measures();
+    }
+
+    public void calculate_measures()
+    {
+        float half_cx = card_size.x / 2;
+        float half_cy = card_size.y / 2;
 
         max_left = upper_left.position.x - half_cx;
         max_up = upper_left.position.y - half_cy;
@@ -68,7 +73,7 @@ public class CardAreaManager : MonoBehaviour
             float y_percentage = 0.5f;
             if(rows>1)
                 y_percentage = y_index/(float)(rows-1);
-            float y_pos = Mathf.Lerp(min_down, max_up, y_percentage);
+            float y_pos = Mathf.Lerp(max_up, min_down, y_percentage);
 
             GameObject obj = card_list[i];
             if(!obj) continue;

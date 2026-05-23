@@ -105,8 +105,7 @@ namespace voe{
             int cards = 0;
             foreach (var cni in card_list)
             {
-                var card = CardData.get_card(cni);
-                if (card.clockEffect != CardFuncs.void_func)
+                if (CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock))
                 {
                     ++cards;
                 }

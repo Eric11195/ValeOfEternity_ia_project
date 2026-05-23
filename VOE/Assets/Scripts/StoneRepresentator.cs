@@ -3,10 +3,10 @@ using UnityEngine.Assertions;
 namespace voe{
     public class StoneRepresentator : MonoBehaviour
     {
-        private static float delta=1.0f;
+        private static float delta=0.45f;
         private static int rows = 2;
         private static int cols = 3;
-        private static float scale = 0.25f;
+        private static float scale = 0.12f;
         private int current_idx = 0;
         public void set_stones(stone_quant sq){
             clear();
