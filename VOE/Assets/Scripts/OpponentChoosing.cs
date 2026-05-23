@@ -66,17 +66,21 @@ namespace voe {
             int idx = 0;
             foreach (Player p in gm.players)
             {
+                if (!p.has_card_with_requiriment(p.table, cf, CardEffectTypes.none, (int cost) => { return true; })) continue;
                 if (p.idx == self.idx) continue;
-                opponents_points[idx++] = ponderate_player(p, cf);
+                opponents_points[idx++] = ponderate_player(p);
             }
             return opponents_points;
         }
-        private static int ponderate_player(Player ponder, CardFamily cf)
+        private static int ponderate_player(Player ponder)
         {
             int result = 0;
 
             int param_using = 0;
-            throw new UnityException("Unimplemented: choose for most points");
+            //throw new UnityException("Unimplemented: choose for most points");
+
+            return ponder.my_points;
+
             //foreach (OpponentChoosing.prms prm in my_params)
             //{
             //    var values_for_this_params = OpponentChoosing.doFunc(prm, ponder);

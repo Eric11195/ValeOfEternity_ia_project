@@ -40,7 +40,7 @@ namespace voe{
                 );
             p.bounce_card(card_chosen);
             p.gain_points(CardData.get_card(card_chosen).price);
-            throw new UnityException("Unimplemented");
+            yield return null;
         }
         #endregion
         #region Agni
