@@ -47,5 +47,8 @@ TagManager:
   - name: Token
     uniqueID: 1862954501
     locked: 0
+  - name: HighLightCard
+    uniqueID: 1195605195
+    locked: 0
   m_RenderingLayers:
   - Default

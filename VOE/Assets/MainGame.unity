@@ -1496,6 +1496,7 @@ MonoBehaviour:
   down_right: {fileID: 1234737050}
   rows: 1
   cols: 10
+  selectable: 1
 --- !u!1 &481171880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,6 +1941,7 @@ MonoBehaviour:
   down_right: {fileID: 988312928}
   rows: 1
   cols: 10
+  selectable: 1
 --- !u!1 &609102461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2904,6 +2906,7 @@ MonoBehaviour:
   down_right: {fileID: 1573230101}
   rows: 1
   cols: 10
+  selectable: 1
 --- !u!1 &970869010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3283,6 +3286,7 @@ MonoBehaviour:
   down_right: {fileID: 1919558874}
   rows: 4
   cols: 2
+  selectable: 1
 --- !u!1 &1077227305
 GameObject:
   m_ObjectHideFlags: 0
@@ -3550,14 +3554,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160804250}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.27, y: 2.18, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.72, y: 6.95, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1077227306}
   - {fileID: 893806269}
-  m_Father: {fileID: 1856002138}
+  m_Father: {fileID: 1778294939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1160804252
 MonoBehaviour:
@@ -3576,6 +3580,7 @@ MonoBehaviour:
   down_right: {fileID: 893806269}
   rows: 1
   cols: 1
+  selectable: 0
 --- !u!1 &1169178080
 GameObject:
   m_ObjectHideFlags: 0
@@ -4375,6 +4380,7 @@ MonoBehaviour:
   down_right: {fileID: 803210023}
   rows: 1
   cols: 10
+  selectable: 1
 --- !u!1 &1495983585
 GameObject:
   m_ObjectHideFlags: 0
@@ -4866,6 +4872,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1160804251}
   - {fileID: 443286398}
   - {fileID: 589957500}
   - {fileID: 965376598}
@@ -5132,7 +5139,6 @@ Transform:
   - {fileID: 2086122489}
   - {fileID: 1778294939}
   - {fileID: 1077223878}
-  - {fileID: 1160804251}
   - {fileID: 1453705201}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5942,6 +5948,7 @@ MonoBehaviour:
   down_right: {fileID: 1169178081}
   rows: 1
   cols: 100
+  selectable: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

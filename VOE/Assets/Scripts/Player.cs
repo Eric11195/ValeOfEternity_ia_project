@@ -299,6 +299,7 @@ namespace voe{
                 }
                 ++i;
             }
+
             if(stone_manager.get_number_of_spaces_to_fill() >= sq.get_number_of_stones()){
                 stone_manager.add_stones(sq);
             }else{

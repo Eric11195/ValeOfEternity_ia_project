@@ -29,6 +29,9 @@ public class CardAreaManager : MonoBehaviour
     private float max_up;
     private float min_down;
 
+    [SerializeField]
+    private bool selectable = true;
+
     void Awake(){
         card_prefab = Resources.Load("Prefabs/Card") as GameObject;
         Assert.IsTrue(card_prefab);
@@ -78,6 +81,15 @@ public class CardAreaManager : MonoBehaviour
     public GameObject add(CardNameId cni){
         GameObject go = Instantiate(card_prefab, this.transform);
         go.GetComponent<CardComponent>().set_card(cni);
+        if (!selectable)
+        {
+            Destroy(go.GetComponent<BoxCollider2D>());
+            go.GetComponentInChildren<SpriteRenderer>().sortingLayerName = "HighLightCard";
+        }
+        else
+        {
+            go.GetComponentInChildren<SpriteRenderer>().sortingOrder = card_list.Count;
+        }
         card_list.Add(go);
         return go;
     }

@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\clockround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\clockround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\playcardsround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playcardsround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\cardfunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardfunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\clockround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\clockround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\playcardsround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playcardsround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\marketround.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\stonerepresentator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\stonerepresentator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\cardfunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cardfunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\decisionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -90,28 +90,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\Player.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\Player.cs",
               "RelativeToolTip": "Assets\\Scripts\\Player.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAiwG4AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAPsAAAAAAAAAAAAwwAkBAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T10:49:57.967Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "CardFunc.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\CardFunc.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardFunc.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\CardFunc.cs",
               "RelativeToolTip": "Assets\\Scripts\\CardFunc.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAwAwAAABEAAAAAAAAAA==",
+              "ViewState": "AgIAABsBAAAAAAAAAAAowDkBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T10:49:53.533Z"
+              "WhenOpened": "2026-05-22T10:49:53.533Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -127,7 +128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MarketRound.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\MarketRound.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MarketRound.cs",
@@ -135,8 +136,7 @@
               "RelativeToolTip": "Assets\\Scripts\\MarketRound.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T11:26:50.884Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T11:26:50.884Z"
             },
             {
               "$type": "Document",
@@ -164,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "OpponentChoosing.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\OpponentChoosing.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\OpponentChoosing.cs",
@@ -172,8 +172,7 @@
               "RelativeToolTip": "Assets\\Scripts\\OpponentChoosing.cs",
               "ViewState": "AgIAADcAAAAAAAAAAAAjwE4AAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T17:09:59.803Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T17:09:59.803Z"
             },
             {
               "$type": "Document",
@@ -189,7 +188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "PlayCardsRound.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\PlayCardsRound.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayCardsRound.cs",
@@ -197,8 +196,7 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayCardsRound.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T11:23:15.648Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T11:23:15.648Z"
             },
             {
               "$type": "Document",
@@ -208,14 +206,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAgwGoAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAPMAAAAAAAAAAAA1wBEBAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T11:23:20.658Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "StoneRepresentator.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\StoneRepresentator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\StoneRepresentator.cs",
@@ -227,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ClockRound.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\ClockRound.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ClockRound.cs",
@@ -235,8 +233,7 @@
               "RelativeToolTip": "Assets\\Scripts\\ClockRound.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T15:01:24.374Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T15:01:24.374Z"
             },
             {
               "$type": "Document",

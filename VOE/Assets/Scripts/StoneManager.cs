@@ -39,8 +39,8 @@ namespace voe{
         }
         public StoneManager(stone_quant _sa, stone_quant _sv)
         {
-            this.sa = _sa;
-            this.sv = _sv;
+            this.sa = new stone_quant(sa.s[(int)stone_type.ST_one], sa.s[(int)stone_type.ST_three], sa.s[(int)stone_type.ST_six]);
+            this.sv = new stone_quant(sv.s[(int)stone_type.ST_one], sv.s[(int)stone_type.ST_three], sv.s[(int)stone_type.ST_six]);
         }
 
         public int max_stones = 4;
