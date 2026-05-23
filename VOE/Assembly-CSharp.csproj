@@ -57,6 +57,7 @@
     <Compile Include="Assets\Scripts\PlayCardsRound.cs" />
     <Compile Include="Assets\Scripts\CardAreaManager.cs" />
     <Compile Include="Assets\Scripts\drag_n_drop_component.cs" />
+    <Compile Include="Assets\Scripts\SceneChanger.cs" />
     <Compile Include="Assets\Scripts\OpponentChoosing.cs" />
     <Compile Include="Assets\Scripts\CoroutineWithData.cs" />
     <Compile Include="Assets\Scripts\CardsEnum.cs" />
