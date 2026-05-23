@@ -175,10 +175,6 @@ namespace voe{
                 Debug.Log(highlight_card_area.transform.position);
                 last = item;
             }
-            if (hit != null)
-            {
-                
-            }
         }
 
         private bool any_player_past_threshold()
