@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace voe
 {
@@ -14,6 +15,9 @@ namespace voe
         GameObject txt_prefab;
         GameObject h_prefab;
         private bool active = false;
+        private bool autoscroll = false;
+
+        Scrollbar my_scrollbar;
 
         private static Logger _instance = null;
         public static Logger get_instance()
@@ -30,6 +34,9 @@ namespace voe
             h_prefab = Resources.Load("Prefabs/ScrollPanHeader") as GameObject;
 
             log_pannel = this.GetComponent<CanvasGroup>();
+            my_scrollbar = GameObject.Find("LoggerScrollBar").GetComponent<Scrollbar>();
+
+            autoscroll = true;
         }
 
         public static void Log(string s)
@@ -47,6 +54,18 @@ namespace voe
             else
             {
                 l.log_pannel.alpha = 0;
+            }
+        }
+        public static void toggle_autoscroll()
+        {
+            _instance.autoscroll = !_instance.autoscroll;
+        }
+
+        public void FixedUpdate()
+        {
+            if (autoscroll)
+            {
+                my_scrollbar.value = 0;
             }
         }
         public static void Log(string s, Color c)
