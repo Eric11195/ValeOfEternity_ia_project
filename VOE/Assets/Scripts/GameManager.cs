@@ -78,6 +78,9 @@ namespace voe{
             {
                 player_boards.Add(tr.GetComponent<CardAreaManager>());
             }
+            var aux = player_boards[0];
+            player_boards.RemoveAt(0);
+            player_boards.Add(aux);
 
             int i = 0;
             foreach(Player p in players)
