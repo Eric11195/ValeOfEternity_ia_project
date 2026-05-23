@@ -170,6 +170,7 @@ namespace voe{
                     default:
                         throw new UnityException("Not valid priority value");
                 }
+                yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
             yield return null;
             Assert.IsTrue(this.chosen_at_market.size()==0);
@@ -207,6 +208,7 @@ namespace voe{
             foreach(CardNameId cni in cal.aol)
             {
                 yield return gm.StartCoroutine(activate_single_clock(cni));
+                yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
         }
         public IEnumerator activate_single_clock(CardNameId cni)

@@ -665,3 +665,8 @@ Por día de uso
 - [https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave](https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave)
 - [https://www.youtube.com/watch?v=TR_XbJBwjvw](https://www.youtube.com/watch?v=TR_XbJBwjvw)
 - [https://www.youtube.com/watch?v=gayEHaol4Lc](https://www.youtube.com/watch?v=gayEHaol4Lc)
+
+## 23/05/2026
+
+- [https://stackoverflow.com/questions/3143657/truncate-two-decimal-places-without-rounding](https://stackoverflow.com/questions/3143657/truncate-two-decimal-places-without-rounding)
+- [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.OverlapPointAll.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.OverlapPointAll.html)

@@ -12,6 +12,8 @@ using TMPro;
 namespace voe{
     public class GameManager : MonoBehaviour
     {
+        private static float seconds_wait_after_each_player_action = 1;
+
         private bool just_changed_player = true;
         public static GameManager _instance = null;
 
@@ -53,7 +55,14 @@ namespace voe{
             Assert.IsTrue(_instance != null, "You are calling this function before Init was called");
             return _instance;
         }
-
+        public static void set_enemy_delay_time(float t)
+        {
+            seconds_wait_after_each_player_action = t;
+        }
+        public float get_standard_enemy_action_wait_time()
+        {
+            return seconds_wait_after_each_player_action;
+        }
         public void Init()
         {
             Assert.IsTrue(_instance==null, "There was already a GameManager instance");
@@ -144,19 +153,28 @@ namespace voe{
         private void highlight_card()
         {
             Vector3 mouse_world_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D hit = Physics2D.OverlapPoint(mouse_world_pos);
+            Collider2D[] hit = Physics2D.OverlapPointAll(mouse_world_pos);
             //Debug.Log(hit);
-            highlight_card_area.empty();
-            if (hit != null)
+            highlight_card_area.clear();
+
+            GameObject last = null;
+            for(int i = 0; i < hit.Length; i++)
             {
-                GameObject item = hit.gameObject;
+                GameObject item = hit[i].gameObject;
                 //Debug.Log(item);
                 CardComponent cc = item.GetComponent<CardComponent>();
-                if(!cc)return;
+                if (!cc) continue;
+                if (last != null && item.transform.position.x < last.transform.position.x) continue;
 
                 CardNameId cni = cc.get_card_id();
-                //Debug.Log(cni);
+
+                highlight_card_area.clear();
                 highlight_card_area.add(cni);
+                last = item;
+            }
+            if (hit != null)
+            {
+                
             }
         }
 
@@ -186,7 +204,7 @@ namespace voe{
         {
             if (p.hand_representation_needs_update || just_changed_player)
             {
-                hand_area.empty();
+                hand_area.clear();
                 foreach (CardNameId cni in p.hand.card_list)
                 {
                     hand_area.add(cni);
@@ -248,7 +266,7 @@ namespace voe{
         {
             if (!p.table_need_update) return;
 
-            table.empty();
+            table.clear();
             foreach (var cni in p.table.card_list)
             {
                 table.add(cni);

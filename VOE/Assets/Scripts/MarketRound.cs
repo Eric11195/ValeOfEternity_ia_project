@@ -37,6 +37,8 @@ namespace voe
                 physical_card_list.RemoveAt(index);
 
                 p.add_chosen_at_market(cni);
+
+                yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
             for (int i = gm.players.Count - 1; i >= 0; --i)
             {
@@ -54,7 +56,8 @@ namespace voe
                 physical_card_list.RemoveAt(index);
 
                 p.add_chosen_at_market(cni);
-                //Debug.Log("Market: Choose card End");
+                
+                yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
             //Debug.Log("Market: CALL ENDED");
             gm.market = new CardList();

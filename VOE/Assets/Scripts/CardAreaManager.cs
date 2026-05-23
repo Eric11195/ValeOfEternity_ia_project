@@ -107,7 +107,7 @@ public class CardAreaManager : MonoBehaviour
         Destroy(card_representation);
     }
 
-    public void empty()
+    public void clear()
     {
         foreach(GameObject go in card_list)
         {
