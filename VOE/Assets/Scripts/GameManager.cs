@@ -103,7 +103,7 @@ namespace voe{
             {
                 ++current_round;
                 set_current_turn_text();
-                Logger.LogH1("Round "+ current_round + '\n');
+                Logger.LogH1("Round "+ current_round + '\n', TextFilter.message_src.general);
                 yield return StartCoroutine(MarketRound.market_round());
                 yield return StartCoroutine(PlayCardsRound.play_cards_round());
                 yield return StartCoroutine(ClockRound.clock_round());

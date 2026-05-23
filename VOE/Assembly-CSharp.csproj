@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\FileNames.cs" />
     <Compile Include="Assets\Scripts\PlayerPriorities.cs" />
     <Compile Include="Assets\Scripts\CardFunc.cs" />
+    <Compile Include="Assets\Scripts\TextFilter.cs" />
     <Compile Include="Assets\Scripts\StoneManager.cs" />
     <Compile Include="Assets\Scripts\CardFamily.cs" />
     <Compile Include="Assets\Scripts\StoneRepresentator.cs" />

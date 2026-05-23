@@ -7,7 +7,7 @@ namespace voe
     {
         public static IEnumerator clock_round()
         {
-            Logger.LogH2("Started clock round");
+            Logger.LogH2("Started clock round", TextFilter.message_src.general);
             GameManager gm = GameManager.get_instance();
             for (int i = 0; i < gm.players.Count; i++)
             {

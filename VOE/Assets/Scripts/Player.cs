@@ -143,12 +143,12 @@ namespace voe{
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
             CardNameId cni = choose_best_card(this, current_card_pool_option, CardFamily.None, CardEffectTypes.none, (int cost) => { return true; }, player_prio, true);//current_card_pool_option.get(0);
-            Logger.Log(Logger.player_log(idx, "chooses " + AssetDataBase.get_card_file_name(cni)));
+            Logger.Log(Logger.player_log(idx, "chooses " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
             yield return cni;
         }
         public IEnumerator play_turn()
         {
-            Logger.LogH3(Logger.player_log(idx,"turn:"));
+            Logger.LogH3(Logger.player_log(idx,"turn:"), TextFilter.get_p_idx_message_src(idx));
             var gm = GameManager.get_instance();
             while (turn_can_go_on())
             {
@@ -211,7 +211,7 @@ namespace voe{
         }
         public IEnumerator activate_single_clock(CardNameId cni)
         {
-            Logger.LogBold(Logger.player_log(idx, "activates " + AssetDataBase.get_card_file_name(cni) + " clock."));
+            Logger.LogBold(Logger.player_log(idx, "activates " + AssetDataBase.get_card_file_name(cni) + " clock."), TextFilter.get_p_idx_message_src(idx));
 
             Assert.IsTrue(table.contains(cni));
             Assert.IsTrue(CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock));
@@ -241,7 +241,7 @@ namespace voe{
                 payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
             }
-            Logger.Log(Logger.player_log(idx,"payed " + stone_manager.get_value(payed)+" to cover "+cost));
+            Logger.Log(Logger.player_log(idx,"payed " + stone_manager.get_value(payed)+" to cover "+cost), TextFilter.get_p_idx_message_src(idx));
             Assert.IsTrue(
                 stone_manager.check_valid_payment(payed, cost)
             );
@@ -294,7 +294,7 @@ namespace voe{
             foreach(int val in sq.s)
             {
                 if (val != 0) {
-                    Logger.Log(Logger.player_log(idx ,"gains " + val + " stones with value " + stone_manager.sv.s[i]));
+                    Logger.Log(Logger.player_log(idx ,"gains " + val + " stones with value " + stone_manager.sv.s[i]), TextFilter.get_p_idx_message_src(idx));
                 }
                 ++i;
             }
@@ -353,7 +353,7 @@ namespace voe{
 
         public void gain_points(int points){
             Assert.IsTrue(points >= 0);
-            Logger.Log(Logger.player_log(idx,"gains "+points+" points"));
+            Logger.Log(Logger.player_log(idx,"gains "+points+" points"), TextFilter.get_p_idx_message_src(idx));
             my_points += points;
             //GameManager.get_instance().update_player_points_representation();
         }
@@ -454,7 +454,7 @@ namespace voe{
         }
         public IEnumerator play_card_without_paying(CardNameId card_name_id)
         {
-            Logger.LogBold(Logger.player_log(idx,"playing "+AssetDataBase.get_card_file_name(card_name_id)));
+            Logger.LogBold(Logger.player_log(idx,"playing "+AssetDataBase.get_card_file_name(card_name_id)), TextFilter.get_p_idx_message_src(idx));
             Assert.IsTrue(hand.contains(card_name_id));
             CardData card = CardData.get_card(card_name_id);
 
@@ -471,7 +471,7 @@ namespace voe{
         }
         public void add_to_hand(CardNameId cni){
 
-            Logger.Log(Logger.player_log(idx,"puts into his hand " + AssetDataBase.get_card_file_name(cni)));
+            Logger.LogBold(Logger.player_log(idx,"puts into his hand " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
 
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
@@ -486,7 +486,7 @@ namespace voe{
         }
 
         public IEnumerator sell_card(CardNameId cni){
-            Logger.LogBold(Logger.player_log(idx, "selling "+ AssetDataBase.get_card_file_name(cni)));
+            Logger.LogBold(Logger.player_log(idx, "selling "+ AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
             Assert.IsTrue(chosen_at_market.contains(cni));
             chosen_at_market.extract(cni);
             GameManager._instance.deck.discard(cni);
@@ -519,7 +519,7 @@ namespace voe{
         {
             var cni = GameManager._instance.deck.draw();
             hand.add(cni);
-            Logger.Log(Logger.player_log(idx, "draws "+AssetDataBase.get_card_file_name(cni)));
+            Logger.Log(Logger.player_log(idx, "draws "+AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
             hand_representation_needs_update = true;
             choose_favourite_card();
         }

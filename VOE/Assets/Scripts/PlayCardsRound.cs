@@ -8,7 +8,7 @@ namespace voe
     {
         public static IEnumerator play_cards_round()
         {
-            Logger.LogH2("Started Play Phase");
+            Logger.LogH2("Started Play Phase", TextFilter.message_src.general);
             GameManager gm = GameManager.get_instance();
 
             for (int i = 0; i < gm.players.Count; i++)
