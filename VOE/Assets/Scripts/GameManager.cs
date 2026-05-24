@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 namespace voe{
     public class GameManager : MonoBehaviour
@@ -45,10 +46,35 @@ namespace voe{
 
         public GameObject stone_markers_parent;
         private int watching_player_idx = 0;
-
+        
         private int current_round = 0;
 
         private int current_turn_player;
+
+        private int[] get_ranking()
+        {
+            Dictionary<Player, int> ranking = new();
+            foreach(Player p in players)
+            {
+                ranking.Add(p,p.my_points);
+            }
+
+            var myList = ranking.ToList();
+
+            myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+
+            int[] final_rank = new int[players.Count];
+            int i = 0;
+            foreach(var p in myList)
+            {
+                final_rank[p.Key.idx]= ++i;
+            }
+            return final_rank;
+        }
+        private void show_end_result()
+        {
+
+        }
 
         public static GameManager get_instance()
         {
