@@ -75,7 +75,7 @@ namespace voe{
             return false;
         }
 
-        private bool is_playable(CardNameId cni)
+        public bool is_playable(CardNameId cni)
         {
             if (cni == CardNameId.NONE) return false;
             var cd = CardData.get_card(cni);
@@ -184,7 +184,7 @@ namespace voe{
         public IEnumerator take_playable_card_turn_action()
         {
             //Put best card that we can pay from market on hand
-            var cni = choose_best_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return stone_manager.get_total_value() >= cost; });
+            var cni = choose_best_playable_card_in_personal_market_pool(CardFamily.None, CardEffectTypes.none, (int cost) => { return true; });
             add_to_hand(cni);
             yield return null;
         }
@@ -340,6 +340,10 @@ namespace voe{
         public CardNameId choose_best_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
             return DecisionParameters.choose_best_card(this, chosen_at_market, requisite, cet, cp, player_prio,true);
+        }
+        public CardNameId choose_best_playable_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
+        {
+            return DecisionParameters.choose_best_playable_card(this, chosen_at_market, requisite, cet, cp, player_prio, true);
         }
         public CardNameId choose_worst_card_in_personal_market_pool(CardFamily requisite, CardEffectTypes cet, cost_precondition cp)
         {
@@ -506,13 +510,12 @@ namespace voe{
             Assert.IsTrue(chosen_at_market.contains(cni));
             add_to_hand_unchecked(cni);
             PlayCardsRound.remove_card_from_market(cni);
+            chosen_at_market.extract(cni);
             tame_card_event?.Invoke(this, CardData.get_card(cni).family);
         }
         public void add_to_hand_unchecked(CardNameId cni)
         {
             Logger.LogBold(Logger.player_log(idx, "puts into his hand " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
-
-            chosen_at_market.extract(cni);
             hand.add(cni);
 
             hand_representation_needs_update = true;

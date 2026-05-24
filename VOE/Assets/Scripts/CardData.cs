@@ -283,7 +283,7 @@ namespace voe{
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return p.free_slots_on_table() >= 2 &&
-                        p.has_card_with_requiriment(p.hand, CardFamily.D, CardEffectTypes.none, (int cost)=>{return true; });
+                        p.has_card_with_requiriment(p.hand, CardFamily.D, CardEffectTypes.none, (int cost)=>{ return cost > 3; });
                 }
             ),
             //X 13 Ember,

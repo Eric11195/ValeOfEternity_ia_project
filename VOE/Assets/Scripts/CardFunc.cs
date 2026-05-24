@@ -238,7 +238,7 @@ namespace voe{
             p.discard_card_from_table(CardNameId.Dragonegg);
             if(dragon_chosen != CardNameId.NONE)
             {
-                yield return GameManager._instance.StartCoroutine(p.play_card(dragon_chosen));
+                yield return GameManager._instance.StartCoroutine(p.play_card_without_paying(dragon_chosen));
             }
             yield return null;
         }

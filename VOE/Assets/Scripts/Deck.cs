@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 
 using voe;
+using UnityEngine.Assertions;
 
 namespace voe{
     public class Deck
@@ -30,6 +31,7 @@ namespace voe{
         public CardNameId draw()
         {
             if (draw_pile.Count == 0) Reshuffle();
+            Assert.IsTrue(GameManager.get_instance().deck.size() > 0);
             return draw_pile.Pop();
         }
 

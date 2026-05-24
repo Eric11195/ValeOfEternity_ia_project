@@ -67,8 +67,6 @@ namespace voe
         {
             GameManager gm = GameManager.get_instance();
 
-            Assert.IsTrue(gm.deck.size() > 0);
-
             CardNameId card_id = gm.deck.draw();
 
             gm.market.add(card_id);
