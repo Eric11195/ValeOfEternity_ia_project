@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace voe{
     public static class CardFuncs
@@ -262,6 +263,29 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Forest spirit
+        public static CardNameId forest_spirit_choose_card(Player p)
+        {
+            int[] values = new int[p.hand.size()];
+            int i = 0;
+            foreach(var cni in p.hand.card_list)
+            {
+                values[i] = 0;
+                var cd = CardData.get_card(cni);
+                values[i] += cd.price * 4;
+                values[i] -= p.get_sinergy_delta_rating_for_all_flags_with_new_card(cni);
+            }
+            int idx = DecisionParameters.choose_best(values);
+            return p.hand.get(idx);
+        }
+        public static IEnumerator forest_spirit_enter_func(Player p)
+        {
+            yield return new WaitForSeconds(GameManager.get_instance().get_standard_enemy_action_wait_time());
+            var cni = forest_spirit_choose_card(p);
+            p.discard_card_from_hand(cni);
+            p.gain_points(CardData.get_card(cni).price);
+        }
+        #endregion
         #region Freyja
         public static IEnumerator freyja_clock_func(Player p)
         {
@@ -328,6 +352,23 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Goblin soldier
+        public static IEnumerator goblin_soldier_clock_func(Player p)
+        {
+            var gm = GameManager.get_instance();
+            if (gm.is_this_player_not_leading(p))
+            {
+                Logger.Log(Logger.player_log(p.idx, "Goblin soldier asks is this player leading. NO"), TextFilter.get_p_idx_message_src(p.idx));
+                p.gain_points(4);
+            }
+            else
+            {
+                Logger.Log(Logger.player_log(p.idx, "Goblin soldier asks: is this player leading? YES"), TextFilter.get_p_idx_message_src(p.idx));
+                p.loose_points(4);
+            }
+            yield return null;
+        }
+        #endregion
         #region Griffon
         public static IEnumerator griffon_clock_func(Player p)
         {
@@ -383,6 +424,53 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Hydra
+        public static int[] hydra_option_choser(Player p)
+        {
+            int[] opts = new int[4];
+            for (int opt = 0; opt < 4; ++opt) opts[opt] = 0;
+
+            opts[0] = DecisionParameters.ponder_single_stone(p, stone_type.ST_six, 1) * 
+                (p.player_prio==priorities.store_stones?3:1);
+            opts[1] = 3 * p.get_sinergy_complete_rating(card_flags.big_hand) *
+                (p.player_prio == priorities.store_stones ? 3 : 1);
+            opts[2] = DecisionParameters.ponder_single_stone(p, stone_type.ST_three, 1) *
+                (p.player_prio == priorities.store_stones ? 3 : 1);
+            opts[3] = 4 * (p.player_prio == priorities.gain_points ? 3 : 1);
+
+            int[] final_chosen = new int[2];
+            for (int i = 0; i < final_chosen.Length; ++i)
+            {
+                int best = DecisionParameters.choose_best(opts);
+                opts[best] = -100;
+                final_chosen[i] = best;
+            }
+            return final_chosen;
+        }
+        public static IEnumerator hydra_enter_func(Player p)
+        {
+            var gm = GameManager.get_instance();
+
+            var hydra_options = hydra_option_choser(p);
+            Assert.IsTrue(hydra_options.Length==2);
+            foreach(int h in hydra_options)
+            {
+                Logger.Log(Logger.player_log(p.idx, " chooses option " + h + " from hydra enter func"), TextFilter.get_p_idx_message_src(p.idx));
+                switch (h)
+                {
+                    case 0:
+                        p.gain_stones(new stone_quant(0, 0, 1)); break;
+                    case 1:
+                        p.draw() ; break;
+                    case 2:
+                        p.gain_stones(new stone_quant(0,2,0)); break;
+                    case 3:
+                        p.gain_points(4); break;
+                }
+                yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
+            }
+        }
+        #endregion
         #region Ifrit
         public static IEnumerator ifrit_enter_func(Player p)
         {
@@ -420,6 +508,25 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Kappa
+        public static void kappa_trigger_func(Player p, stone_quant sq)
+        {
+            if (sq.s[(int)stone_type.ST_three] > 0)
+            {
+                p.gain_points(2);
+            }
+        }
+        public static IEnumerator kappa_enter_func(Player p)
+        {
+            p.pay_for_card_event += kappa_trigger_func;
+            yield return null;
+        }
+        public static IEnumerator kappa_exit_func(Player p)
+        {
+            p.pay_for_card_event -= kappa_trigger_func;
+            yield return null;
+        }
+        #endregion
         #region Lava Giant
         public static IEnumerator lava_giant_enter_func(Player p)
         {
@@ -454,6 +561,21 @@ namespace voe{
                 p.gain_stones(new stone_quant(0, 0, 1));
             }
             yield return null;
+        }
+        #endregion
+        #region Mimic
+        public static CardNameId mimic_choser_func(Player p)
+        {
+            var gm = GameManager.get_instance();
+            CardNameId cni = DecisionParameters.choose_best_card(p, gm.deck.discard_pile, CardFamily.G, CardEffectTypes.none, (int cost) => { return true; }, p.player_prio,false);
+            return cni;
+        }
+        public static IEnumerator mimic_clock_func(Player p)
+        {
+            var cni = mimic_choser_func(p);
+            if(cni!=CardNameId.NONE)
+                p.add_to_hand_unchecked(cni);
+            yield return new WaitForSeconds(GameManager.get_instance().get_standard_enemy_action_wait_time());
         }
         #endregion
         #region MudSlime
@@ -589,6 +711,72 @@ namespace voe{
         public static IEnumerator sea_spirit_clock_func(Player p)
         {
             p.gain_points(p.stone_manager.sa.s[(int)stone_type.ST_three]);
+            yield return null;
+        }
+        #endregion
+        #region Snail Maiden
+        public static int snail_maiden_choose_func(Player p)
+        {
+            if(!p.stone_manager.has(new stone_quant(0, 1, 0)) && !p.stone_manager.has(new stone_quant(0, 0, 1))){
+                return -1;
+            }
+            if(p.stone_manager.has(new stone_quant(0, 1, 0)) && p.stone_manager.has(new stone_quant(0, 0, 1)))
+            {
+                //Choose
+                int[] ponder = new int[2];
+
+                ponder[0] = DecisionParameters.ponder_stones_gain(p, new stone_quant(0,-1,1));
+                ponder[1] = DecisionParameters.ponder_stones_gain(p, new stone_quant(0, 3, -1));
+
+                return DecisionParameters.choose_best(ponder);
+            }
+            if(p.stone_manager.has(new stone_quant(0, 1, 0)))
+            {
+                return 0;
+            }
+            else if (p.stone_manager.has(new stone_quant(0, 0, 1)))
+            {
+                return 1;
+            }
+            else
+            {
+                throw new UnityException("Non valid state reached in snail maiden choose func");
+            }
+
+        }
+        public static IEnumerator snail_maiden_clock_func(Player p)
+        {
+            int option = snail_maiden_choose_func(p);
+
+            if (option == 0)
+            {
+                Assert.IsTrue(p.stone_manager.has(new stone_quant(0,1,0)));
+                Logger.Log(Logger.player_log(p.idx, " exchanging a '3' stone for a '6' stone via snail maiden clock effect"), TextFilter.get_p_idx_message_src(p.idx));
+                p.stone_manager.sa.s[(int)stone_type.ST_three] -= 1;
+                p.gain_stones(new stone_quant(0, 0, 1));
+            }else if(option == 1)
+            {
+                Assert.IsTrue(p.stone_manager.has(new stone_quant(0, 0, 1)));
+                Logger.Log(Logger.player_log(p.idx, " exchanging a '6' stone for three '3' stones via snail maiden clock effect"), TextFilter.get_p_idx_message_src(p.idx));
+                p.stone_manager.sa.s[(int)stone_type.ST_six] -= 1;
+                p.gain_stones(new stone_quant(0, 0, 1));
+            }else if (option == -1)
+            {
+                Assert.IsFalse(p.stone_manager.has(new stone_quant(0, 1, 0)) || p.stone_manager.has(new stone_quant(0, 0, 1)));
+                Logger.Log(Logger.player_log(p.idx, " snail maiden clock effect does nothing. Requirements not met."), TextFilter.get_p_idx_message_src(p.idx));
+            }
+            else
+            {
+                throw new UnityException("Snail maiden is chosing a non valid option");
+            }
+            yield return null;
+        }
+        #endregion
+        #region Stone Golem
+        public static IEnumerator stone_golem_enter_func(Player p)
+        {
+            int n = p.stone_manager.get_number_of_stones();
+            p.stone_manager.sa = new stone_quant(0, 0, n);
             yield return null;
         }
         #endregion

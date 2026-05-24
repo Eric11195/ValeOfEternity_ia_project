@@ -8,7 +8,7 @@ namespace voe{
     public class Deck
     {
         Stack<CardNameId> draw_pile;
-        CardList discard_pile;
+        public CardList discard_pile;
 
         public Deck()
         {

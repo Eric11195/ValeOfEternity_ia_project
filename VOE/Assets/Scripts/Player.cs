@@ -360,7 +360,8 @@ namespace voe{
             //GameManager.get_instance().update_player_points_representation();
         }
         public void loose_points(int points){
-            Assert.IsTrue(points <= 0);
+            Assert.IsTrue(points > 0);
+            Logger.Log(Logger.player_log(idx, "looses " + points + " points"), TextFilter.get_p_idx_message_src(idx));
             my_points -= points;
             my_points = Mathf.Max(points, 1);
         }
@@ -422,6 +423,23 @@ namespace voe{
             int enabler_value = get_enablers_sinergy_rating(flags);
             if (payoffs_value == 0 || enabler_value == 0) return 0;
             return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
+        }
+        public int get_sinergy_complete_rating_for_all_flags()
+        {
+            return payoffs_ratings[(int)card_flags_idx.COUNT] + enabler_ratings[(int)card_flags_idx.COUNT];
+        }
+        public int get_sinergy_complete_rating_for_all_flags_with_new_card(CardNameId cni)
+        {
+            add_to_flags_ratings(cni);
+            int val = payoffs_ratings[(int)card_flags_idx.COUNT] + enabler_ratings[(int)card_flags_idx.COUNT];
+            substract_from_flags_ratings(cni);
+            return val;
+        }
+        public int get_sinergy_delta_rating_for_all_flags_with_new_card(CardNameId cni)
+        {
+            int val_before = payoffs_ratings[(int)card_flags_idx.COUNT] + enabler_ratings[(int)card_flags_idx.COUNT];
+            int val_after = get_sinergy_complete_rating_for_all_flags_with_new_card(cni);
+            return val_after - val_before;
         }
         public int get_sinergy_complete_rating(card_flags_idx flags)
         {
@@ -485,15 +503,17 @@ namespace voe{
             table_need_update = true;
         }
         public void add_to_hand(CardNameId cni){
-
-            Logger.LogBold(Logger.player_log(idx,"puts into his hand " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
-
             Assert.IsTrue(chosen_at_market.contains(cni));
+            add_to_hand_unchecked(cni);
+            PlayCardsRound.remove_card_from_market(cni);
+            tame_card_event?.Invoke(this, CardData.get_card(cni).family);
+        }
+        public void add_to_hand_unchecked(CardNameId cni)
+        {
+            Logger.LogBold(Logger.player_log(idx, "puts into his hand " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
+
             chosen_at_market.extract(cni);
             hand.add(cni);
-            PlayCardsRound.remove_card_from_market(cni);
-
-            tame_card_event?.Invoke(this, CardData.get_card(cni).family);
 
             hand_representation_needs_update = true;
 
