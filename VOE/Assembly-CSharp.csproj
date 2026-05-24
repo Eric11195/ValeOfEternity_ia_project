@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\StoneComponent.cs" />
     <Compile Include="Assets\Scripts\CardData.cs" />
     <Compile Include="Assets\Scripts\MonteCarloClockSimulator.cs" />
+    <Compile Include="Assets\Scripts\stats.cs" />
     <Compile Include="Assets\Scripts\CardEffectTypes.cs" />
   </ItemGroup>
   <ItemGroup>

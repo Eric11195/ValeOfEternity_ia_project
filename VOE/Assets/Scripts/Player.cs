@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
-using System.Linq;
 using voe;
+using static UnityEditor.Progress;
 using static voe.DecisionParameters;
 
 namespace voe{
@@ -39,6 +40,10 @@ namespace voe{
         //COUNT IS SUM, COUNT+1 is best
         public List<int> payoffs_ratings;
 
+        public stats my_stats;
+
+        int stones_gained_since_last_round;
+
         public Player()
         {
             hand = new CardList();
@@ -53,6 +58,19 @@ namespace voe{
                 enabler_ratings.Add(0);
                 payoffs_ratings.Add(0);
             }
+            
+            my_stats = stats.init_base_stats();
+        }
+
+        public stats retrieve_stats()
+        {
+            var gm = GameManager.get_instance();
+
+            my_stats.cards_in_hand = hand.size();
+            my_stats.stones_per_round /= ((float)gm.get_round());
+            my_stats.mid_stones_at_end_of_round /= ((float)gm.get_round());
+            my_stats.mid_stones_value_at_end_of_round /= ((float)gm.get_round());
+            return my_stats;
         }
 
         private int get_cheapest_cost_of_card_in_hand()
@@ -210,6 +228,10 @@ namespace voe{
                 yield return gm.StartCoroutine(activate_single_clock(cni));
                 yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
+
+            //COUNT stones at end of round;
+            my_stats.mid_stones_value_at_end_of_round += stone_manager.get_total_value();
+            my_stats.mid_stones_at_end_of_round += stone_manager.get_number_of_stones();
         }
         public IEnumerator activate_single_clock(CardNameId cni)
         {
@@ -243,7 +265,10 @@ namespace voe{
                 payed.s[(int)st] += 1;
                 substracted_cost -= stone_manager.get_value(st);
             }
+            my_stats.total_spent_stone += payed.get_number_of_stones();
+            my_stats.total_stones_value_spent += stone_manager.get_value(payed);
             Logger.Log(Logger.player_log(idx,"payed " + stone_manager.get_value(payed)+" to cover "+cost), TextFilter.get_p_idx_message_src(idx));
+            my_stats.wasted_stones_value += (stone_manager.get_value(payed) - cost);
             Assert.IsTrue(
                 stone_manager.check_valid_payment(payed, cost)
             );
@@ -278,15 +303,34 @@ namespace voe{
             //STONES ARE DIFFERENT
             var sorted_dir = create_stone_priority_list();
             int stone_idx = 0;
+
             while ((free_stones = stone_manager.get_number_of_spaces_to_fill()) > 0)
             {
                 var item = sorted_dir.ElementAt(stone_idx);
-                int stones_to_add = Mathf.Min(sq.s[(int)item.Key], free_stones);
+                int possible_stones = sq.s[(int)item.Key];
+                int stones_to_add = Mathf.Min(possible_stones, free_stones);
+
+                if(possible_stones < stones_to_add)
+                {
+                    int num_stones_wasted = stones_to_add - possible_stones;
+                    my_stats.wasted_stones += num_stones_wasted;
+                    my_stats.wasted_stones_value += num_stones_wasted * stone_manager.sv.s[(int)item.Key];
+                }
 
                 stone_manager.add_stones(item.Key, stones_to_add);
+                ++stone_idx;
+            }
+            while(stone_idx < sorted_dir.Count)
+            {
+                var item = sorted_dir.ElementAt(stone_idx);
+                int num = sq.s[(int)item.Key];
+                Assert.IsTrue(num >= 0);
+                my_stats.wasted_stones += num;
+                my_stats.wasted_stones_value += num * stone_manager.sv.s[(int)item.Key];
 
                 ++stone_idx;
             }
+
 
             yield return null;
         }
@@ -300,6 +344,8 @@ namespace voe{
                 }
                 ++i;
             }
+
+            my_stats.stones_per_round += Mathf.Min(sq.get_number_of_stones(), stone_manager.get_number_of_spaces_to_fill());
 
             if(stone_manager.get_number_of_spaces_to_fill() >= sq.get_number_of_stones()){
                 stone_manager.add_stones(sq);
@@ -505,9 +551,15 @@ namespace voe{
 
             hand_representation_needs_update = true;
             table_need_update = true;
+
+            if((card.enabler & card_flags.removal)!=0 || (card.payoff & card_flags.removal) != 0)
+            {
+                ++my_stats.removal_played;
+            }
         }
         public void add_to_hand(CardNameId cni){
             Assert.IsTrue(chosen_at_market.contains(cni));
+            ++my_stats.cards_put_into_hand;
             add_to_hand_unchecked(cni);
             PlayCardsRound.remove_card_from_market(cni);
             chosen_at_market.extract(cni);
@@ -526,6 +578,7 @@ namespace voe{
         public IEnumerator sell_card(CardNameId cni){
             Logger.LogBold(Logger.player_log(idx, "selling "+ AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
             Assert.IsTrue(chosen_at_market.contains(cni));
+            ++my_stats.cards_sold;
             chosen_at_market.extract(cni);
             GameManager._instance.deck.discard(cni);
             PlayCardsRound.remove_card_from_market(cni);
