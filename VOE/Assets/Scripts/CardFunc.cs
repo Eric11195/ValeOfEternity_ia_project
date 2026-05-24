@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace voe{
     public static class CardFuncs
@@ -89,6 +90,44 @@ namespace voe{
             yield return null;
         }
         #endregion
+        #region Basilisk
+        public static int basilisk_choosing_func(Player p)
+        {
+            int[] ponderated_options;
+
+            if(p.stone_manager.get_number_of_spaces_to_fill() == 0)
+                ponderated_options = new int[3]{1,0,0};
+            else
+                ponderated_options = new int[3]
+                {
+                    DecisionParameters.ponder_single_stone(p, stone_type.ST_one, 1),
+                    DecisionParameters.ponder_single_stone(p, stone_type.ST_three, 1),
+                    DecisionParameters.ponder_single_stone(p, stone_type.ST_six, 1)
+                };
+            int option = DecisionParameters.choose_best(ponderated_options);
+
+            Logger.Log(Logger.player_log(p.idx,"choose option " + option.ToString() + " of basilisk clock action"), TextFilter.get_p_idx_message_src(p.idx));
+            return option;
+        }
+        public static IEnumerator basilisk_clock_func(Player p)
+        {
+            switch (basilisk_choosing_func(p))
+            {
+                case 0:
+                    p.gain_stones(new stone_quant(1, 0, 0));
+                    break;
+                case 1:
+                    p.loose_points(1);
+                    p.gain_stones(new stone_quant(0, 1, 0));
+                    break;
+                case 2:
+                    p.loose_points(2);
+                    p.gain_stones(new stone_quant(0, 0, 1));
+                    break;
+            }
+            yield return new WaitForSeconds(GameManager.get_instance().get_standard_enemy_action_wait_time());
+        }
+        #endregion
         #region Behemoth
         public static IEnumerator behemoth_enter_func(Player p)
         {
@@ -110,6 +149,49 @@ namespace voe{
                 p.gain_points(3);
             }
             yield return null;
+        }
+        #endregion
+        #region Cerberus
+        public static List<CardNameId> cerberus_choose_to_discard(Player p)
+        {
+            int[] card_ponderations = new int[p.table.size()];
+
+            for(int i = 0; i < p.table.size(); ++i)
+            {
+                var cni = p.table.get(i);
+                if (cni == CardNameId.Cerberus ||
+                    !CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.enter)) 
+                {
+                    card_ponderations[i] = 500;
+                    continue;
+                }
+
+                card_ponderations[i] = 0;
+                for(int j = 0; j < (int)card_flags_idx.COUNT; ++j)
+                {
+                    //This should return negative values if the card was synergistic
+                    card_ponderations[i] += p.get_sinergies_rating_delta_without_card((card_flags_idx)j, cni);
+                }
+            }
+
+            List<CardNameId> cnil = new(0);
+            int best = DecisionParameters.choose_best(card_ponderations);
+            while (cnil.Count < 3 && card_ponderations[best] <= 0)
+            {
+                cnil.Add(p.table.get(best));
+                card_ponderations[best] = 500;
+            }
+            return cnil;
+        }
+        public static IEnumerator cerberus_enter_func(Player p)
+        {
+            var cnil = cerberus_choose_to_discard(p);
+            foreach(var cni in cnil)
+            {
+                Logger.LogBold(Logger.player_log(p.idx, " Cerberus effect discards:"), TextFilter.get_p_idx_message_src(p.idx));
+                p.discard_card_from_table(cni);
+                yield return new WaitForSeconds(GameManager.get_instance().get_standard_enemy_action_wait_time());
+            }
         }
         #endregion
         #region Boreas

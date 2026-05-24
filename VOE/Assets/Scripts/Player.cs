@@ -403,6 +403,19 @@ namespace voe{
         {
             return get_sinergy_complete_rating(flags) - get_simulated_sinergy_rating_with_new_card(flags, cni);
         }
+        public int get_simulated_sinergy_rating_without_card(card_flags_idx flags, CardNameId cni)
+        {
+            Assert.IsTrue(table.contains(cni));
+
+            substract_from_flags_ratings(cni);
+            int value = get_sinergy_complete_rating(flags);
+            add_to_flags_ratings(cni);
+            return value;
+        }
+        public int get_sinergies_rating_delta_without_card(card_flags_idx flags, CardNameId cni)
+        {
+            return get_sinergy_complete_rating(flags) - get_simulated_sinergy_rating_without_card(flags, cni);
+        }
         public int get_sinergy_complete_rating(card_flags flags)
         {
             int payoffs_value = get_payoff_sinergy_rating(flags);
@@ -547,6 +560,8 @@ namespace voe{
         }
         public void discard_card_from_table(CardNameId cni)
         {
+            Logger.Log(Logger.player_log(idx, " discards " +AssetDataBase.get_card_file_name(cni)+ "from his table"), TextFilter.get_p_idx_message_src(idx));
+
             Assert.IsTrue(table.contains(cni));
             table.extract(cni);
             GameManager._instance.deck.discard(cni);
