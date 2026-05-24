@@ -170,9 +170,12 @@ namespace voe{
 
                 highlight_card_area.clear();
                 highlight_card_area.add(cni);
+                //clamping x and y
+                mouse_world_pos.x = Mathf.Min(Mathf.Max(-8.0f, mouse_world_pos.x),8.0f);
+                mouse_world_pos.y = Mathf.Min(Mathf.Max(-1.7f, mouse_world_pos.y), 4.0f);
                 highlight_card_area.transform.position = mouse_world_pos;
                 highlight_card_area.calculate_measures();
-                Debug.Log(highlight_card_area.transform.position);
+                //Debug.Log(highlight_card_area.transform.position);
                 last = item;
             }
         }
