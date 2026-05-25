@@ -3,6 +3,7 @@ using UnityEngine;
 namespace voe {
     public struct stats
     {
+        public int ranking;
         public int most_points_in_single_round;
         public float stones_per_round;
         public int total_spent_stone;

@@ -61,7 +61,7 @@ namespace voe{
 
             var myList = ranking.ToList();
 
-            myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+            myList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
             int[] final_rank = new int[players.Count];
             int i = 0;
@@ -73,12 +73,13 @@ namespace voe{
         }
         private void show_end_result()
         {
+            var rank = get_ranking();
             stats[] st = new stats[4]
             {
-                players[0].my_stats,
-                players[1].my_stats,
-                players[2].my_stats,
-                players[3].my_stats
+                players[0].retrieve_stats(rank[0]),
+                players[1].retrieve_stats(rank[1]),
+                players[2].retrieve_stats(rank[2]),
+                players[3].retrieve_stats(rank[3])
             };
             GameObject.Find("PlayerStats").GetComponent<PlayerStatSetter>().set_stats(st);
         }

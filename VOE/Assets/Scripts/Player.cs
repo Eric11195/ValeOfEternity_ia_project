@@ -62,10 +62,10 @@ namespace voe{
             my_stats = stats.init_base_stats();
         }
 
-        public stats retrieve_stats()
+        public stats retrieve_stats(int ranking)
         {
             var gm = GameManager.get_instance();
-
+            my_stats.ranking = ranking;
             my_stats.cards_in_hand = hand.size();
             my_stats.stones_per_round /= ((float)gm.get_round());
             my_stats.mid_stones_at_end_of_round /= ((float)gm.get_round());
@@ -229,6 +229,7 @@ namespace voe{
                 yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
 
+            my_stats.most_points_in_single_round = Mathf.Max(my_stats.most_points_in_single_round, points_since_round_start);
             points_since_round_start = 0;
             //COUNT stones at end of round;
             my_stats.mid_stones_value_at_end_of_round += stone_manager.get_total_value();
