@@ -93,12 +93,14 @@ namespace voe{
         public static CardNameId choose_best_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio, bool market)
         {
             var opponents_points = choose_card(p, cl, cf, cet, cp, player_prio, market);
-            int idx = choose_best(opponents_points);
+            if (opponents_points.Length > 0)
+            {
+                int idx = choose_best(opponents_points);
 
-            if (check_conditions(cl.get(idx), cf, cet, cp))
-                return cl.get(idx);
-            else 
-                return CardNameId.NONE;
+                if (check_conditions(cl.get(idx), cf, cet, cp))
+                    return cl.get(idx);
+            }
+            return CardNameId.NONE;
         }
         public static CardNameId choose_best_playable_card(Player p, CardList cl, CardFamily cf, CardEffectTypes cet, cost_precondition cp, priorities player_prio, bool market)
         {

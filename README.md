@@ -589,25 +589,35 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 
 #### Prueba 1: Sobre el orden de los relojes
 
-1. Asegurarnos de que todas las cartas con relojes se giran 90 grados en la fase de relojes del jugador que las posee.
-2. Asegurarnos de que al final de la ronda todas las cartas giradas se vuelven a poner del derecho.
+1. Asegurarnos de que todas las cartas con relojes se activan en la ventana de mensajes para cada jugador.
 
 #### Prueba 2: Asegurarnos de que el orden de los relojes tiene sentido
 
-1. En más de una caso el orden en el que se activen los relojes no afecta al resultado. Pero en la mayoría podremos maximizar el número de monedas/piedras obtenidas, el número de puntos, el número de cartas en mano o una combinación de todos estos.
-2. Asegurarnos de que el orden seguido cuadra con la prioridad actual del jugador.
-3. El orden en el que se giran debería ser sencillo de seguir con las pausas entre girar las distintas cartas.
+1. En más de un caso el orden en el que se activen los relojes no afecta al resultado. Pero en la mayoría podremos maximizar el número de monedas/piedras obtenidas, el número de puntos, el número de cartas en mano o una combinación de todos estos.
+2. El orden en el que se activan debería ser sencillo de seguir con las pausas entre girar las distintas cartas.
 
-### E
+### Resultados
+
+#### Primera parametrización
+
+#### Segunda parametrización
+
+|Número de Partida|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|
+|1|38|16|36|18||
+
+__Media Final: X__
 
 #### Prueba 1: Prioridad visible
 
-1. La prioridad actual de cada jugador es visible en pantalla, debajo de su número de jugador.
+1. La prioridad actual de cada jugador será escrita en el panel de texto.
 2. La prioridad tiene sentido con sus recursos. No será obtener dinero si las reservas de monedas están llenas. No será jugar cartas si no tenemos dinero. No será usar removal si vamos en cabeza.
 
 ### Final de las pruebas
 
 1. Salir de la aplicación o parar la ejecución en el entorno de unity.
+
+### Promedio de resultados
 
 ## Recuento de Tareas
 
@@ -615,15 +625,19 @@ Se pueden encontrar en el [proyects](https://github.com/users/IzanDeVegaLopez/pr
 
 ## Conclusiones
 
+La IA que se ha usado en este proyecto está lejos de obtener resultados óptimos. Pero con un sistema simple obtiene resultados aceptables, muy posiblemente mejorables con una mejor parametrización del proyecto.
+
+Durante la última fase de prueba y parametrización obtuve varios comportamientos distintos de esta IA.
+En el primer caso la mayoría de jugadores obtenían puntos bajos (5-10), pero en algunas ocasiones alguno conseguía obtener más de 40 puntos.
+En el segundo la puntuación media subío hasta más de veinte puntos, pero la más alta también disminuyo a poco menos de cuarenta.
+
+Un jugador humano experimentado es capaz de obtener 60 puntos en la mayoría de partidas de dos jugadores al final de la ronda 10. En las partidas de 4 jugadores es normal que alguno de ellos siga llegando a 60 puntos, pero también de que la media de puntuaciones disminuya hasta encontrarse respecto a los 50. Los datos de partidas de 4 personas se han obtenido de varias partidas jugadas en persona durante la elaboración de este proyecto. Mientras que los de partidas de dos jugadores estan respaldados por repeticiones de partidas en board game arena y los datos de la wiki.
+
 ## Agradecimientos Especiales
 
-Quiero agradecer a mi padre por su aportación en el apartado visual al proyecto. Que convirtió mi boceto chuchurrió del fondo del menú no solo en algo que no te diese un sarpullido en los ojos si no en algo verdaderamente genial.
+Quiero agradecer a mi padre por su aportación en el apartado visual al proyecto. Que convirtió mi boceto chuchurrió del fondo del menú no solo en algo que no te diese un sarpullido en los ojos si no en algo verdaderamente genial a partir del arte original del juego de mesa.
 
 ## Referencias
-
-Por día de uso
-
-### 07/05/2026
 
 - [https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/](https://www.geeksforgeeks.org/c-sharp/text-textmeshpro-in-unity/)
 - [https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c](https://stackoverflow.com/questions/44390454/what-is-the-use-of-region-and-endregion-in-c)
@@ -632,13 +646,7 @@ Por día de uso
 - [https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject-ctor.html](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/GameObject-ctor.html)
 - [https://discussions.unity.com/t/destroy-all-children-of-object/92016](https://discussions.unity.com/t/destroy-all-children-of-object/92016)
 - [https://discussions.unity.com/t/how-to-get-list-of-child-game-objects/34696](https://discussions.unity.com/t/how-to-get-list-of-child-game-objects/34696)
-
-### 08/05/2026
-
 - [https://www.geeksforgeeks.org/c-sharp/lambda-expressions-in-c-sharp/](https://www.geeksforgeeks.org/c-sharp/lambda-expressions-in-c-sharp/)
-
-### 09/05/2026
-
 - [https://valeofeternity.wiki.gg](https://valeofeternity.wiki.gg)
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Events.UnityEvent.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Events.UnityEvent.html)
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/30_search.html?q=unityAction](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/30_search.html?q=unityAction)
@@ -648,29 +656,17 @@ Por día de uso
 - [https://www.whisthub.com/blog/how-to-write-an-ai-for-a-card-game](https://www.whisthub.com/blog/how-to-write-an-ai-for-a-card-game)
 - Monte Carlo Rollout como estrategia útil para resolver problemas en juegps de cartas [https://www.youtube.com/watch?v=lmSRnG4eaKs&t=635s](https://www.youtube.com/watch?v=lmSRnG4eaKs&t=635s)
 - Investigación Monte Carlo Rollout [https://en.wikipedia.org/wiki/Monte_Carlo_tree_search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
-
-### 11/05/2026
-
 - [https://mermaid.ai/open-source/syntax/stateDiagram.html](https://mermaid.ai/open-source/syntax/stateDiagram.html)
 - [https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/](https://narratech.com/es/inteligencia-artificial-para-videojuegos/decision/probabilidad-y-utilidad/)
-
-### 21/05/2026
-
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Debug.LogWarning.html)
 - [https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value](https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value)
 - [https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary](https://stackoverflow.com/questions/141088/how-to-iterate-over-a-dictionary)
 - [https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3](https://discussions.unity.com/t/when-does-yield-startcoroutine-actually-execute/869077/3)
 - [https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html](https://docs.unity3d.com/6000.3/Documentation/Manual/Coroutines.html)
-
-## 22/05/2026
-
 - [https://www.emergentmind.com/topics/monte-carlo-rollouts](https://www.emergentmind.com/topics/monte-carlo-rollouts)
 - [https://www.emergentmind.com/topics/monte-carlo-tree-search](https://www.emergentmind.com/topics/monte-carlo-tree-search)
 - [https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave](https://www.emergentmind.com/topics/real-time-audio-variational-autoencoder-rave)
 - [https://www.youtube.com/watch?v=TR_XbJBwjvw](https://www.youtube.com/watch?v=TR_XbJBwjvw)
 - [https://www.youtube.com/watch?v=gayEHaol4Lc](https://www.youtube.com/watch?v=gayEHaol4Lc)
-
-## 23/05/2026
-
 - [https://stackoverflow.com/questions/3143657/truncate-two-decimal-places-without-rounding](https://stackoverflow.com/questions/3143657/truncate-two-decimal-places-without-rounding)
 - [https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.OverlapPointAll.html](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.OverlapPointAll.html)

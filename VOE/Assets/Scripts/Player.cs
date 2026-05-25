@@ -154,6 +154,18 @@ namespace voe{
                     player_prio = priorities.take_playable_card;
                 }
             }
+            string s = "";
+            switch (player_prio)
+            {
+                case priorities.play_favourite: s = "Play Favourite"; break;
+                case priorities.store_stones: s = "Store Stones";break;
+                case priorities.gain_points: s = "Gain Points"; break;
+                case priorities.take_playable_card: s = "Take Playable Card";break;
+                default:
+                    throw new UnityException("Nonsensical Player Priority Reached");
+            }
+            Assert.IsFalse(s == "");
+            Logger.Log(Logger.player_log(idx, "Player priority chosen is \""+ s +"\""), TextFilter.get_p_idx_message_src(idx));
         }
 
         public IEnumerator choose_card_on_market()
