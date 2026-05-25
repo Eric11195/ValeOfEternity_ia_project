@@ -64,7 +64,9 @@ namespace voe {
         {
             //Initialize relevant values
             //throw new UnityException("unimplemented: needs to call recursive monte carlo rollout");
+            int player_points_prior = p.my_points;
             var aux = recursive_monte_carlo_rollout(new state(p), p);
+            Assert.IsTrue(player_points_prior == p.my_points);
             return aux.cal;
         }
         public class clock_activation_list

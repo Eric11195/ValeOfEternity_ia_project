@@ -430,7 +430,7 @@ namespace voe{
             Logger.Log(Logger.player_log(idx, "looses " + points + " points"), TextFilter.get_p_idx_message_src(idx));
             my_points -= points;
             points_since_round_start -= points;
-            my_points = Mathf.Max(points, 1);
+            my_points = Mathf.Max(my_points, 1);
             
             switch (src)
             {
