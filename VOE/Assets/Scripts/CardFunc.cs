@@ -37,7 +37,7 @@ namespace voe{
                 p.choose_best_card_in_tableau(
                     CardFamily.None,
                     CardEffectTypes.none,
-                    (int cost) =>{return cost!=9;},
+                    (int cost) =>{return true;},
                     CardNameId.Aeris
                 );
             p.bounce_card(card_chosen);

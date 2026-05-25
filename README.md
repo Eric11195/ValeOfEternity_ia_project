@@ -684,6 +684,8 @@ Ahora lo haremos al contrario, conservaremos la función de evaluación de la pr
 |9|--|0|6|30|26|15.5|
 |10|--|22|12|0|20|13.5|
 
+__Media Final: 18.8__
+
 #### Conclusión 
 
 La primera fue la que mejor resultados dió, así que será la que conservaremos.
