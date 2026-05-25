@@ -598,9 +598,15 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 
 ### Resultados
 
-Para cada prueba obtendremos los resultados de las 10 partidas
+Para cada prueba obtendremos los resultados de las 10 primeras partidas. Después cambiaremos la parametrización de las decisiones para intentar obtener un mejor resultado.
 
 #### Primera parametrización
+
+Esta será la función de evaluación que usaremos para esta primera vez.
+```cpp
+if (payoffs_value == 0 || enabler_value == 0) return 0;
+return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
+```
 
 |Número de Partida|---|P1|P2|P3|P4|Media|
 |---|---|---|---|---|---|---|
@@ -621,6 +627,12 @@ __Media Final: 20.275__
 
 Aqui hemos reevaluado las flags de sinergias de la mayoría de cartas y cambiado la fórmula de puntuación de cartas a una que beneficie obtener cartas que recompensan sinergias después de tener varias cartas que facilitan dicha sinergia.
 
+Esta es la función de evaluación: 
+
+```cpp
+return enabler_value + payoffs_value * (enabler_value);
+```
+
 |Número de Partida|---|P1|P2|P3|P4|Media|
 |---|---|---|---|---|---|---|
 |1|--|38|16|36|18|27|
@@ -636,11 +648,45 @@ Aqui hemos reevaluado las flags de sinergias de la mayoría de cartas y cambiado
 
 __Media Final: 16__
 
-### Tercera parametrización
+#### Tercera parametrización
 
 Mezclaremos la función de evaluación de la segunda parametrización con las flags de la primera.
 
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|22|24|4|7|25|
+|2|--|20|21|1|3|11.25|
+|3|--|36|29|24|9|24.5|
+|4|--|23|21|22|34|25|
+|5|--|32|1|19|32|21|
+|6|--|24|49|1|1|18.75|
+|7|--|10|4|11|16|10.25|
+|8|--|17|14|16|13|15|
+|9|--|20|10|1|45|19|
+|10|--|17|30|4|23|18.5|
 
+__Media Final: 16.746__
+
+#### Cuarta parametrización
+
+Ahora lo haremos al contrario, conservaremos la función de evaluación de la primera con las flags de la segunda.
+
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|41|39|15|27|30.5|
+|2|--|24|15|3|22|16|
+|3|--|23|11|0|16|12.5|
+|4|--|32|6|23|4|16.25|
+|5|--|19|16|35|26|24|
+|6|--|11|39|3|31|21|
+|7|--|21|30|26|30|26.75|
+|8|--|22|0|14|12|12|
+|9|--|0|6|30|26|15.5|
+|10|--|22|12|0|20|13.5|
+
+#### Conclusión 
+
+La primera fue la que mejor resultados dió, así que será la que conservaremos.
 
 #### Prueba 1: Prioridad visible
 
