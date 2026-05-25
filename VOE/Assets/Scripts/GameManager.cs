@@ -73,7 +73,14 @@ namespace voe{
         }
         private void show_end_result()
         {
-
+            stats[] st = new stats[4]
+            {
+                players[0].my_stats,
+                players[1].my_stats,
+                players[2].my_stats,
+                players[3].my_stats
+            };
+            GameObject.Find("PlayerStats").GetComponent<PlayerStatSetter>().set_stats(st);
         }
 
         public static GameManager get_instance()
@@ -148,6 +155,7 @@ namespace voe{
                 current_turn_player = (current_turn_player+1)%players.Count;
             }
             yield return null;
+            show_end_result();
         }
 
         public int get_turn_player_idx() { return current_turn_player; }

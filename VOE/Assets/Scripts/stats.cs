@@ -11,6 +11,7 @@ namespace voe {
         public float mid_stones_at_end_of_round;
         public int points_per_enter_effect;
         public int points_per_clock_effect;
+        public int points_per_infinite_effect;
         public int wasted_stones;
         public int wasted_stones_value;
         public int removal_played;

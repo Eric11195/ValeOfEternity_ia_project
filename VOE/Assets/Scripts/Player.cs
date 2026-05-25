@@ -42,7 +42,7 @@ namespace voe{
 
         public stats my_stats;
 
-        int stones_gained_since_last_round;
+        int points_since_round_start;
 
         public Player()
         {
@@ -229,6 +229,7 @@ namespace voe{
                 yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
 
+            points_since_round_start = 0;
             //COUNT stones at end of round;
             my_stats.mid_stones_value_at_end_of_round += stone_manager.get_total_value();
             my_stats.mid_stones_at_end_of_round += stone_manager.get_number_of_stones();
@@ -402,18 +403,43 @@ namespace voe{
             hand_representation_needs_update = true;
             table_need_update = true;
         }
-
-        public void gain_points(int points){
+        public enum points_src
+        {
+            etb, clock, infinite
+        };
+        public void gain_points(int points, points_src src){
             Assert.IsTrue(points >= 0);
             Logger.Log(Logger.player_log(idx,"gains "+points+" points"), TextFilter.get_p_idx_message_src(idx));
             my_points += points;
-            //GameManager.get_instance().update_player_points_representation();
+            points_since_round_start += points;
+
+            switch (src)
+            {
+                case points_src.etb:
+                    my_stats.points_per_enter_effect += points; break;
+                case points_src.clock:
+                    my_stats.points_per_clock_effect += points; break;
+                case points_src.infinite:
+                    my_stats.points_per_infinite_effect += points; break;
+            }
         }
-        public void loose_points(int points){
+        public void loose_points(int points, points_src src)
+        {
             Assert.IsTrue(points > 0);
             Logger.Log(Logger.player_log(idx, "looses " + points + " points"), TextFilter.get_p_idx_message_src(idx));
             my_points -= points;
+            points_since_round_start -= points;
             my_points = Mathf.Max(points, 1);
+            
+            switch (src)
+            {
+                case points_src.etb:
+                    my_stats.points_per_enter_effect -= points; break;
+                case points_src.clock:
+                    my_stats.points_per_clock_effect -= points; break;
+                case points_src.infinite:
+                    my_stats.points_per_infinite_effect -= points; break;
+            }
         }
 
         private int get_total_rating(List<int> list)

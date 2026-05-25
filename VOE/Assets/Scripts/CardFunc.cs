@@ -26,7 +26,7 @@ namespace voe{
                 cf
             );
             Assert.IsTrue(enemy != null);
-            p.gain_points(points);
+            p.gain_points(points, Player.points_src.etb);
             enemy.discard_card_by_type_from_table(cf);
             yield return null;
         }
@@ -41,7 +41,7 @@ namespace voe{
                     CardNameId.Aeris
                 );
             p.bounce_card(card_chosen);
-            p.gain_points(CardData.get_card(card_chosen).price);
+            p.gain_points(CardData.get_card(card_chosen).price, Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -118,11 +118,11 @@ namespace voe{
                     p.gain_stones(new stone_quant(1, 0, 0));
                     break;
                 case 1:
-                    p.loose_points(1);
+                    p.loose_points(1, Player.points_src.clock);
                     p.gain_stones(new stone_quant(0, 1, 0));
                     break;
                 case 2:
-                    p.loose_points(2);
+                    p.loose_points(2, Player.points_src.clock);
                     p.gain_stones(new stone_quant(0, 0, 1));
                     break;
             }
@@ -132,7 +132,7 @@ namespace voe{
         #region Behemoth
         public static IEnumerator behemoth_enter_func(Player p)
         {
-            p.gain_points(3 * p.count_families());
+            p.gain_points(3 * p.count_families(), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -147,7 +147,7 @@ namespace voe{
         {
             if (p.stone_manager.get_number_of_stones(stone_type.ST_one) > 0)
             {
-                p.gain_points(3);
+                p.gain_points(3, Player.points_src.clock);
             }
             yield return null;
         }
@@ -198,7 +198,7 @@ namespace voe{
         #region Boreas
         public static IEnumerator boreas_enter_func(Player p)
         {
-            p.gain_points(p.count_cards_in_family(CardFamily.P));
+            p.gain_points(p.count_cards_in_family(CardFamily.P), Player.points_src.etb);
             p.bounce_card(CardNameId.Boreas);
             yield return null;
         }
@@ -208,7 +208,7 @@ namespace voe{
         {
             if (p.stone_manager.get_number_of_stones(stone_type.ST_three) > 0)
             {
-                p.gain_points(5);
+                p.gain_points(5, Player.points_src.clock);
             }
             yield return null;
         }
@@ -252,14 +252,14 @@ namespace voe{
         #region Eternity
         public static IEnumerator eternity_enter_func(Player p)
         {
-            p.gain_points(4 * p.count_families());
+            p.gain_points(4 * p.count_families(), Player.points_src.etb);
             yield return null;
         }
         #endregion
         #region Firefox
         public static IEnumerator firefox_enter_func(Player p)
         {
-            p.gain_points(1 * p.count_cards_in_hand());
+            p.gain_points(1 * p.count_cards_in_hand(), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -283,13 +283,13 @@ namespace voe{
             yield return new WaitForSeconds(GameManager.get_instance().get_standard_enemy_action_wait_time());
             var cni = forest_spirit_choose_card(p);
             p.discard_card_from_hand(cni);
-            p.gain_points(CardData.get_card(cni).price);
+            p.gain_points(CardData.get_card(cni).price, Player.points_src.etb);
         }
         #endregion
         #region Freyja
         public static IEnumerator freyja_clock_func(Player p)
         {
-            p.gain_points(1 * p.count_cards_with_clocks());
+            p.gain_points(1 * p.count_cards_with_clocks(), Player.points_src.clock);
             yield return null;
         }
         #endregion
@@ -298,7 +298,7 @@ namespace voe{
         {
             if (q.s[(int)stone_type.ST_six] > 0)
             {
-                p.gain_points(3);
+                p.gain_points(3, Player.points_src.infinite);
             }
         }
         public static IEnumerator gargoyle_enter_func(Player p)
@@ -339,7 +339,7 @@ namespace voe{
         #region Gi-rin
         public static IEnumerator girin_enter_func(Player p)
         {
-            p.gain_points(2 * p.count_cards_in_table());
+            p.gain_points(2 * p.count_cards_in_table(), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -347,8 +347,8 @@ namespace voe{
         public static IEnumerator goblin_clock_func(Player p)
         {
             var enemy = p.choose_enemy();
-            p.gain_points(1);
-            enemy.loose_points(1);
+            p.gain_points(1, Player.points_src.clock);
+            enemy.loose_points(1, Player.points_src.clock);
             yield return null;
         }
         #endregion
@@ -359,12 +359,12 @@ namespace voe{
             if (gm.is_this_player_not_leading(p))
             {
                 Logger.Log(Logger.player_log(p.idx, "Goblin soldier asks is this player leading. NO"), TextFilter.get_p_idx_message_src(p.idx));
-                p.gain_points(4);
+                p.gain_points(4, Player.points_src.clock);
             }
             else
             {
                 Logger.Log(Logger.player_log(p.idx, "Goblin soldier asks: is this player leading? YES"), TextFilter.get_p_idx_message_src(p.idx));
-                p.loose_points(4);
+                p.loose_points(4, Player.points_src.clock);
             }
             yield return null;
         }
@@ -398,7 +398,7 @@ namespace voe{
         {
             if (p.count_cards_in_hand() == p.count_cards_in_table())
             {
-                p.gain_points(3);
+                p.gain_points(3, Player.points_src.etb);
             }
             yield return null;
         }
@@ -465,7 +465,7 @@ namespace voe{
                     case 2:
                         p.gain_stones(new stone_quant(0,2,0)); break;
                     case 3:
-                        p.gain_points(4); break;
+                        p.gain_points(4, Player.points_src.etb); break;
                 }
                 yield return new WaitForSeconds(gm.get_standard_enemy_action_wait_time());
             }
@@ -474,7 +474,7 @@ namespace voe{
         #region Ifrit
         public static IEnumerator ifrit_enter_func(Player p)
         {
-            p.gain_points(1 * p.count_cards_in_table());
+            p.gain_points(1 * p.count_cards_in_table(), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -504,7 +504,7 @@ namespace voe{
         }
         public static IEnumerator incubus_enter_func(Player p)
         {
-            p.gain_points(2*incubus_count(p));
+            p.gain_points(2*incubus_count(p), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -513,7 +513,7 @@ namespace voe{
         {
             if (sq.s[(int)stone_type.ST_three] > 0)
             {
-                p.gain_points(2);
+                p.gain_points(2, Player.points_src.infinite);
             }
         }
         public static IEnumerator kappa_enter_func(Player p)
@@ -530,7 +530,7 @@ namespace voe{
         #region Lava Giant
         public static IEnumerator lava_giant_enter_func(Player p)
         {
-            p.gain_points(2 * p.count_cards_in_family(CardFamily.R));
+            p.gain_points(2 * p.count_cards_in_family(CardFamily.R), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -581,7 +581,7 @@ namespace voe{
         #region MudSlime
         public static IEnumerator mud_slime_enter_func(Player p)
         {
-            p.gain_points(6);
+            p.gain_points(6, Player.points_src.etb);
             yield return null;
         }
         public static IEnumerator mud_slime_clock_func(Player p)
@@ -595,7 +595,7 @@ namespace voe{
         {
             if (p.count_cards_in_family(CardFamily.D) == 0)
             {
-                p.gain_points(2);
+                p.gain_points(2, Player.points_src.clock);
             }
             yield return null;
         }
@@ -605,7 +605,7 @@ namespace voe{
         {
             if (p.count_cards_in_hand() < 6)
             {
-                p.gain_points(2);
+                p.gain_points(2, Player.points_src.clock);
             }
             else
             {
@@ -637,7 +637,7 @@ namespace voe{
         public static void phoenix_trigger_func(Player p, stone_quant q)
         {
             int number_of_1s = q.s[(int)stone_type.ST_one];
-            p.gain_points(number_of_1s);
+            p.gain_points(number_of_1s, Player.points_src.infinite);
         }
         public static IEnumerator phoenix_enter_func(Player p)
         {
@@ -653,7 +653,7 @@ namespace voe{
         #region Poseidon
         public static IEnumerator poseidon_enter_func(Player p)
         {
-            p.gain_points(3 * p.count_cards_in_family(CardFamily.B));
+            p.gain_points(3 * p.count_cards_in_family(CardFamily.B), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -662,7 +662,8 @@ namespace voe{
         {
             p.gain_points(
                 p.stone_manager.sa.s[(int)stone_type.ST_six]*
-                p.stone_manager.get_value(stone_type.ST_six)
+                p.stone_manager.get_value(stone_type.ST_six),
+                Player.points_src.etb
             );
             yield return null;
         }
@@ -670,7 +671,7 @@ namespace voe{
         #region Rudra
         public static IEnumerator rudra_enter_effect(Player p)
         {
-            p.gain_points(2 * p.count_cards_in_hand());
+            p.gain_points(2 * p.count_cards_in_hand(), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -678,14 +679,14 @@ namespace voe{
         public static IEnumerator salamander_clock_func(Player p)
         {
             p.gain_stones(new stone_quant(1, 0, 0));
-            p.gain_points(1);
+            p.gain_points(1, Player.points_src.clock);
             yield return null;
         }
         #endregion
         #region Sand Giant
         public static IEnumerator sand_giant_enter_effect(Player p)
         {
-            p.gain_points(4*p.count_cards_in_family(CardFamily.G));
+            p.gain_points(4*p.count_cards_in_family(CardFamily.G), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -710,7 +711,7 @@ namespace voe{
         #region Sea Spirit
         public static IEnumerator sea_spirit_clock_func(Player p)
         {
-            p.gain_points(p.stone_manager.sa.s[(int)stone_type.ST_three]);
+            p.gain_points(p.stone_manager.sa.s[(int)stone_type.ST_three], Player.points_src.clock);
             yield return null;
         }
         #endregion
@@ -797,7 +798,7 @@ namespace voe{
         {
             if(check_succubus(p))
             {
-                p.gain_points(10);
+                p.gain_points(10, Player.points_src.etb);
             }
             yield return null;
         }
@@ -805,14 +806,14 @@ namespace voe{
         #region Surtr
         public static IEnumerator srtr_enter_effect(Player p)
         {
-            p.gain_points(2 * p.count_families());
+            p.gain_points(2 * p.count_families(), Player.points_src.clock);
             yield return null;
         }
         #endregion
         #region Sylph
         public static void sylph_trigger_func(Player p)
         {
-            p.gain_points(1);
+            p.gain_points(1, Player.points_src.infinite);
         }
         public static IEnumerator sylph_enter_func(Player p)
         {
@@ -829,7 +830,7 @@ namespace voe{
         #region Tengu
         public static IEnumerator tengu_enter_effect(Player p)
         {
-            p.gain_points(6);
+            p.gain_points(6, Player.points_src.etb);
             Assert.IsTrue(p.table.contains(CardNameId.Tengu));
             p.table.extract(CardNameId.Tengu);
             GameManager._instance.deck.put_card_on_top(CardNameId.Tengu);
@@ -839,7 +840,7 @@ namespace voe{
         #region Tidal
         public static IEnumerator tidal_enter_effect(Player p)
         {
-            p.gain_points(5 * p.count_cards_in_family(CardFamily.D));
+            p.gain_points(5 * p.count_cards_in_family(CardFamily.D), Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -867,7 +868,7 @@ namespace voe{
         {
             if(p.stone_manager.sa.s[(int)stone_type.ST_six] > 0)
             {
-                p.gain_points(3);
+                p.gain_points(3, Player.points_src.clock);
             }
             yield return null;
         }
@@ -894,7 +895,7 @@ namespace voe{
         #region Valkyrie
         public static IEnumerator valkyrie_clock_effect(Player p)
         {
-            p.gain_points(p.count_families());
+            p.gain_points(p.count_families(), Player.points_src.clock);
             yield return null;
         }
         #endregion
@@ -917,7 +918,7 @@ namespace voe{
         public static IEnumerator willow_enter_effect(Player p)
         {
             p.gain_stones(new stone_quant(1, 1, 1));
-            p.gain_points(3);
+            p.gain_points(3, Player.points_src.etb);
             yield return null;
         }
         #endregion
@@ -948,7 +949,7 @@ namespace voe{
         #region Yuki Onna
         public static IEnumerator yuki_onna_enter_effect(Player p)
         {
-            p.gain_points(p.stone_manager.get_total_value());
+            p.gain_points(p.stone_manager.get_total_value(), Player.points_src.etb);
             p.stone_manager.clear_stones();
             yield return null;
         }
@@ -958,7 +959,8 @@ namespace voe{
         {
             p.gain_points(
                 p.stone_manager.sa.s[(int)stone_type.ST_three] * 
-                p.stone_manager.sv.s[(int)stone_type.ST_three]
+                p.stone_manager.sv.s[(int)stone_type.ST_three],
+                Player.points_src.etb
             );
             yield return null;
         }
