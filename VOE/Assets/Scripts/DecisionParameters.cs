@@ -180,6 +180,7 @@ namespace voe{
 
             // ADD Rock generation capabilities
             Debug.LogWarning("Stone ponderation only takes into account price on table or sinergy on hand. Does not check whether that card produces stones");
+            // TODO: Ensure that the three lines previous to this add ensure this warning is gone
 
             return result;
         }
@@ -230,7 +231,12 @@ namespace voe{
         {
             int result = 0;
             if (market) result += 5 * p.get_sinergy_complete_rating(card_flags.big_hand);
-            Debug.LogWarning("Ponder hand card gain does not take into account cards whose effects are drawing");
+            //Debug.LogWarning("Ponder hand card gain does not take into account cards whose effects are drawing");
+
+            //If the cards draws we add up some value
+            if ((CardData.get_card(cni).enabler & card_flags.big_hand) != 0) {
+                result += 5;
+            }
             
             return result;
         }

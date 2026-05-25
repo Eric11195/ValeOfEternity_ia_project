@@ -498,8 +498,8 @@ namespace voe{
         {
             int payoffs_value = get_payoff_sinergy_rating(flags);
             int enabler_value = get_enablers_sinergy_rating(flags);
-            if (payoffs_value == 0 || enabler_value == 0) return 0;
-            return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
+            return enabler_value + payoffs_value * (3 * enabler_value);
+            //return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
         }
         public int get_sinergy_complete_rating_for_all_flags()
         {
