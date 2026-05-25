@@ -598,13 +598,25 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 
 ### Resultados
 
+Para cada prueba obtendremos los resultados de las 10 partidas
+
 #### Primera parametrización
 
 #### Segunda parametrización
 
-|Número de Partida|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|
-|1|38|16|36|18||
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|38|16|36|18|27|
+|2|--|10|30|7|2|12|
+|3|--|1|9|25|15|12|
+|4|--|0|28|28|0|14|
+|5|--|24|10|36|7|16|
+|6|--|10|24|24|35|23|
+|7|--|36|17|8|3|16|
+|8|--|10|9|11|16|11|
+|9|--|9|12|15|13|12|
+|10|--|22|21|0|5|12|
+
 
 __Media Final: X__
 

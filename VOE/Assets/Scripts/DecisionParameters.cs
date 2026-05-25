@@ -62,7 +62,7 @@ namespace voe{
                 }
                 ++i;
             }
-            Assert.IsTrue(best_idx != -1);
+            //Assert.IsTrue(best_idx != -1);
             return best_idx;
         }
         public static int choose_worst(int[] values)
@@ -96,6 +96,8 @@ namespace voe{
             if (opponents_points.Length > 0)
             {
                 int idx = choose_best(opponents_points);
+
+                if (idx == -1) return CardNameId.NONE;
 
                 if (check_conditions(cl.get(idx), cf, cet, cp))
                     return cl.get(idx);
