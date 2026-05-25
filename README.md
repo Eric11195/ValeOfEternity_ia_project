@@ -602,23 +602,45 @@ Para cada prueba obtendremos los resultados de las 10 partidas
 
 #### Primera parametrización
 
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|22|22|4|6|13.5|
+|2|--|33|25|13|9|20|
+|3|--|2|24|13|24|15.75|
+|4|--|24|0|17|25|16.5|
+|5|--|12|30|31|48|30.25|
+|6|--|19|24|6|36|21.25|
+|7|--|36|7|14|20|19.25|
+|8|--|24|37|31|26|29.5|
+|9|--|21|32|40|19|28|
+|10|--|5|8|9|13|8.75|
+
+__Media Final: 20.275__
+
 #### Segunda parametrización
+
+Aqui hemos reevaluado las flags de sinergias de la mayoría de cartas y cambiado la fórmula de puntuación de cartas a una que beneficie obtener cartas que recompensan sinergias después de tener varias cartas que facilitan dicha sinergia.
 
 |Número de Partida|---|P1|P2|P3|P4|Media|
 |---|---|---|---|---|---|---|
 |1|--|38|16|36|18|27|
-|2|--|10|30|7|2|12|
-|3|--|1|9|25|15|12|
+|2|--|10|30|7|2|12.25|
+|3|--|1|9|25|15|12.5|
 |4|--|0|28|28|0|14|
-|5|--|24|10|36|7|16|
-|6|--|10|24|24|35|23|
+|5|--|24|10|36|7|19.25|
+|6|--|10|24|24|35|23.25|
 |7|--|36|17|8|3|16|
-|8|--|10|9|11|16|11|
-|9|--|9|12|15|13|12|
+|8|--|10|9|11|16|11.5|
+|9|--|9|12|15|13|12.25|
 |10|--|22|21|0|5|12|
 
+__Media Final: 16__
 
-__Media Final: X__
+### Tercera parametrización
+
+Mezclaremos la función de evaluación de la segunda parametrización con las flags de la primera.
+
+
 
 #### Prueba 1: Prioridad visible
 
