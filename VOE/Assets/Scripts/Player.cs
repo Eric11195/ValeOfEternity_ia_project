@@ -498,7 +498,7 @@ namespace voe{
         {
             int payoffs_value = get_payoff_sinergy_rating(flags);
             int enabler_value = get_enablers_sinergy_rating(flags);
-            return enabler_value + payoffs_value * (3 * enabler_value);
+            return enabler_value + payoffs_value * (enabler_value);
             //return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
         }
         public int get_sinergy_complete_rating_for_all_flags()
@@ -520,7 +520,9 @@ namespace voe{
         }
         public int get_sinergy_complete_rating(card_flags_idx flags)
         {
-            return Mathf.CeilToInt(Mathf.Pow(get_payoff_sinergy_rating(flags), get_enablers_sinergy_rating(flags)));
+            int payoffs_value = get_payoff_sinergy_rating(flags);
+            int enabler_value = get_enablers_sinergy_rating(flags);
+            return enabler_value + payoffs_value * (enabler_value);
         }
         public int get_enablers_sinergy_rating(card_flags flags)
         {

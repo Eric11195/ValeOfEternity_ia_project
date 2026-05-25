@@ -105,16 +105,16 @@ namespace voe{
                 CardFuncs.aerie_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.recursion | card_flags.etbs | card_flags.space_free,
-                card_flags.high_costs,
+                card_flags.space_free | card_flags.high_costs | card_flags.familyD | card_flags.etbs | card_flags.recursion,
+                card_flags.high_costs | card_flags.space_free,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return
                         p.has_card_with_requiriment(
                             p.table,
                             CardFamily.None,
-                            CardEffectTypes.none,
-                            (int cost)=>{return true; }
+                            CardEffectTypes.enter,
+                            (int cost)=>{return cost > 6 && cost != 9; }
                         );
                 }
             ),
@@ -123,8 +123,8 @@ namespace voe{
                 CardFuncs.agni_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.agni_exit_func,
-                card_flags.stones1 | card_flags.high_costs,
-                card_flags.none,
+                card_flags.familyR,
+                card_flags.stones1,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
             ),
@@ -133,8 +133,8 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.asmodeus_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.recursion | card_flags.low_costs | card_flags.space_free,
-                card_flags.none,
+                card_flags.clocks | card_flags.familyR | card_flags.recursion,
+                card_flags.low_costs | card_flags.space_free,
                 CardEffectTypes.clock,
                 (Player p)=>{
                     return
@@ -155,8 +155,8 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.balog_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.recursion | card_flags.space_free | card_flags.familyR | card_flags.space_free,
-                card_flags.none,
+                card_flags.clocks | card_flags.recursion | card_flags.familyR,
+                card_flags.space_free | card_flags.familyR,
                 CardEffectTypes.clock,
                 (Player p)=>{
                     return
@@ -177,7 +177,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.basilisk_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.stones1 | card_flags.stones3 | card_flags.stones6 | card_flags.loose_points,
+                card_flags.loose_points | card_flags.familyG | card_flags.stones3 | card_flags.stones1 | card_flags.stones6 | card_flags.clocks,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -191,8 +191,8 @@ namespace voe{
                 CardFuncs.behemoth_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
-                card_flags.number_of_families,
+                card_flags.etbs | card_flags.familyG | card_flags.high_costs,
+                card_flags.number_of_families | card_flags.removal,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -201,8 +201,8 @@ namespace voe{
                 CardFuncs.boreas_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.multicast,
-                card_flags.cost_reduction,
+                card_flags.familyP | card_flags.multicast,
+                card_flags.familyP | card_flags.cost_reduction |  card_flags.multicast,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -211,8 +211,8 @@ namespace voe{
                 CardFuncs.boulder_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.removal | card_flags.etbs,
-                card_flags.none,
+                card_flags.familyD | card_flags.etbs | card_flags.high_costs,
+                card_flags.removal | card_flags.space_free,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.P);
@@ -223,7 +223,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.burning_skull_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyR,
                 card_flags.stones1,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -238,8 +238,8 @@ namespace voe{
                 CardFuncs.cerberus_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
+                card_flags.space_free | card_flags.familyG,
                 card_flags.space_free,
-                card_flags.none,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return p.table.size() > 1;
@@ -250,7 +250,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.charybdis_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyB,
                 card_flags.stones3,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -264,7 +264,7 @@ namespace voe{
                 CardFuncs.dandelion_enter_func,
                 CardFuncs.dandelion_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.space_free | card_flags.multicast | card_flags.big_hand,
+                card_flags.clocks | card_flags.multicast | card_flags.big_hand | card_flags.etbs | card_flags.familyP,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -278,8 +278,8 @@ namespace voe{
                 CardFuncs.dragon_egg_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.multicast | card_flags.high_costs | card_flags.familyD,
-                card_flags.none,
+                card_flags.multicast | card_flags.familyD,
+                card_flags.high_costs,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return p.free_slots_on_table() >= 2 &&
@@ -291,8 +291,8 @@ namespace voe{
                 CardFuncs.ember_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.removal | card_flags.etbs,
-                card_flags.none,
+                card_flags.familyD | card_flags.etbs | card_flags.high_costs,
+                card_flags.removal | card_flags.space_free,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.B);
@@ -303,7 +303,7 @@ namespace voe{
                 CardFuncs.eternity_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.high_costs | card_flags.familyD,
                 card_flags.number_of_families,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
@@ -313,12 +313,12 @@ namespace voe{
                 CardFuncs.firefox_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyR,
                 card_flags.big_hand | card_flags.recursion,
                 CardEffectTypes.enter,
                 (Player p) =>
                 {
-                    return p.hand.size() >= 3;
+                    return p.hand.size() >= 5;
                 }
             ),
             // 16 Forestspirit,
@@ -326,12 +326,12 @@ namespace voe{
                 CardFuncs.forest_spirit_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyG | card_flags.low_costs,
                 card_flags.high_costs | card_flags.big_hand | card_flags.recursion,
                 CardEffectTypes.enter,
                 (Player p) =>
                 {
-                    return p.hand.size()>1;
+                    return p.hand.size()>1 && p.has_card_with_requiriment(p.hand, CardFamily.None, CardEffectTypes.none, (int cost)=>{return cost>6; });
                 }
 
             ),
@@ -340,7 +340,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.freyja_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyP | card_flags.high_costs,
                 card_flags.clocks,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -354,7 +354,7 @@ namespace voe{
                 CardFuncs.gargoyle_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.gargoyle_exit_func,
-                card_flags.none,
+                card_flags.familyG | card_flags.low_costs,
                 card_flags.stones6,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
@@ -364,7 +364,7 @@ namespace voe{
                 CardFuncs.genie_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyP,
                 card_flags.clocks | card_flags.recursion,
                 CardEffectTypes.enter,
                 (Player p)=>{
@@ -376,7 +376,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.genie_exalted_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyP,
                 card_flags.clocks,
                 CardEffectTypes.clock,
                 (Player p)=>{
@@ -388,17 +388,19 @@ namespace voe{
                 CardFuncs.girin_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
-                card_flags.number_of_families,
+                card_flags.etbs | card_flags.familyP | card_flags.high_costs,
+                card_flags.tableau_width,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p)=>{
+                    return p.table.size() > 6;
+                }
             ),
             //X 22 Goblin,
             new CardData(1,CardFamily.G,
                 CardFuncs.void_func,
                 CardFuncs.goblin_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyG,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -412,7 +414,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.goblin_soldier_clock_func,
                 CardFuncs.void_func,
-                card_flags.loose_points | card_flags.clocks,
+                card_flags.loose_points | card_flags.clocks | card_flags.familyG,
                 card_flags.loose_points,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -426,7 +428,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.griffon_clock_func,
                 CardFuncs.void_func,
-                card_flags.big_hand,
+                card_flags.big_hand | card_flags.high_costs | card_flags.familyP,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -440,8 +442,8 @@ namespace voe{
                 CardFuncs.gust_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.removal | card_flags.etbs,
-                card_flags.none,
+                card_flags.familyD | card_flags.etbs |card_flags.high_costs,
+                card_flags.removal | card_flags.space_free,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.G);
@@ -452,8 +454,8 @@ namespace voe{
                 CardFuncs.haetae_enter_n_exit_func,
                 CardFuncs.void_func,
                 CardFuncs.haetae_enter_n_exit_func,
+                card_flags.familyB,
                 card_flags.stones3,
-                card_flags.none,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
             ),
@@ -462,7 +464,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.harpy_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyP,
                 card_flags.big_hand,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -476,8 +478,8 @@ namespace voe{
                 CardFuncs.hestia_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.hestia_exit_func,
+                card_flags.familyR,
                 card_flags.stones1 | card_flags.stones3 | card_flags.stones6,
-                card_flags.none,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
             ),
@@ -486,7 +488,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.horned_salamander_clock_func,
                 CardFuncs.void_func,
-                card_flags.stones1 | card_flags.clocks,
+                card_flags.stones1 | card_flags.clocks | card_flags.low_costs,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -500,8 +502,8 @@ namespace voe{
                 CardFuncs.hydra_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.stones6 | card_flags.stones3 | card_flags.big_hand | card_flags.etbs,
-                card_flags.none | card_flags.recursion,
+                card_flags.stones6 | card_flags.stones3 | card_flags.big_hand | card_flags.etbs | card_flags.familyB,
+                card_flags.none | card_flags.recursion | card_flags.space_free,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -510,8 +512,8 @@ namespace voe{
                 CardFuncs.ifrit_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs | card_flags.recursion,
-                card_flags.tableau_width ,
+                card_flags.etbs | card_flags.low_costs | card_flags.familyR,
+                card_flags.tableau_width | card_flags.recursion,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return p.table.size() > 3;
@@ -522,7 +524,7 @@ namespace voe{
                 CardFuncs.imp_enter_func,
                 CardFuncs.imp_clock_func,
                 CardFuncs.void_func,
-                card_flags.space_free | card_flags.clocks | card_flags.stones1 | card_flags.multicast,
+                card_flags.clocks | card_flags.stones1 | card_flags.multicast | card_flags.familyR,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -536,8 +538,8 @@ namespace voe{
                 CardFuncs.incubus_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs | card_flags.recursion,
-                card_flags.low_costs | card_flags.tableau_width,
+                card_flags.etbs | card_flags.familyR | card_flags.low_costs,
+                card_flags.low_costs | card_flags.recursion,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -546,7 +548,7 @@ namespace voe{
                 CardFuncs.kappa_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.kappa_exit_func,
-                card_flags.none,
+                card_flags.familyB,
                 card_flags.stones3,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
@@ -556,18 +558,21 @@ namespace voe{
                 CardFuncs.lava_giant_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyR,
                 card_flags.familyR | card_flags.tableau_width | card_flags.recursion,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p) =>
+                {
+                    return p.table.size() > 5;
+                }
             ),
             //X 36 Leviathan,
             new CardData(4,CardFamily.B,
                 CardFuncs.leviathan_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.removal | card_flags.etbs,
-                card_flags.recursion,
+                card_flags.etbs | card_flags.familyD | card_flags.high_costs,
+                card_flags.removal,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.D);
@@ -578,8 +583,8 @@ namespace voe{
                 CardFuncs.marina_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.removal | card_flags.etbs,
-                card_flags.none,
+                card_flags.removal | card_flags.etbs | card_flags.familyD,
+                card_flags.high_costs,
                 CardEffectTypes.enter,
                 (Player p)=>{
                     return OpponentChoosing.opponent_has_card_with_card_family(p, CardFamily.R);
@@ -590,8 +595,8 @@ namespace voe{
                 CardFuncs.medusa_clock_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.stones6 | card_flags.clocks,
-                card_flags.none,
+                card_flags.stones6 | card_flags.clocks | card_flags.familyD,
+                card_flags.none | card_flags.big_hand,
                 CardEffectTypes.clock,
                 (Player p)=>{
                     return p.hand.size() > 1;
@@ -620,7 +625,7 @@ namespace voe{
                 CardFuncs.mud_slime_enter_func,
                 CardFuncs.mud_slime_clock_func,
                 CardFuncs.void_func,
-                card_flags.multicast | card_flags.etbs | card_flags.space_free,
+                card_flags.multicast | card_flags.clocks | card_flags.familyG | card_flags.etbs | card_flags.space_free,
                 card_flags.none,
                 CardEffectTypes.enter | CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -634,7 +639,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.nessie_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyB | card_flags.low_costs,
                 card_flags.none,
                 CardEffectTypes.clock,
                 (Player p)=>{
@@ -650,7 +655,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.odin_clock_func,
                 CardFuncs.void_func,
-                card_flags.stones6,
+                card_flags.stones6 | card_flags.familyP | card_flags.high_costs,
                 card_flags.big_hand,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -664,7 +669,7 @@ namespace voe{
                 CardFuncs.pegasus_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.pegasus_exit_func,
-                card_flags.cost_reduction | card_flags.big_hand,
+                card_flags.cost_reduction | card_flags.big_hand | card_flags.familyP,
                 card_flags.none,
                 CardEffectTypes.infinite |CardEffectTypes.enter,
                 CardFuncs.bool_true_func
@@ -674,7 +679,7 @@ namespace voe{
                 CardFuncs.phoenix_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.phoenix_exit_func,
-                card_flags.none,
+                card_flags.familyR,
                 card_flags.multicast | card_flags.stones1,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
@@ -684,17 +689,20 @@ namespace voe{
                 CardFuncs.poseidon_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyB | card_flags.high_costs,
                 card_flags.familyB | card_flags.tableau_width,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p) =>
+                {
+                    return p.count_cards_in_family(CardFamily.B) > 4;
+                }
             ),
             //X 46 Rockgolem,
             new CardData(6,CardFamily.G,
                 CardFuncs.rock_golem_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.high_costs | card_flags.familyG,
                 card_flags.stones6,
                 CardEffectTypes.enter,
                 (Player p) =>
@@ -707,11 +715,11 @@ namespace voe{
                 CardFuncs.rudra_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.high_costs | card_flags.familyP,
                 card_flags.big_hand,
                 CardEffectTypes.enter,
                 (Player p)=>{
-                    return p.hand.size()>4;
+                    return p.hand.size()>5;
                 }
             ),
             //X 48 Salamander,
@@ -719,7 +727,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.salamander_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.stones1,
+                card_flags.clocks | card_flags.stones1 | card_flags.familyR,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -733,17 +741,20 @@ namespace voe{
                 CardFuncs.sand_giant_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.high_costs | card_flags.familyG,
                 card_flags.familyG | card_flags.tableau_width,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p) =>
+                {
+                    return p.count_cards_in_family(CardFamily.G) > 3;
+                }
             ),
             //X 50 Scorch,
             new CardData(9,CardFamily.D,
                 CardFuncs.scorch_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.none,
+                card_flags.familyD | card_flags.high_costs,
                 card_flags.etbs,
                 CardEffectTypes.enter,
                 (Player p) =>
@@ -756,7 +767,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.sea_spirit_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyB,
                 card_flags.stones3,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -770,8 +781,8 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.snail_maiden_clock_func,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.stones3 | card_flags.stones6,
-                card_flags.none,
+                card_flags.clocks | card_flags.familyB,
+                card_flags.stones3 | card_flags.stones6,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
                 new CardInputOutput(
@@ -784,20 +795,29 @@ namespace voe{
                 CardFuncs.stone_golem_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.stones6 | card_flags.etbs,
-                card_flags.none,
+                card_flags.stones6 | card_flags.etbs | card_flags.familyG,
+                card_flags.space_free,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p) =>
+                {
+                    return p.stone_manager.get_number_of_stones()>=4;
+                }
             ),
             //X 54 Succubus,
             new CardData(0,CardFamily.R,
                 CardFuncs.succubus_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyR,
                 card_flags.tableau_width | card_flags.low_costs | card_flags.recursion,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func
+                (Player p) =>
+                {
+                    return p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.none, (int cost)=>{return cost==1; }) &&
+                        p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.none, (int cost)=>{return cost==2; }) &&
+                        p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.none, (int cost)=>{return cost==3; }) &&
+                        p.has_card_with_requiriment(p.table, CardFamily.None, CardEffectTypes.none, (int cost)=>{return cost==4; });
+                }
 
             ),
             //X 55 Surtr,
@@ -805,7 +825,7 @@ namespace voe{
                 CardFuncs.srtr_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyR,
                 card_flags.number_of_families | card_flags.recursion,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
@@ -815,7 +835,7 @@ namespace voe{
                 CardFuncs.sylph_enter_func,
                 CardFuncs.void_func,
                 CardFuncs.sylph_exit_func,
-                card_flags.big_hand,
+                card_flags.big_hand | card_flags.familyP,
                 card_flags.multicast,
                 CardEffectTypes.enter | CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
@@ -825,8 +845,8 @@ namespace voe{
                 CardFuncs.tengu_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.space_free,
-                card_flags.none,
+                card_flags.familyP,
+                card_flags.cost_reduction | card_flags.big_hand,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -835,10 +855,12 @@ namespace voe{
                 CardFuncs.tidal_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.etbs,
+                card_flags.etbs | card_flags.familyD,
                 card_flags.familyD | card_flags.recursion,
                 CardEffectTypes.enter,
-                CardFuncs.bool_true_func,
+                (Player p)=>{
+                    return p.count_cards_in_family(CardFamily.D) > 2;
+                },
                 new CardInputOutput(
                     new PlayerResources(new stone_quant(0,0,1)),
                     new PlayerResources(6,0)
@@ -849,7 +871,7 @@ namespace voe{
                 CardFuncs.triton_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.triton_exit_effect,
-                card_flags.stones3,
+                card_flags.stones3 | card_flags.familyB,
                 card_flags.familyB,
                 CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
@@ -859,7 +881,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.troll_clock_effect,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyG,
                 card_flags.stones6,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func
@@ -869,8 +891,8 @@ namespace voe{
                 CardFuncs.undine_enter_effect,
                 CardFuncs.undine_clock_effect,
                 CardFuncs.void_func,
-                card_flags.stones3 | card_flags.multicast | card_flags.clocks,
-                card_flags.none,
+                card_flags.stones3 | card_flags.clocks | card_flags.familyB,
+                card_flags.multicast,
                 CardEffectTypes.enter |CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
                 new CardInputOutput(
@@ -883,7 +905,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.undine_queen_clock_effect,
                 CardFuncs.void_func,
-                card_flags.clocks | card_flags.stones3,
+                card_flags.clocks | card_flags.stones3 | card_flags.familyB,
                 card_flags.none,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -897,7 +919,7 @@ namespace voe{
                 CardFuncs.void_func,
                 CardFuncs.valkyrie_clock_effect,
                 CardFuncs.void_func,
-                card_flags.clocks,
+                card_flags.clocks | card_flags.familyP,
                 card_flags.number_of_families,
                 CardEffectTypes.clock,
                 CardFuncs.bool_true_func,
@@ -911,8 +933,8 @@ namespace voe{
                 CardFuncs.water_giant_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.water_giant_exit_effect,
-                card_flags.stones3 | card_flags.stones6,
-                card_flags.none,
+                card_flags.stones3 | card_flags.familyB,
+                card_flags.stones3 | card_flags.stones6 ,
                 CardEffectTypes.enter |CardEffectTypes.infinite,
                 CardFuncs.bool_true_func
             ),
@@ -921,7 +943,7 @@ namespace voe{
                 CardFuncs.willow_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.stones3 | card_flags.stones1 | card_flags.stones6 | card_flags.big_hand | card_flags.etbs,
+                card_flags.stones3 | card_flags.stones1 | card_flags.stones6 | card_flags.big_hand | card_flags.etbs | card_flags.familyD | card_flags.high_costs,
                 card_flags.none,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
@@ -931,8 +953,8 @@ namespace voe{
                 CardFuncs.young_forest_spirit_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.high_costs ,
-                card_flags.none,
+                card_flags.familyG | card_flags.etbs,
+                card_flags.high_costs | card_flags.big_hand | card_flags.recursion,
                 CardEffectTypes.enter,
                 (Player p) =>
                 {
@@ -944,8 +966,8 @@ namespace voe{
                 CardFuncs.yuki_onna_enter_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.none,
-                card_flags.stones3 | card_flags.stones1 | card_flags.stones6,
+                card_flags.familyB,
+                card_flags.stones3 | card_flags.stones1 | card_flags.stones6 | card_flags.recursion,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
             ),
@@ -954,7 +976,7 @@ namespace voe{
                 CardFuncs.yuki_onna_exalted_effect,
                 CardFuncs.void_func,
                 CardFuncs.void_func,
-                card_flags.none,
+                card_flags.familyB,
                 card_flags.stones3,
                 CardEffectTypes.enter,
                 CardFuncs.bool_true_func
