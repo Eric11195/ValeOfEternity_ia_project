@@ -596,6 +596,14 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 1. En más de un caso el orden en el que se activen los relojes no afecta al resultado. Pero en la mayoría podremos maximizar el número de monedas/piedras obtenidas, el número de puntos, el número de cartas en mano o una combinación de todos estos.
 2. El orden en el que se activan debería ser sencillo de seguir con las pausas entre girar las distintas cartas.
 
+### E
+
+#### Prueba 1: Prioridad visible
+
+1. La prioridad actual de cada jugador será escrita en el panel de texto.
+2. La prioridad tiene sentido con sus recursos. No será obtener dinero si las reservas de monedas están llenas. No será jugar cartas si no tenemos dinero. No será usar removal si vamos en cabeza.
+
+
 ### Resultados
 
 Para cada prueba obtendremos los resultados de las 10 primeras partidas. Después cambiaremos la parametrización de las decisiones para intentar obtener un mejor resultado.
@@ -689,11 +697,6 @@ __Media Final: 18.8__
 #### Conclusión 
 
 La primera fue la que mejor resultados dió, así que será la que conservaremos.
-
-#### Prueba 1: Prioridad visible
-
-1. La prioridad actual de cada jugador será escrita en el panel de texto.
-2. La prioridad tiene sentido con sus recursos. No será obtener dinero si las reservas de monedas están llenas. No será jugar cartas si no tenemos dinero. No será usar removal si vamos en cabeza.
 
 ### Final de las pruebas
 
