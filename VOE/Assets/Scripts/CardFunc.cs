@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using UnityEngine.Assertions;
 
 namespace voe{
     public static class CardFuncs

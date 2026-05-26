@@ -163,15 +163,16 @@ La práctica consiste en desarrollar este juego para un soporte digital en la qu
 
 - **A.** En la pantalla se pueden ver las distintas zonas del juego claramente diferenciadas. Estas son mercado, tablero y mano de cada jugador. El tablero de todos los jugadores será visible en todo momento. Se podrá seleccionar la mano de que jugador ver presionando sobre el número del jugador. Y un marcador de un ojo sustituirá el número del jugador cuya mano se esté viendo.
 Jugablemente, todas las cartas tienen sus efectos definidos. Se pueden ver la divisa que posee cada jugador en su zona y los puntos de victoria actuales que posee.
+Además, un panel scrolleable dará cuenta de todas las acciones y decisiones de todos los jugadores.
 
-- **B.** Durante la fase de caza, cada jugador escoge cartas a su debido tiempo hasta tener 2. Las cartas se escogeran teniendo en cuenta posibles sinergias con cartas en la mesa o mano del jugador correspondiente, su precio de venta o si con alguna carta otro de los jugadores podría sacar una gran ventaja. El parametro decisivo viene dado por una lista de prioridades ordenadas.
+- **B.** Durante la fase de caza, cada jugador escoge cartas a su debido tiempo hasta tener 2. Las cartas se escogeran teniendo en cuenta posibles sinergias con cartas en la mesa o mano del jugador correspondiente, su precio de venta o si con alguna carta otro de los jugadores podría sacar una gran ventaja. El parametro decisivo viene dado por la prioridad actual del jugador.
 
 - **C.** Durante la fase de juego, cada jugador escoge cartas con su marcador en el mercado y las pone en su mano o las vende. Además de jugar cartas de entre estas o que ya tuviese en su mano o eliminar alguna de la mesa. Tomarán tantas acciones de las anteriores como pueda o crea oportuno para maximizar los puntos ganados o crear una situación favorable en turnos posteriores. Que cartas jugar viene dado por las sinergias con cartas en la mesa, requerimientos para jugarlas o aprovechar los efectos de las cartas con el fin de obtener más puntos que los rivales al final de la partida. Todo esto gobernado por la lista de prioridades.
 
 - **D.** Durante la fase de relojes, caja jugador escoge el orden en que resolver los efectos de relojes de las cartas en su mesa. Intentando maximizar el número de puntos o la obtención de divisa o cartas en mano para el próximo turno. El parametro decisivo viene dado por una lista de prioridades.
 Este algoritmo usará como base el algoritmo de resolución de problemas con incertidumbre **[Monte Carlo Rollout](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)**
 
-- **E.** Cada jugador defina una lista de prioridades ordenadas a seguir. Estas prioridades se recalculan en los momentos en los que una acción del propio jugador o una acción de un oponente cambie el estado de su mesa, mano o divisa. Todas las acciones posibles de un jugador se rigen por esta lista de prioridades. El algoritmo que calcula las prioridades tendrá como misión maximizar la obtención de puntos relativa al resto de jugadores. En algunos casos esto implicará jugar efectos que no obtengan la mayor cantidad de puntos, pero que frenen el avance de otro jugador.
+- **E.** Cada jugador defina una prioridad a seguir. Estas prioridades se recalculan en los momentos en los que una acción del propio jugador o una acción de un oponente cambie el estado de su mesa, mano o divisa. Todas las acciones posibles de un jugador se rigen por la prioridad actual. El algoritmo que calcula las prioridades tendrá como misión maximizar la obtención de puntos relativa al resto de jugadores. En algunos casos esto implicará jugar efectos que no obtengan la mayor cantidad de puntos, pero que frenen el avance de otro jugador.
 
 Para confirmar el comportamiento de la IA, se dispondrán de métricas visibles durante la partida y al final de ella. Estas incluyen, puntos de victoria finales y por turno; obtención y gasto de divisa por turno; y cartas vendidas en contraste con las cartas puestas en mano o robadas.
 
@@ -694,9 +695,49 @@ Ahora lo haremos al contrario, conservaremos la función de evaluación de la pr
 
 __Media Final: 18.8__
 
+#### Quinta parametrización
+
+Se observo que a veces los jugadores se quedaban bloqueados cuando tenían piedras de bajo coste. Así que se aumentó la probabilidad de escoger cartas que se pudiesen jugar como cartas favoritas.
+
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|28|50|0|13|22.75|
+|2|--|20|48|40|35|35.75|
+|3|--|55|13|32|30|32.5|
+|4|--|19|35|9|16|19.75|
+|5|--|10|35|9|6|15|
+|6|--|23|34|25|6|22|
+|7|--|57|20|26|0|25.75|
+|8|--|23|24|17|15|19.75|
+|9|--|19|56|0|11|21.5|
+|10|--|20|22|45|30|29.25|
+
+__Media Final: 24.3__
+
+Esta parametrización tiene las puntaciones más altas con diferencia y una mejor media. Aunque se observo que algunos players se seguían quedando bloqueados. Posiblemente por vender las cartas más baratas que podrían jugar en vez de ponerlas en su mano.
+
+#### Sexta parametrización
+
+Para evitar el problema observado en la segunda, se decidió aplicar la bonificación por ser jugable, solo si la carta no estaba en el mercado.
+
+|Número de Partida|---|P1|P2|P3|P4|Media|
+|---|---|---|---|---|---|---|
+|1|--|22|24|28|44|29.5|
+|2|--|27|20|18|1|16.5|
+|3|--|32|24|12|32|25|
+|4|--|21|26|21|25|23.25|
+|5|--|36|2|20|15|18.25|
+|6|--|37|23|21|35|29|
+|7|--|13|3|26|15|14.25|
+|8|--|1|10|25|30|16.5|
+|9|--|13|17|56|4|22.5|
+|10|--|29|12|8|30|19.75|
+
+__Media Final: 21.45__
+
 #### Conclusión 
 
-La primera fue la que mejor resultados dió, así que será la que conservaremos.
+La quinta fue la que mejor resultados obtuvo tanto en absoluto como en promedio, así que será la que permanecerá.
 
 ### Final de las pruebas
 

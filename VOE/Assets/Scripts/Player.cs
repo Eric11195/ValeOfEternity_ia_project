@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 using voe;
-using static UnityEditor.Progress;
 using static voe.DecisionParameters;
 
 namespace voe{
@@ -172,6 +171,8 @@ namespace voe{
         {
             Assert.IsTrue(current_card_pool_option.size() > 0);
 
+            //choose_priority();
+
             CardNameId cni = choose_best_card(this, current_card_pool_option, CardFamily.None, CardEffectTypes.none, (int cost) => { return true; }, player_prio, true);//current_card_pool_option.get(0);
             Logger.Log(Logger.player_log(idx, "chooses " + AssetDataBase.get_card_file_name(cni)), TextFilter.get_p_idx_message_src(idx));
             yield return cni;
@@ -251,9 +252,11 @@ namespace voe{
         {
             Logger.LogBold(Logger.player_log(idx, "activates " + AssetDataBase.get_card_file_name(cni) + " clock."), TextFilter.get_p_idx_message_src(idx));
 
-            Assert.IsTrue(table.contains(cni));
-            Assert.IsTrue(CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock));
-            yield return GameManager.get_instance().StartCoroutine(CardData.get_card(cni).clockEffect(this));
+            if (table.contains(cni))
+            {
+                Assert.IsTrue(CardEffectTypeUtils.has_card_effect(cni, CardEffectTypes.clock));
+                yield return GameManager.get_instance().StartCoroutine(CardData.get_card(cni).clockEffect(this));
+            }
         }
 
         public bool can_pay(int cost, CardFamily cf){

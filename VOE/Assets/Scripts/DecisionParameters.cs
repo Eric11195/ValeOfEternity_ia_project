@@ -132,10 +132,12 @@ namespace voe{
             foreach (CardNameId cni in cl.card_list)
             {
                 var card = CardData.get_card(cni);
-                if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None))
-                    card_points[idx++] = ponderate_card(p, cni, player_prio,market);
-                else
-                    card_points[idx++] = int.MinValue;
+                if (cp(card.price) && ((card.family & cf) != 0 || cf == CardFamily.None)) {
+                    card_points[idx] = ponderate_card(p, cni, player_prio, market);
+                    card_points[idx] += p.is_playable(cni) ? 7 : 0;
+                }else
+                    card_points[idx] = int.MinValue;
+                ++idx;
             }
             return card_points;
         }

@@ -1,7 +1,7 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace voe {
     public static class MonteCarloClockSimulator
