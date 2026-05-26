@@ -129,6 +129,7 @@ namespace voe{
             foreach(Player p in players)
             {
                 p.idx = i++;
+                p.my_points = i;
             }
             current_turn_player = 0;
             turn_text_obj = GameObject.Find("CurrentTurnText").GetComponent<TextMeshProUGUI>();

@@ -735,7 +735,7 @@ Para evitar el problema observado en la segunda, se decidió aplicar la bonifica
 
 __Media Final: 21.45__
 
-#### Conclusión 
+#### Conclusión
 
 La quinta fue la que mejor resultados obtuvo tanto en absoluto como en promedio, así que será la que permanecerá.
 

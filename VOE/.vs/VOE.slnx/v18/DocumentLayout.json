@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\decisionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\decisionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -45,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\opponentchoosing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\opponentchoosing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\izand\\documents\\uni\\ia\\iav26-devegalopez\\voe\\assets\\scripts\\filenames.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -118,7 +118,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -134,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "MonteCarloClockSimulator.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\MonteCarloClockSimulator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MonteCarloClockSimulator.cs",
@@ -142,12 +142,11 @@
               "RelativeToolTip": "Assets\\Scripts\\MonteCarloClockSimulator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T07:53:45.612Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-26T07:53:45.612Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\Player.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player.cs",
@@ -155,8 +154,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Player.cs",
               "ViewState": "AgIAAOsAAAAAAAAAAAAAAAIBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T15:43:43.345Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T15:43:43.345Z"
             },
             {
               "$type": "Document",
@@ -172,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DecisionParameters.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\DecisionParameters.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\DecisionParameters.cs",
@@ -185,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Logger.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\Logger.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Logger.cs",
@@ -193,12 +191,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Logger.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T14:41:37.344Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T14:41:37.344Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "PlayerStatSetter.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\PlayerStatSetter.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerStatSetter.cs",
@@ -206,12 +203,11 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerStatSetter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:05:34.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:05:34.181Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PlayerStatSetterInPannel.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\PlayerStatSetterInPannel.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerStatSetterInPannel.cs",
@@ -219,8 +215,7 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerStatSetterInPannel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:06:59.975Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:06:59.975Z"
             },
             {
               "$type": "Document",
@@ -236,15 +231,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
-              "ViewState": "AgIAAKYAAAAAAAAAAAApwLYAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAQwIMAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T11:23:20.658Z"
+              "WhenOpened": "2026-05-22T11:23:20.658Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -260,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "TextFilter.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\TextFilter.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TextFilter.cs",
@@ -268,12 +264,11 @@
               "RelativeToolTip": "Assets\\Scripts\\TextFilter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-23T11:00:12.684Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-23T11:00:12.684Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CardFunc.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\CardFunc.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardFunc.cs",
@@ -281,12 +276,11 @@
               "RelativeToolTip": "Assets\\Scripts\\CardFunc.cs",
               "ViewState": "AgIAAPQAAAAAAAAAAAAAAJgBAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T07:55:08.538Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T07:55:08.538Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "OpponentChoosing.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\OpponentChoosing.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\OpponentChoosing.cs",
@@ -298,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "MarketRound.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\MarketRound.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MarketRound.cs",
@@ -306,12 +300,11 @@
               "RelativeToolTip": "Assets\\Scripts\\MarketRound.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAowC8AAABwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T11:26:50.884Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T11:26:50.884Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "CardData.cs",
               "DocumentMoniker": "C:\\Users\\izand\\Documents\\uni\\IA\\IAV26-deVegaLopez\\VOE\\Assets\\Scripts\\CardData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CardData.cs",
