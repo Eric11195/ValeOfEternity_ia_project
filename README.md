@@ -161,7 +161,7 @@ El proyecto de unity parte de un proyecto vacio.
 
 La práctica consiste en desarrollar este juego para un soporte digital en la que todos los jugadores estén controlados por la IA desarrollada.
 
-- **A.** En la pantalla se pueden ver las distintas zonas del juego claramente diferenciadas. Estas son mercado, tablero y mano de cada jugador. El tablero de todos los jugadores será visible en todo momento. Se podrá seleccionar la mano de que jugador ver presionando sobre el número del jugador. Y un marcador de un ojo sustituirá el número del jugador cuya mano se esté viendo.
+- **A.** En la pantalla se pueden ver las distintas zonas del juego claramente diferenciadas. Estas son mercado, tablero y mano de cada jugador. El tablero de todos los jugadores será visible en todo momento. Se podrá seleccionar la mano de que jugador ver presionando sobre el número del jugador. Y un marcador de un ojo sustituirá el número del jugador cuya mano se esté viendo. También se marcará el jugador que tenga el marcador de primer jugador de esa ronda.
 Jugablemente, todas las cartas tienen sus efectos definidos. Se pueden ver la divisa que posee cada jugador en su zona y los puntos de victoria actuales que posee.
 Además, un panel scrolleable dará cuenta de todas las acciones y decisiones de todos los jugadores.
 
@@ -604,7 +604,6 @@ La partida comenzará a llevarse a cabo por su cuenta a partir de este momento.
 1. La prioridad actual de cada jugador será escrita en el panel de texto.
 2. La prioridad tiene sentido con sus recursos. No será obtener dinero si las reservas de monedas están llenas. No será jugar cartas si no tenemos dinero. No será usar removal si vamos en cabeza.
 
-
 ### Resultados
 
 Para cada prueba obtendremos los resultados de las 10 primeras partidas. Después cambiaremos la parametrización de las decisiones para intentar obtener un mejor resultado.
@@ -617,18 +616,18 @@ if (payoffs_value == 0 || enabler_value == 0) return 0;
 return Mathf.CeilToInt(Mathf.Pow(payoffs_value, enabler_value));
 ```
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|22|22|4|6|13.5|
-|2|--|33|25|13|9|20|
-|3|--|2|24|13|24|15.75|
-|4|--|24|0|17|25|16.5|
-|5|--|12|30|31|48|30.25|
-|6|--|19|24|6|36|21.25|
-|7|--|36|7|14|20|19.25|
-|8|--|24|37|31|26|29.5|
-|9|--|21|32|40|19|28|
-|10|--|5|8|9|13|8.75|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||22|22|4|6||13.5|
+|2||33|25|13|9||20|
+|3||2|24|13|24||15.75|
+|4||24|0|17|25||16.5|
+|5||12|30|31|48||30.25|
+|6||19|24|6|36||21.25|
+|7||36|7|14|20||19.25|
+|8||24|37|31|26||29.5|
+|9||21|32|40|19||28|
+|10||5|8|9|13||8.75|
 
 __Media Final: 20.275__
 
@@ -642,18 +641,18 @@ Esta es la función de evaluación:
 return enabler_value + payoffs_value * (enabler_value);
 ```
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|38|16|36|18|27|
-|2|--|10|30|7|2|12.25|
-|3|--|1|9|25|15|12.5|
-|4|--|0|28|28|0|14|
-|5|--|24|10|36|7|19.25|
-|6|--|10|24|24|35|23.25|
-|7|--|36|17|8|3|16|
-|8|--|10|9|11|16|11.5|
-|9|--|9|12|15|13|12.25|
-|10|--|22|21|0|5|12|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||38|16|36|18||27|
+|2||10|30|7|2||12.25|
+|3||1|9|25|15||12.5|
+|4||0|28|28|0||14|
+|5||24|10|36|7||19.25|
+|6||10|24|24|35||23.25|
+|7||36|17|8|3||16|
+|8||10|9|11|16||11.5|
+|9||9|12|15|13||12.25|
+|10||22|21|0|5||12|
 
 __Media Final: 16__
 
@@ -661,18 +660,18 @@ __Media Final: 16__
 
 Mezclaremos la función de evaluación de la segunda parametrización con las flags de la primera.
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|22|24|4|7|25|
-|2|--|20|21|1|3|11.25|
-|3|--|36|29|24|9|24.5|
-|4|--|23|21|22|34|25|
-|5|--|32|1|19|32|21|
-|6|--|24|49|1|1|18.75|
-|7|--|10|4|11|16|10.25|
-|8|--|17|14|16|13|15|
-|9|--|20|10|1|45|19|
-|10|--|17|30|4|23|18.5|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||22|24|4|7||25|
+|2||20|21|1|3||11.25|
+|3||36|29|24|9||24.5|
+|4||23|21|22|34||25|
+|5||32|1|19|32||21|
+|6||24|49|1|1||18.75|
+|7||10|4|11|16||10.25|
+|8||17|14|16|13||15|
+|9||20|10|1|45||19|
+|10||17|30|4|23||18.5|
 
 __Media Final: 16.746__
 
@@ -680,18 +679,18 @@ __Media Final: 16.746__
 
 Ahora lo haremos al contrario, conservaremos la función de evaluación de la primera con las flags de la segunda.
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|41|39|15|27|30.5|
-|2|--|24|15|3|22|16|
-|3|--|23|11|0|16|12.5|
-|4|--|32|6|23|4|16.25|
-|5|--|19|16|35|26|24|
-|6|--|11|39|3|31|21|
-|7|--|21|30|26|30|26.75|
-|8|--|22|0|14|12|12|
-|9|--|0|6|30|26|15.5|
-|10|--|22|12|0|20|13.5|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||41|39|15|27||30.5|
+|2||24|15|3|22||16|
+|3||23|11|0|16||12.5|
+|4||32|6|23|4||16.25|
+|5||19|16|35|26||24|
+|6||11|39|3|31||21|
+|7||21|30|26|30||26.75|
+|8||22|0|14|12||12|
+|9||0|6|30|26||15.5|
+|10||22|12|0|20||13.5|
 
 __Media Final: 18.8__
 
@@ -699,18 +698,18 @@ __Media Final: 18.8__
 
 Se observo que a veces los jugadores se quedaban bloqueados cuando tenían piedras de bajo coste. Así que se aumentó la probabilidad de escoger cartas que se pudiesen jugar como cartas favoritas.
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|28|50|0|13|22.75|
-|2|--|20|48|40|35|35.75|
-|3|--|55|13|32|30|32.5|
-|4|--|19|35|9|16|19.75|
-|5|--|10|35|9|6|15|
-|6|--|23|34|25|6|22|
-|7|--|57|20|26|0|25.75|
-|8|--|23|24|17|15|19.75|
-|9|--|19|56|0|11|21.5|
-|10|--|20|22|45|30|29.25|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||28|50|0|13||22.75|
+|2||20|48|40|35||35.75|
+|3||55|13|32|30||32.5|
+|4||19|35|9|16||19.75|
+|5||10|35|9|6||15|
+|6||23|34|25|6||22|
+|7||57|20|26|0||25.75|
+|8||23|24|17|15||19.75|
+|9||19|56|0|11||21.5|
+|10||20|22|45|30||29.25|
 
 __Media Final: 24.3__
 
@@ -720,18 +719,18 @@ Esta parametrización tiene las puntaciones más altas con diferencia y una mejo
 
 Para evitar el problema observado en la segunda, se decidió aplicar la bonificación por ser jugable, solo si la carta no estaba en el mercado.
 
-|Número de Partida|---|P1|P2|P3|P4|Media|
-|---|---|---|---|---|---|---|
-|1|--|22|24|28|44|29.5|
-|2|--|27|20|18|1|16.5|
-|3|--|32|24|12|32|25|
-|4|--|21|26|21|25|23.25|
-|5|--|36|2|20|15|18.25|
-|6|--|37|23|21|35|29|
-|7|--|13|3|26|15|14.25|
-|8|--|1|10|25|30|16.5|
-|9|--|13|17|56|4|22.5|
-|10|--|29|12|8|30|19.75|
+|Número de Partida||P1|P2|P3|P4||Media|
+|---|---|---|---|---|---|---|---|
+|1||22|24|28|44||29.5|
+|2||27|20|18|1||16.5|
+|3||32|24|12|32||25|
+|4||21|26|21|25||23.25|
+|5||36|2|20|15||18.25|
+|6||37|23|21|35||29|
+|7||13|3|26|15||14.25|
+|8||1|10|25|30||16.5|
+|9||13|17|56|4||22.5|
+|10||29|12|8|30||19.75|
 
 __Media Final: 21.45__
 
