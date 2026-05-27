@@ -290,6 +290,12 @@ Full rules: [VOE_RULEBOOK_EN.pdf](VOE_RULEBOOK_EN.pdf)
 
 ---
 
+## Author
+
+**Izan de Vega López** — sole author. Full design, implementation, tuning, and documentation.
+
+---
+
 ## References
 
 - [Vale of Eternity Wiki](https://valeofeternity.wiki.gg)
