@@ -747,6 +747,7 @@ La quinta fue la que mejor resultados obtuvo tanto en absoluto como en promedio,
 ## Recuento de Tareas
 
 Se pueden encontrar en el [proyects](https://github.com/users/IzanDeVegaLopez/projects/7/views/1). Todas han sido realizadas por el único alumno responsable del proyecto.
+Ambas cuentas Eric11195 y IzandeVegaLopez son cuentas de este alumno.
 
 ## Conclusiones
 
