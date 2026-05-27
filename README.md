@@ -4,7 +4,7 @@
 
 Todo el contenido del proyecto está disponible aquí en el repositorio y usa **Unity 6 (6000.2.15 LTS)**.
 
-Al no estar publicada todavía ninguna versión ejecutable del prototipo, ni enlazado ningún video con las pruebas realizadas, es necesario abrir el proyecto en Unity y usarlo desde allí.
+Se puede descargar un ejecutable en la release v1.0
 
 ## Introducción
 
